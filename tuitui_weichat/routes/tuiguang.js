@@ -168,32 +168,66 @@ router.get('/shuju',async(req,res,next)=>{
     let uv04 = await redis_client.pfcount('website_tuiguang_dianrui_2019050504')
     let uv05 = await redis_client.pfcount('website_tuiguang_dianrui_2019050505')
 
+    let uv06 = await redis_client.pfcount('website_tuiguang_dianrui_2019050506')
+    let uv07 = await redis_client.pfcount('website_tuiguang_dianrui_2019050507')
+    let uv08 = await redis_client.pfcount('website_tuiguang_dianrui_2019050508')
+    let uv09 = await redis_client.pfcount('website_tuiguang_dianrui_2019050509')
+    let uv10 = await redis_client.pfcount('website_tuiguang_dianrui_2019050510')
+
     let cv01 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050501')
     let cv02 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050502')
     let cv03 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050503')
     let cv04 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050504')
     let cv05 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050505')
 
-    return res.send({
-        01:{
-            uv : uv01,
-            copy: cv01
-        },
-        02:{
-            uv : uv02,
-            copy: cv02
-        },
-        03:{
-            uv : uv03,
-            copy: cv03
-        },
-        04:{
-            uv : uv04,
-            copy: cv04
-        },
-        05:{
-            uv : uv05,
-            copy: cv05
+    let cv06 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050506')
+    let cv07 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050507')
+    let cv08 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050508')
+    let cv09 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050509')
+    let cv10 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050510')
+
+    return res.send({"正规":{
+            01:{
+                uv : uv01,
+                copy: cv01
+            },
+            02:{
+                uv : uv02,
+                copy: cv02
+            },
+            03:{
+                uv : uv03,
+                copy: cv03
+            },
+            04:{
+                uv : uv04,
+                copy: cv04
+            },
+            05:{
+                uv : uv05,
+                copy: cv05
+            }
+        },"擦边":{
+            06:{
+                uv : uv06,
+                copy: cv06
+            },
+            07:{
+                uv : uv07,
+                copy: cv07
+            },
+            08:{
+                uv : uv08,
+                copy: cv08
+            },
+            09:{
+                uv : uv09,
+                copy: cv09
+            },
+            10:{
+                uv : uv10,
+                copy: cv10
+            }
         }
     })
 })
