@@ -7,7 +7,10 @@ var BannerModel = require('../model/Banner.js');
 var multer = require('multer');
 var fs = require('fs')
 var mem = require('../util/mem.js')
-var juedui_lujing = '/home/work/tuitui_program/project/public/images/tuiguang'
+const asyncRedis = require("async-redis");
+const redis_client = asyncRedis.createClient();
+
+var juedui_lujing = '../public/images/tuiguang'
 
 var upload = multer({
     dest: juedui_lujing
@@ -54,7 +57,7 @@ router.post('/novel/add', (req, res, next) => {
                     capter1: req.body.capter1,
                     capter2: req.body.capter2 || '',
                     linkUrl: req.body.linkUrl || '',
-                    statisticsUrl1: req.body.statisticsUrl1,
+                    statisticsUrl1: req.body.statisticsUrl1 || '',
                     statisticsUrl2: req.body.statisticsUrl2 || '',
                     tokenCodes: req.body.tokenCodes || '',
                     channel: req.body.channel,
@@ -156,6 +159,43 @@ router.get('/token_arr', async(req, res, next) => {
     var tokenArr = req.query.tokenArr;
     var docs = await TokenArrModel.findByIdAndUpdate('5bc06e2e2f6ed40b684421a4', {tokenArr: tokenArr})
     res.send({success: '修改成功', data: docs})
+})
+
+router.get('/shuju',async(req,res,next)=>{
+    let uv01 = await redis_client.pfcount('website_tuiguang_dianrui_2019050501')
+    let uv02 = await redis_client.pfcount('website_tuiguang_dianrui_2019050502')
+    let uv03 = await redis_client.pfcount('website_tuiguang_dianrui_2019050503')
+    let uv04 = await redis_client.pfcount('website_tuiguang_dianrui_2019050504')
+    let uv05 = await redis_client.pfcount('website_tuiguang_dianrui_2019050505')
+
+    let cv01 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050501')
+    let cv02 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050502')
+    let cv03 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050503')
+    let cv04 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050504')
+    let cv05 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050505')
+
+    return res.send({
+        01:{
+            uv : uv01,
+            copy: cv01
+        },
+        02:{
+            uv : uv02,
+            copy: cv02
+        },
+        03:{
+            uv : uv03,
+            copy: cv03
+        },
+        04:{
+            uv : uv04,
+            copy: cv04
+        },
+        05:{
+            uv : uv05,
+            copy: cv05
+        }
+    })
 })
 
 module.exports = router;
