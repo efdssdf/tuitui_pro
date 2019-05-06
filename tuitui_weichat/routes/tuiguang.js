@@ -186,49 +186,93 @@ router.get('/shuju',async(req,res,next)=>{
     let cv09 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050509')
     let cv10 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050510')
 
-    return res.send({"正规":{
-            01:{
+    return res.send({"推广数据":[
+            {
+                index :01,
                 uv : uv01,
                 copy: cv01
             },
-            02:{
+            {
+                index :02,
                 uv : uv02,
                 copy: cv02
             },
-            03:{
+            {
+                index :03,
                 uv : uv03,
                 copy: cv03
             },
-            04:{
+            {
+                index :04,
                 uv : uv04,
                 copy: cv04
             },
-            05:{
+            {
+                index :05,
                 uv : uv05,
                 copy: cv05
-            }
-        },"擦边":{
-            06:{
+            },
+            {
+                index :06,
                 uv : uv06,
                 copy: cv06
             },
-            07:{
+            {
+                index :07,
                 uv : uv07,
                 copy: cv07
             },
-            08:{
+            {
+                index :08,
                 uv : uv08,
                 copy: cv08
             },
-            09:{
+            {
+                index :09,
                 uv : uv09,
                 copy: cv09
             },
-            10:{
+            {
+                index :10,
                 uv : uv10,
                 copy: cv10
             }
+        ],
+        "比对数":[
+        {
+            index : 01,
+            result : cv01/uv01 * 100 +'%'
+        },
+        {
+            index : 02,
+            result : cv02/uv02 * 100 +'%'
+        },{
+            index : 03,
+            result : cv03/uv03 * 100 +'%'
+        },{
+            index : 04,
+            result : cv04/uv04 * 100 +'%'
+        },{
+            index : 05,
+            result : cv05/uv05 * 100 +'%'
+        },{
+            index : 06,
+            result : cv06/uv06 * 100 +'%'
+        },{
+            index : 07,
+            result : cv07/uv07 * 100 +'%'
+        },{
+            index : 08,
+            result : cv08/uv08 * 100 +'%'
+        },{
+            index : 09,
+            result : cv09/uv09 * 100 +'%'
+        },{
+            index : 10,
+            result : cv10/uv10 * 100 +'%'
         }
+            
+        ]
     })
 })
 
