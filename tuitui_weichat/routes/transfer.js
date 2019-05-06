@@ -30,13 +30,14 @@ router.get('/update_links', async(req, res, next) => {
 })
 
 router.post('/create', async(req, res, next)=> {
-    console.log(req.body)
     var message;
     if(req.body.id){
         message = {
             id:req.body.id,
             title: req.body.title,
-            links: req.body.links
+            links: req.body.links,
+            type: req.body.type,
+            weights: req.body.weights
         }
     }else{
         for (var key in req.body) {
@@ -44,15 +45,13 @@ router.post('/create', async(req, res, next)=> {
             message = {
                 id:body.id,
                 title: body.title,
-                links: body.links
+                links: body.links,
+                type: body.type,
+                weights: body.weights
             }
         }
     }
-    console.log('--------创建链接--------')
-    console.log(message)
     var result = await TransferModel.find({id: message.id})
-    console.log('--------result--------')
-    console.log(result)
     if(result.length !== 0) {
       res.send({err: "创建失败，该id已存在"})
     } else {
@@ -67,13 +66,14 @@ router.post('/create', async(req, res, next)=> {
 
 router.post('/update', async(req, res, next) => {
     var id = req.body._id;
-    console.log(req.body)
     var message = {
         id:req.body.id,
         title: req.body.title,
-        links: req.body.links
-    }
-    var docs = await TransferModel.findByIdAndUpdate(id, message)
+        links: req.body.links,
+        type: req.body.type,
+        weights: req.body.weights
+    };
+    var docs = await TransferModel.findByIdAndUpdate(id, message);
     if (docs) {
         res.send({success: '修改成功'})
         mem.set('transfer_'+req.params.index,{},60).then(function(){
