@@ -251,7 +251,7 @@ router.get('/shuju',async(req,res,next)=>{
             result : (cv03/uv03 * 100).toFixed(2) +'%'
         },{
             index : 04,
-            result : cv04/uv04 * 100 +'%'
+            result : (cv04/uv04 * 100).toFixed(2) +'%'
         },{
             index : 05,
             result : (cv05/uv05 * 100).toFixed(2) +'%'
