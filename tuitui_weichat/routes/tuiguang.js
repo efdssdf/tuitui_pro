@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var TuiGuangModel = require('../model/TuiGuang.js');
+var TransferModel = require('../model/Transfer.js');
 var DomainModel = require('../model/Domain.js');
 var TokenArrModel = require('../model/TokenArr.js');
 var BannerModel = require('../model/Banner.js');
@@ -222,6 +223,22 @@ router.get('/shuju',async(req,res,next)=>{
         }  
         ]
     })
+})
+
+router.get('/data',async(req,res,next)=>{
+    let tid= req.query.tid
+    if(!tid){
+        return res.send('请输入transfer id')
+    }
+    let transfer = Transfer.findOne({id:tid})
+    if(!transfer){
+        return res.send('没有找到相关的transfer')
+    }
+    let uv_keys=[]
+    let copy_keys=[]
+    for (var i = 0; i < transfer.links.length; i++) {
+        
+    }
 })
 
 router.get('/shuju/del',async(req,res,next)=>{
