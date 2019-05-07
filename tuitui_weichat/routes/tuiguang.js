@@ -176,7 +176,7 @@ router.get('/data',async(req,res,next)=>{
     if(!transfer){
         return res.send('没有找到相关的transfer')
     }
-    console.log(transfer)
+    //console.log(transfer)
 
     var data={
         tuiguang:[],
