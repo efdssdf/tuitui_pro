@@ -20,7 +20,7 @@ router.post('/create', async(req, res, next) => {
     if (doc) {
         for (let code of doc.codes) {
             if(data.individual) {
-                createIndividualMenu(code, menu, doc.sex, doc._id, null)
+                createIndividualMenu(code, doc.values, doc.sex, doc._id, null)
             } else {
                 createMenu(code, doc.values)
             }
@@ -44,7 +44,7 @@ router.post('/update', async(req, res, next) => {
     if (doc) {
         for (let code of doc.codes) {
             if(data.individual) {
-                createIndividualMenu(code, menu, doc.sex, doc._id, doc.menuid)
+                createIndividualMenu(code, doc.values, doc.sex, doc._id, doc.menuid)
             } else {
                 createMenu(code, doc.values)
             }
