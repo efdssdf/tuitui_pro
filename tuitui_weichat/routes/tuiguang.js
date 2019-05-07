@@ -162,29 +162,18 @@ router.get('/token_arr', async(req, res, next) => {
 })
 
 router.get('/shuju',async(req,res,next)=>{
-    let uv01 = await redis_client.pfcount('website_tuiguang_dianrui_2019050501')
-    let uv02 = await redis_client.pfcount('website_tuiguang_dianrui_2019050502')
-    let uv03 = await redis_client.pfcount('website_tuiguang_dianrui_2019050503')
-    let uv04 = await redis_client.pfcount('website_tuiguang_dianrui_2019050504')
-    let uv05 = await redis_client.pfcount('website_tuiguang_dianrui_2019050505')
+    let uv01 = await redis_client.pfcount('website_tuiguang_dianrui_2019050711')
+    let uv02 = await redis_client.pfcount('website_tuiguang_dianrui_2019050712')
+    let uv03 = await redis_client.pfcount('website_tuiguang_dianrui_0507_13')
+    let uv04 = await redis_client.pfcount('website_tuiguang_dianrui_0507_14')
+    let uv05 = await redis_client.pfcount('website_tuiguang_dianrui_0507_15')
 
-    let uv06 = await redis_client.pfcount('website_tuiguang_dianrui_2019050506')
-    let uv07 = await redis_client.pfcount('website_tuiguang_dianrui_2019050507')
-    let uv08 = await redis_client.pfcount('website_tuiguang_dianrui_2019050508')
-    let uv09 = await redis_client.pfcount('website_tuiguang_dianrui_2019050509')
-    let uv10 = await redis_client.pfcount('website_tuiguang_dianrui_2019050510')
 
-    let cv01 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050501')
-    let cv02 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050502')
-    let cv03 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050503')
-    let cv04 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050504')
-    let cv05 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050505')
-
-    let cv06 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050506')
-    let cv07 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050507')
-    let cv08 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050508')
-    let cv09 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050509')
-    let cv10 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050510')
+    let cv01 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050711')
+    let cv02 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050712')
+    let cv03 = await redis_client.pfcount('website_tuiguang_copy_dianrui_0507_13')
+    let cv04 = await redis_client.pfcount('website_tuiguang_copy_dianrui_0507_14')
+    let cv05 = await redis_client.pfcount('website_tuiguang_copy_dianrui_0507_15')
 
     return res.send({"推广数据":[
             {
@@ -211,31 +200,6 @@ router.get('/shuju',async(req,res,next)=>{
                 index :05,
                 uv : uv05,
                 copy: cv05
-            },
-            {
-                index :06,
-                uv : uv06,
-                copy: cv06
-            },
-            {
-                index :07,
-                uv : uv07,
-                copy: cv07
-            },
-            {
-                index :08,
-                uv : uv08,
-                copy: cv08
-            },
-            {
-                index :09,
-                uv : uv09,
-                copy: cv09
-            },
-            {
-                index :10,
-                uv : uv10,
-                copy: cv10
             }
         ],
         "比对数":[
@@ -255,23 +219,7 @@ router.get('/shuju',async(req,res,next)=>{
         },{
             index : 05,
             result : (cv05/uv05 * 100).toFixed(2) +'%'
-        },{
-            index : 06,
-            result : (cv06/uv06 * 100).toFixed(2) +'%'
-        },{
-            index : 07,
-            result : (cv07/uv07 * 100).toFixed(2) +'%'
-        },{
-            index : 08,
-            result : (cv08/uv08 * 100).toFixed(2) +'%'
-        },{
-            index : 09,
-            result : (cv09/uv09 * 100).toFixed(2) +'%'
-        },{
-            index : 10,
-            result : (cv10/uv10 * 100).toFixed(2) +'%'
-        }
-            
+        }  
         ]
     })
 })
