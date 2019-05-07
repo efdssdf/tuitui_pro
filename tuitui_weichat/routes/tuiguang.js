@@ -265,7 +265,7 @@ router.get('/data',async(req,res,next)=>{
     if(!tid){
         return res.send('请输入transfer id')
     }
-    let transfer = Transfer.findOne({id:tid})
+    let transfer = TransferModel.findOne({id:tid})
     if(!transfer){
         return res.send('没有找到相关的transfer')
     }
@@ -303,7 +303,7 @@ router.get('/data/del',async(req,res,next)=>{
     if(!tid){
         return res.send('请输入transfer id')
     }
-    let transfer = Transfer.findOne({id:tid})
+    let transfer = TransferModel.findOne({id:tid})
     if(!transfer){
         return res.send('没有找到相关的transfer')
     }
