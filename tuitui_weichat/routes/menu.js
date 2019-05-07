@@ -126,12 +126,13 @@ async function createIndividualMenu(code, menu, sex, id, menuid) {
             console.log(err)
             console.log(res)
         }
+        console.log('res', res)
         let result = await MenuModel.findByIdAndUpdate(id, {menuid: res.menuid}, {new: true});
         if(result) {
             api.getMenu(function (error, res_m) {
                 console.log("获取菜单")
                 console.log(error)
-                console.log(JSON.stringify(res_m));
+                console.log(res_m);
             });
         }
     });
