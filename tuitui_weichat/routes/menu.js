@@ -104,13 +104,14 @@ async function createMenu(code, menu) {
 
 // 创建个性化菜单
 async function createIndividualMenu(code, menu, sex, id, menuid) {
-    let individaluMenu = {
+    console.log('menu', menu, 'menu')
+    let individaulMenu = {
         "button": menu,
         "matchrule": {
             "sex": sex
         }
     };
-    console.log('individaluMenu', individaluMenu);
+    console.log('individaulMenu', individaulMenu);
     console.log('code', code);
     var api = await WechatUtil.getClient(code);
     if(menuid) {
@@ -120,7 +121,7 @@ async function createIndividualMenu(code, menu, sex, id, menuid) {
             console.log(res)
         })
     }
-    api.createCustomMenu(individaluMenu, async function (err, res) {
+    api.createCustomMenu(individaulMenu, async function (err, res) {
         console.log("创建个性化菜单")
         if (err) {
             console.log('--------createCustomMenu-----err-----')
