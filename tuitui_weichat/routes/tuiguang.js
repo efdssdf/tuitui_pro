@@ -236,22 +236,6 @@ router.get('/shuju',async(req,res,next)=>{
     })
 })
 
-router.get('/data',async(req,res,next)=>{
-    let tid= req.query.tid
-    if(!tid){
-        return res.send('请输入transfer id')
-    }
-    let transfer = Transfer.findOne({id:tid})
-    if(!transfer){
-        return res.send('没有找到相关的transfer')
-    }
-    let uv_keys=[]
-    let copy_keys=[]
-    for (var i = 0; i < transfer.links.length; i++) {
-        
-    }
-})
-
 router.get('/shuju/del',async(req,res,next)=>{
     let uv01 = await redis_client.del('website_tuiguang_dianrui_2019050711')
     let uv02 = await redis_client.del('website_tuiguang_dianrui_2019050712')
@@ -275,5 +259,67 @@ router.get('/shuju/del',async(req,res,next)=>{
 
     return res.send('删除成功')
 })
+
+router.get('/data',async(req,res,next)=>{
+    let tid= req.query.tid
+    if(!tid){
+        return res.send('请输入transfer id')
+    }
+    let transfer = Transfer.findOne({id:tid})
+    if(!transfer){
+        return res.send('没有找到相关的transfer')
+    }
+    
+    var data={
+        tuiguang:[],
+        duibi:[]
+    }
+
+    for (var i = 0; i < transfer.links.length; i++) {
+        var link = transfer.links[i]
+        var params = link.substr(link.lastIndexOf('/')+1)
+        var index = params.split('?')[0]
+        var channel = params.split('channel=')[1]
+        let uv = redis_client.pfcount('website_tuiguang_'+channel+'_'+index);
+        let cv = redis_client.pfcount('website_tuiguang_copy_'+channel+'_'+index);
+        let ip = redis_client.pfcount('website_tuiguang_ip_'+channel+'_'+index);
+
+        data.tuiguang.push({
+            index : index,
+            uv : uv,
+            cv : cv,
+            ip : ip
+        })
+        data.duibi.push({
+            index : index,
+            result : (cv/uv * 100).toFixed(2) +'%'
+        })
+    }
+    return res.send(data)
+})
+
+router.get('/data/del',async(req,res,next)=>{
+    let tid= req.query.tid
+    if(!tid){
+        return res.send('请输入transfer id')
+    }
+    let transfer = Transfer.findOne({id:tid})
+    if(!transfer){
+        return res.send('没有找到相关的transfer')
+    }
+
+    for (var i = 0; i < transfer.links.length; i++) {
+        var link = transfer.links[i]
+        var params = link.substr(link.lastIndexOf('/')+1)
+        var index = params.split('?')[0]
+        var channel = params.split('channel=')[1]
+        let uv = redis_client.del('website_tuiguang_'+channel+'_'+index);
+        let cv = redis_client.del('website_tuiguang_copy_'+channel+'_'+index);
+        let ip = redis_client.del('website_tuiguang_ip_'+channel+'_'+index);
+
+    }
+    return res.send('删除成功')
+})
+
 
 module.exports = router;
