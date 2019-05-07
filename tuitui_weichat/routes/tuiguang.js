@@ -166,103 +166,6 @@ router.get('/token_arr', async(req, res, next) => {
     res.send({success: '修改成功', data: docs})
 })
 
-router.get('/shuju',async(req,res,next)=>{
-    let uv01 = await redis_client.pfcount('website_tuiguang_dianrui_2019050711')
-    let uv02 = await redis_client.pfcount('website_tuiguang_dianrui_2019050712')
-    let uv03 = await redis_client.pfcount('website_tuiguang_dianrui_0507_13')
-    let uv04 = await redis_client.pfcount('website_tuiguang_dianrui_0507_14')
-    let uv05 = await redis_client.pfcount('website_tuiguang_dianrui_0507_15')
-
-
-    let cv01 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050711')
-    let cv02 = await redis_client.pfcount('website_tuiguang_copy_dianrui_2019050712')
-    let cv03 = await redis_client.pfcount('website_tuiguang_copy_dianrui_0507_13')
-    let cv04 = await redis_client.pfcount('website_tuiguang_copy_dianrui_0507_14')
-    let cv05 = await redis_client.pfcount('website_tuiguang_copy_dianrui_0507_15')
-
-    let ip01 = await redis_client.pfcount('website_tuiguang_ip_dianrui_2019050711')
-    let ip02 = await redis_client.pfcount('website_tuiguang_ip_dianrui_2019050712')
-    let ip03 = await redis_client.pfcount('website_tuiguang_ip_dianrui_0507_13')
-    let ip04 = await redis_client.pfcount('website_tuiguang_ip_dianrui_0507_14')
-    let ip05 = await redis_client.pfcount('website_tuiguang_ip_dianrui_0507_15')
-
-    return res.send({"推广数据":[
-            {
-                index :01,
-                uv : uv01,
-                copy: cv01,
-                ip : ip01
-            },
-            {
-                index :02,
-                uv : uv02,
-                copy: cv02,
-                ip : ip02
-            },
-            {
-                index :03,
-                uv : uv03,
-                copy: cv03,
-                ip : ip03
-            },
-            {
-                index :04,
-                uv : uv04,
-                copy: cv04,
-                ip : ip04
-            },
-            {
-                index :05,
-                uv : uv05,
-                copy: cv05,
-                ip : ip05
-            }
-        ],
-        "比对数":[
-        {
-            index : 01,
-            result : (cv01/uv01 * 100).toFixed(2) +'%'
-        },
-        {
-            index : 02,
-            result : (cv02/uv02 * 100).toFixed(2) +'%'
-        },{
-            index : 03,
-            result : (cv03/uv03 * 100).toFixed(2) +'%'
-        },{
-            index : 04,
-            result : (cv04/uv04 * 100).toFixed(2) +'%'
-        },{
-            index : 05,
-            result : (cv05/uv05 * 100).toFixed(2) +'%'
-        }  
-        ]
-    })
-})
-
-router.get('/shuju/del',async(req,res,next)=>{
-    let uv01 = await redis_client.del('website_tuiguang_dianrui_2019050711')
-    let uv02 = await redis_client.del('website_tuiguang_dianrui_2019050712')
-    let uv03 = await redis_client.del('website_tuiguang_dianrui_0507_13')
-    let uv04 = await redis_client.del('website_tuiguang_dianrui_0507_14')
-    let uv05 = await redis_client.del('website_tuiguang_dianrui_0507_15')
-
-
-    let cv01 = await redis_client.del('website_tuiguang_copy_dianrui_2019050711')
-    let cv02 = await redis_client.del('website_tuiguang_copy_dianrui_2019050712')
-    let cv03 = await redis_client.del('website_tuiguang_copy_dianrui_0507_13')
-    let cv04 = await redis_client.del('website_tuiguang_copy_dianrui_0507_14')
-    let cv05 = await redis_client.del('website_tuiguang_copy_dianrui_0507_15')
-
-    let ip01 = await redis_client.del('website_tuiguang_ip_dianrui_2019050711')
-    let ip02 = await redis_client.del('website_tuiguang_ip_dianrui_2019050712')
-    let ip03 = await redis_client.del('website_tuiguang_ip_dianrui_0507_13')
-    let ip04 = await redis_client.del('website_tuiguang_ip_dianrui_0507_14')
-    let ip05 = await redis_client.del('website_tuiguang_ip_dianrui_0507_15')
-
-
-    return res.send('删除成功')
-})
 
 router.get('/data',async(req,res,next)=>{
     let tid= req.query.tid
@@ -288,16 +191,19 @@ router.get('/data',async(req,res,next)=>{
         let uv = await redis_client.pfcount('website_tuiguang_'+channel+'_'+index);
         let cv = await redis_client.pfcount('website_tuiguang_copy_'+channel+'_'+index);
         let ip = await redis_client.pfcount('website_tuiguang_ip_'+channel+'_'+index);
+        let wv = await redis_client.pfcount('website_tuiguang_wechat_'+channel+'_'+index);
 
         data.tuiguang.push({
             index : index,
             uv : uv,
             cv : cv,
+            wv : wv,
             ip : ip
         })
         data.duibi.push({
             index : index,
-            result : (cv/uv * 100).toFixed(2) +'%'
+            copy_uv : (cv/uv * 100).toFixed(2) +'%',
+            wechat_uv : (wv/uv * 100).toFixed(2) +'%',
         })
     }
     return res.send(data)
@@ -321,6 +227,7 @@ router.get('/data/del',async(req,res,next)=>{
         let uv = await redis_client.del('website_tuiguang_'+channel+'_'+index);
         let cv = await redis_client.del('website_tuiguang_copy_'+channel+'_'+index);
         let ip = await redis_client.del('website_tuiguang_ip_'+channel+'_'+index);
+        let wv = await redis_client.del('website_tuiguang_wechat_'+channel+'_'+index);
 
     }
     return res.send('删除成功')
