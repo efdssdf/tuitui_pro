@@ -32,7 +32,8 @@ router.get('/update_links', async(req, res, next) => {
 router.post('/create', async(req, res, next)=> {
     var message;
     console.log('1111111111111111111-----------------------', req.body, '1111111111111111111-----------------------');
-    console.log(req.body.id,req.body.title,req.body.links)
+    console.log(req.body.id,req.body.title,req.body.links);
+    console.log('2222222222222222222222222222')
     if(req.body.id){
         message = {
             id:req.body.id,
