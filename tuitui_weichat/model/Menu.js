@@ -14,6 +14,10 @@ var MenuSchema = new Schema({
     sex: {   // '0' 未知， '1' 男， '2' 女
         type: String,
         default: '0'
+    },
+    menuid: {
+        type: String,
+        default: null
     }
 });
 
