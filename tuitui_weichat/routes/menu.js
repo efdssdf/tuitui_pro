@@ -60,7 +60,7 @@ router.get('/del', async(req, res, next) => {
     let id = req.query.id;
     var doc = await MenuModel.findByIdAndRemove(id);
     for (let code of doc.codes) {
-        if(doc.individaul) {
+        if(doc.individual) {
             console.log('--------------------删除个性化菜单1---------------------------')
             removeIndividualMenu(code, doc.menuid)
         } else {
