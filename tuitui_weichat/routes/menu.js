@@ -19,7 +19,7 @@ router.post('/create', async(req, res, next) => {
     let doc = await MenuModel.create(data);
     if (doc) {
         for (let code of doc.codes) {
-            createMenu(code, doc.values)
+            create(code, doc.values, doc.sex, doc.individual)
         }
         res.send({success: '创建成功', data: doc})
     } else {
@@ -39,7 +39,7 @@ router.post('/update', async(req, res, next) => {
     let doc = await MenuModel.findByIdAndUpdate(id, data, {new: true});
     if (doc) {
         for (let code of doc.codes) {
-            createMenu(code, doc.values)
+            create(code, doc.values, doc.sex, doc.individual)
         }
         res.send({success: '修改成功', data: doc})
     } else {
@@ -51,11 +51,22 @@ router.get('/del', async(req, res, next) => {
     let id = req.query.id;
     var doc = await MenuModel.findByIdAndRemove(id);
     for (let code of doc.codes) {
-        createMenu(code, {button: []})
+        create(code, {button: []})
     }
     res.send({success: '删除成功', data: doc})
 });
 
+function create(code, menu, sex, individual) {
+    if(individual) {
+        console.log('---------------------个性化菜单--------------------')
+        createIndividualMenu(code, menu, sex)
+    } else {
+        console.log('---------------------通用菜单--------------------')
+        createMenu(code, menu)
+    }
+}
+
+// 创建通用菜单
 async function createMenu(code, menu) {
     var menu = {"button": menu};
     console.log('menu', menu);
@@ -89,6 +100,44 @@ async function createMenu(code, menu) {
         });
         return
     }
-}
+};
 
+// 创建个性化菜单
+async function createIndividualMenu(code, menu, sex) {
+    let individaluMenu = {
+        "button": menu,
+        "matchrule": {
+            "sex": sex
+        }
+    };
+    console.log('individaluMenu', individaluMenu);
+    var api = await WechatUtil.getClient(code);
+    if (individaluMenu.button.length === 0) {
+        api.removeCustomMenu(function (err, res) {
+            console.log(res);
+            api.getCustomMenu(function (err, res_m) {
+                console.log(JSON.stringify(res_m));
+            });
+        });
+    } else {
+        api.removeCustomMenu(function (err, res) {
+            if (err) {
+                console.log('--------removeCustomMenu-----err-----')
+                console.log(err)
+                console.log(res)
+            }
+            api.createCustomMenu(individaluMenu, function (err, res) {
+                if (err) {
+                    console.log('--------createCustomMenu-----err-----')
+                    console.log(err)
+                    console.log(res)
+                }
+                api.getCustomMenu(function (err, res_m) {
+                    console.log(err)
+                    console.log(JSON.stringify(res_m));
+                });
+            });
+        });
+    }
+}
 module.exports = router;
