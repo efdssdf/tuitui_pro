@@ -30,7 +30,6 @@ router.get('/update_links', async(req, res, next) => {
 })
 
 router.post('/create', async(req, res, next)=> {
-    console.log("req.body", req.body);
     var message;
     if(req.body.id){
         message = {
@@ -52,6 +51,7 @@ router.post('/create', async(req, res, next)=> {
             }
         }
     }
+    console.log("message", message)
     var result = await TransferModel.find({id: message.id})
     if(result.length !== 0) {
       res.send({err: "创建失败，该id已存在"})
