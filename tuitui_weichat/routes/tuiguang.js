@@ -11,7 +11,11 @@ var mem = require('../util/mem.js')
 const asyncRedis = require("async-redis");
 const redis_client = asyncRedis.createClient();
 
+//线上
 var juedui_lujing = '/home/work/tuitui_program/project/public/images/tuiguang'
+
+//线下
+//var juedui_lujing ='../public/images/tuiguan'
 
 var upload = multer({
     dest: juedui_lujing
@@ -265,11 +269,12 @@ router.get('/data',async(req,res,next)=>{
     if(!tid){
         return res.send('请输入transfer id')
     }
-    let transfer = TransferModel.findOne({id:tid})
+    let transfer = await TransferModel.findOne({id:tid})
     if(!transfer){
         return res.send('没有找到相关的transfer')
     }
-    
+    console.log(transfer)
+
     var data={
         tuiguang:[],
         duibi:[]
@@ -280,9 +285,9 @@ router.get('/data',async(req,res,next)=>{
         var params = link.substr(link.lastIndexOf('/')+1)
         var index = params.split('?')[0]
         var channel = params.split('channel=')[1]
-        let uv = redis_client.pfcount('website_tuiguang_'+channel+'_'+index);
-        let cv = redis_client.pfcount('website_tuiguang_copy_'+channel+'_'+index);
-        let ip = redis_client.pfcount('website_tuiguang_ip_'+channel+'_'+index);
+        let uv = await redis_client.pfcount('website_tuiguang_'+channel+'_'+index);
+        let cv = await redis_client.pfcount('website_tuiguang_copy_'+channel+'_'+index);
+        let ip = await redis_client.pfcount('website_tuiguang_ip_'+channel+'_'+index);
 
         data.tuiguang.push({
             index : index,
@@ -303,7 +308,7 @@ router.get('/data/del',async(req,res,next)=>{
     if(!tid){
         return res.send('请输入transfer id')
     }
-    let transfer = TransferModel.findOne({id:tid})
+    let transfer = await TransferModel.findOne({id:tid})
     if(!transfer){
         return res.send('没有找到相关的transfer')
     }
@@ -313,9 +318,9 @@ router.get('/data/del',async(req,res,next)=>{
         var params = link.substr(link.lastIndexOf('/')+1)
         var index = params.split('?')[0]
         var channel = params.split('channel=')[1]
-        let uv = redis_client.del('website_tuiguang_'+channel+'_'+index);
-        let cv = redis_client.del('website_tuiguang_copy_'+channel+'_'+index);
-        let ip = redis_client.del('website_tuiguang_ip_'+channel+'_'+index);
+        let uv = await redis_client.del('website_tuiguang_'+channel+'_'+index);
+        let cv = await redis_client.del('website_tuiguang_copy_'+channel+'_'+index);
+        let ip = await redis_client.del('website_tuiguang_ip_'+channel+'_'+index);
 
     }
     return res.send('删除成功')
