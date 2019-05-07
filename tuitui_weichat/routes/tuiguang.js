@@ -276,4 +276,32 @@ router.get('/shuju',async(req,res,next)=>{
     })
 })
 
+router.get('/shuju/del',async(req,res,next)=>{
+    let uv01 = await redis_client.del('website_tuiguang_dianrui_2019050501')
+    let uv02 = await redis_client.del('website_tuiguang_dianrui_2019050502')
+    let uv03 = await redis_client.del('website_tuiguang_dianrui_2019050503')
+    let uv04 = await redis_client.del('website_tuiguang_dianrui_2019050504')
+    let uv05 = await redis_client.del('website_tuiguang_dianrui_2019050505')
+
+    let uv06 = await redis_client.del('website_tuiguang_dianrui_2019050506')
+    let uv07 = await redis_client.del('website_tuiguang_dianrui_2019050507')
+    let uv08 = await redis_client.del('website_tuiguang_dianrui_2019050508')
+    let uv09 = await redis_client.del('website_tuiguang_dianrui_2019050509')
+    let uv10 = await redis_client.del('website_tuiguang_dianrui_2019050510')
+
+    let cv01 = await redis_client.del('website_tuiguang_copy_dianrui_2019050501')
+    let cv02 = await redis_client.del('website_tuiguang_copy_dianrui_2019050502')
+    let cv03 = await redis_client.del('website_tuiguang_copy_dianrui_2019050503')
+    let cv04 = await redis_client.del('website_tuiguang_copy_dianrui_2019050504')
+    let cv05 = await redis_client.del('website_tuiguang_copy_dianrui_2019050505')
+
+    let cv06 = await redis_client.del('website_tuiguang_copy_dianrui_2019050506')
+    let cv07 = await redis_client.del('website_tuiguang_copy_dianrui_2019050507')
+    let cv08 = await redis_client.del('website_tuiguang_copy_dianrui_2019050508')
+    let cv09 = await redis_client.del('website_tuiguang_copy_dianrui_2019050509')
+    let cv10 = await redis_client.del('website_tuiguang_copy_dianrui_2019050510')
+
+    return res.send('删除成功')
+})
+
 module.exports = router;
