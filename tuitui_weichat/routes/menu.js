@@ -60,7 +60,11 @@ router.get('/del', async(req, res, next) => {
     let id = req.query.id;
     var doc = await MenuModel.findByIdAndRemove(id);
     for (let code of doc.codes) {
-        createMenu(code, {button: []})
+        if(doc.individaul) {
+            removeIndividualMenu(code, doc.menuid)
+        } else {
+            createMenu(code, {button: []})
+        }
     }
     res.send({success: '删除成功', data: doc})
 });
@@ -115,14 +119,12 @@ async function createIndividualMenu(code, menu, sex, id, menuid) {
     console.log('code', code);
     var api = await WechatUtil.getClient(code);
     if(menuid) {
-        console.log("删除个性化菜单")
         api.removeCustomMenu(menuid, function (err, res) {
             console.log(err)
             console.log(res)
         })
     }
     api.createCustomMenu(individaulMenu, async function (err, res) {
-        console.log("创建个性化菜单")
         if (err) {
             console.log('--------createCustomMenu-----err-----')
             console.log(err)
@@ -131,11 +133,21 @@ async function createIndividualMenu(code, menu, sex, id, menuid) {
         let result = await MenuModel.findByIdAndUpdate(id, {menuid: res.menuid}, {new: true});
         if(result) {
             api.getMenu(function (error, res_m) {
-                console.log("获取菜单")
                 console.log(error)
                 console.log(res_m);
             });
         }
     });
+};
+
+async function removeIndividualMenu(code, menuid) {
+    var api = await WechatUtil.getClient(code);
+    if(menuid) {
+        api.removeCustomMenu(menuid, function (err, res) {
+            console.log(err)
+            console.log(res)
+        })
+    }
 }
+
 module.exports = router;
