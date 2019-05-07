@@ -30,27 +30,12 @@ router.get('/update_links', async(req, res, next) => {
 })
 
 router.post('/create', async(req, res, next)=> {
-    var message;
-    console.log(req.body)
-    if(req.body.id){
-        message = {
-            id:req.body.id,
-            title: req.body.title,
-            links: req.body.links,
-            type: req.body.type,
-            weights: req.body.weights
-        }
-    }else{
-        for (var key in req.body) {
-            var body = JSON.parse(key)
-            message = {
-                id:body.id,
-                title: body.title,
-                links: body.links,
-                type: body.type,
-                weights: body.weights
-            }
-        }
+    var message = {
+        id:req.body.id,
+        title: req.body.title,
+        links: req.body.links,
+        type: req.body.type,
+        weights: req.body.weights
     }
     var result = await TransferModel.find({id: message.id})
     if(result.length !== 0) {
