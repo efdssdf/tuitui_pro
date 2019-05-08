@@ -6,7 +6,7 @@ const redis_client = asyncRedis.createClient();
 
 async function get_data() {
 	let transfers = await TransferModel.find({type:1,status:1})
-    console.log(transfers)
+    //console.log(transfers)
 	for (var i = 0; i < transfers.length; i++) {
 		await get_one_static(transfers[i])
 	}
