@@ -11,7 +11,15 @@ var TransferSchema = new Schema({
   	type : Number,
   	default : 0
   },
-  weights : Array
+  weights : Array,
+  status : {
+  	type : Number,
+  	default : 1
+  },
+  granularity : {
+  	type : Number,
+  	default : 1
+  }
 });
 
 var TransferModel = db.model('Transfer', TransferSchema);
