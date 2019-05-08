@@ -7,6 +7,10 @@ var TransferSchema = new Schema({
   id:String,
   title:String,
   links: Array,
+  remarks: {
+    type: String,
+    default: ''
+  },
   type : {
   	type : Number,
   	default : 0
@@ -14,7 +18,7 @@ var TransferSchema = new Schema({
   weights : Array,
   status : {
   	type : Number,
-  	default : 1
+  	default : 0
   },
   granularity : {
   	type : Number,
