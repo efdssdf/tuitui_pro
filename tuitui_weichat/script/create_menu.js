@@ -194,4 +194,4 @@ async function get_qr(code){
 }
 
 
-remove_menu(6)
+remove_menu(7)
