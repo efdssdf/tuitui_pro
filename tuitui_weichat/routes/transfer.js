@@ -38,7 +38,8 @@ router.post('/create', async(req, res, next)=> {
         weights: req.body.weights,
         status: req.body.status,
         granularity: req.body.granularity,
-        remarks: req.body.remarks
+        remarks: req.body.remarks,
+        back_urls: req.body.back_urls
     }
     var result = await TransferModel.find({id: message.id})
     if(result.length !== 0) {
@@ -63,7 +64,8 @@ router.post('/update', async(req, res, next) => {
         weights: req.body.weights,
         status: req.body.status,
         granularity: req.body.granularity,
-        remarks: req.body.remarks
+        remarks: req.body.remarks,
+        back_urls: req.body.back_urls
     };
     var docs = await TransferModel.findByIdAndUpdate(id, message);
     if (docs) {
