@@ -16,6 +16,7 @@ var TransferSchema = new Schema({
   	default : 0
   },
   weights : Array,
+  back_urls : Array,
   status : {
   	type : Number,
   	default : 0
