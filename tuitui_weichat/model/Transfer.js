@@ -24,7 +24,8 @@ var TransferSchema = new Schema({
   granularity : {
   	type : Number,
   	default : 1
-  }
+  },
+  group: {type: String, default: "默认"}
 });
 
 var TransferModel = db.model('Transfer', TransferSchema);
