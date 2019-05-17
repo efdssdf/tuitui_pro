@@ -13,6 +13,7 @@ router.get('/', async(req, res, next) => {
 
 router.post('/', async(req, res, next) => {
   let message = {
+    title: req.body.title,
     novelLink: req.body.novelLink,
     imgList: req.body.imgList
   }, result = await AdMaterialModel.save(message);
@@ -25,6 +26,7 @@ router.post('/', async(req, res, next) => {
 
 router.put('/', async(req, res, next) => {
   let message = {
+    title: req.body.title,
     novelLink: req.body.novelLink,
     imgList: req.body.imgList
   }, id = req.body._id, result = await AdMaterialModel.findByIdAndUpdate(id, message, {new: true});

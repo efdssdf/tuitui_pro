@@ -6,6 +6,7 @@ var autoIncrement = require('mongoose-auto-increment');
 autoIncrement.initialize(db);
 
 var AdMaterialSchema = new Schema({
+    title: String,
     novelLink: String,
     imgList: {
         url: String,
