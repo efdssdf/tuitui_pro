@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var TuiGuangModel = require('../model/TuiGuang.js');
+var StaticsTuiGuangModel = require('../model/StaticsTuiGuang.js');
 var TransferModel = require('../model/Transfer.js');
 var DomainModel = require('../model/Domain.js');
 var TokenArrModel = require('../model/TokenArr.js');
@@ -180,8 +181,9 @@ router.get('/data',async(req,res,next)=>{
         duibi:[]
     }
 
-    for (var i = 0; i < transfer.links.length; i++) {
-        var link = transfer.links[i]
+    let links = transfer.links.concat(transfer.back_urls)
+    for (var i = 0; i < links.length; i++) {
+        var link = links[i]
         var params = link.substr(link.lastIndexOf('/')+1)
         var index = params.split('?')[0]
         var channel = params.split('channel=')[1]
@@ -230,5 +232,13 @@ router.get('/data/del',async(req,res,next)=>{
     return res.send('删除成功')
 })
 
+
+router.get('/statics/zeng',async(req,res,next)=>{
+    var tid = req.query.tgid;
+    var datas = await StaticsTuiGuangModel.find({tuiguang_id:tid,type:0}).sort({date:-1}).limit(24)
+    return res.render('statics/zeng',{
+        data : JSON.stringify(datas)
+    })
+})
 
 module.exports = router;
