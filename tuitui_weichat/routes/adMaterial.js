@@ -16,7 +16,7 @@ router.post('/', async(req, res, next) => {
     title: req.body.title,
     novelLink: req.body.novelLink,
     imgList: req.body.imgList
-  }, result = await AdMaterialModel.save(message);
+  }, result = await AdMaterialModel.create(message);
   if(result) {
     res.send({code: 1, msg: '添加成功', data: result})
   } else {
