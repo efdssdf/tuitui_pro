@@ -6,9 +6,9 @@ var OpenidModel = require('../model/Openid');
 
 async function a() {
     let code = process.argv.slice(2)[0]
-    let client = await wechat_util.getClient(code)
+    // let client = await wechat_util.getClient(code)
 
-    // await ConfigModel.update({code: code}, {status: -2})
+    await ConfigModel.update({code: code}, {status: -2})
     //
     // let result = await UserconfModel.remove({code:code})
     // console.log(result,'---result')
@@ -25,9 +25,9 @@ async function a() {
     // client.createTag("明星说男", async function (err, data) {
     //     await UserTagModel.create({id: data.tag.id, name: "男", code: code, sex: '1'})
     // })
-    client.createTag("明星说女", async function (err, data) {
-        await UserTagModel.create({id: data.tag.id, name: "女", code: code, sex: '2'})
-    })
+    // client.createTag("明星说女", async function (err, data) {
+    //     await UserTagModel.create({id: data.tag.id, name: "女", code: code, sex: '2'})
+    // })
 
     // let openid = await OpenidModel.count({code:code})
     // console.log(openid,'--------------openid')
