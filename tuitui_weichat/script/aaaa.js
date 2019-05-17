@@ -8,6 +8,8 @@ var SubOpenidTagModel = require('../model/SubOpenidTag');
 
 async function a() {
     let code = process.argv.slice(2)[0]
+    let user = await UserconfModel.count({code: code})
+    console.log(user, '-----------------user')
     let OpenidTag = await OpenidTagModel.count({code: code})
     console.log(OpenidTag, '--------------OpenidTag')
     let SubOpenidTag = await SubOpenidTagModel.count({code: code})
