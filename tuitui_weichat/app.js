@@ -35,6 +35,7 @@ var recommend = require('./routes/recommend');
 var gonghaoTag = require('./routes/gonghaoTag')
 var msgHistory = require('./routes/msgHistory')
 var qiangguan = require('./routes/qiangguan')
+var tuiguangTag = require('./routes/tuiguangTag')
 
 var app = express();
 
@@ -97,6 +98,7 @@ app.use('/recommend',recommend)
 app.use('/gonghaoTag',gonghaoTag)
 app.use('/history',msgHistory)
 app.use('/qiangguan',qiangguan)
+app.use('/tuiguangTag',tuiguangTag)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
