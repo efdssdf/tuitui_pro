@@ -8,11 +8,11 @@ autoIncrement.initialize(db);
 var AdMaterialSchema = new Schema({
     title: String,
     novelLink: String,
-    imgList: {
+    imgList: [{
         url: String,
         sign: String,
         weight: String
-    }
+    }]
 });
 
 AdMaterialSchema.plugin(autoIncrement.plugin, {
