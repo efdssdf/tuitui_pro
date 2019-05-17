@@ -44,7 +44,7 @@ async function get_one_static(transfer){
 
 
         //存量
-        let zong_static = await StaticsTuiGuangModel.findOne({type:1,tuiguang_id:index,date:zong_time})
+        let zong_static = await StaticsTuiGuangModel.findOne({type:1,tuiguang_id:index,date:zong_time,channel:channel})
         if(!zong_static){
         	zong_static= new StaticsTuiGuangModel({
         		date : zong_time,
@@ -68,7 +68,7 @@ async function get_one_static(transfer){
 		await zong_static.save()
 
 		//增量
-		let zeng_static = await StaticsTuiGuangModel.findOne({type:1,tuiguang_id:index,date:zeng_time})
+		let zeng_static = await StaticsTuiGuangModel.findOne({type:0,tuiguang_id:index,date:zeng_time,channel:channel})
         if(!zeng_static){
         	zeng_static= new StaticsTuiGuangModel({
         		date : zeng_time,
