@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var AdMaterialModel = require('../model/AdMaterial.js')
+var mem = require('../util/mem.js')
 
 router.get('/', async(req, res, next) => {
   let result = await AdMaterialModel.find();
@@ -16,7 +17,7 @@ router.post('/', async(req, res, next) => {
     title: req.body.title,
     novelLink: req.body.novelLink,
     imgList: req.body.imgList
-  }, result = await AdMaterialModel.save(message);
+  }, result = await AdMaterialModel.create(message);
   if(result) {
     res.send({code: 1, msg: '添加成功', data: result})
   } else {
@@ -30,6 +31,7 @@ router.put('/', async(req, res, next) => {
     novelLink: req.body.novelLink,
     imgList: req.body.imgList
   }, id = req.body._id, result = await AdMaterialModel.findByIdAndUpdate(id, message, {new: true});
+  await  mem.set('AdMaterial_' + result.id, '', 1*60)
   if(result) {
     res.send({code: 1, msg: '修改成功', data: result})
   } else {
