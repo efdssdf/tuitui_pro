@@ -9,8 +9,7 @@ function update_tag(_id, code, tagId, sex) {
         users.forEach(function (user) {
             user_arr.push(user.openid)
         })
-        let client = await
-            wechat_util.getClient(code)
+        let client = await wechat_util.getClient(code)
         if (user_arr.length == 0) {
             console.log(user_arr, '-------------------user null')
             return
@@ -43,15 +42,29 @@ function update_tag(_id, code, tagId, sex) {
 async function getTag() {
     let code = process.argv.slice(2)[0]
     let config = await ConfigModel.findOne({code: code})
-    UserTagModel.find({code: code}, function (err, data) {
+    UserTagModel.find({code: code}, async function (err, data) {
         for (let i of data) {
-            let sex = "0"
+            let sex,tag, id
+
             if (i.name == "男") {
                 sex = "1"
             } else if (i.name == "女") {
                 sex = "2"
+            }else{
+                sex = "0"
             }
-            update_tag(null, code, i.id, sex)
+
+            if (config.attribute == 1) {
+                tag = await UserTagModel.findOne({code: code, sex: '1'})
+                id = tag.id
+            } else if (config.attribute == 2) {
+                tag = await UserTagModel.findOne({code: code, sex: '2'})
+                id = tag.id
+            } else {
+                tag = await UserTagModel.findOne({code: code, sex: '0'})
+                id = tag.id
+            }
+            update_tag(null, code, id, sex)
         }
     })
 }
