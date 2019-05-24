@@ -57,9 +57,6 @@ async function getTag() {
                 } else if (config.attribute == 2) {
                     tag = await UserTagModel.findOne({code: code, sex: '2'})
                     id = tag.id
-                } else {
-                    tag = await UserTagModel.findOne({code: code, sex: '0'})
-                    id = tag.id
                 }
             }
             update_tag(null, code, id, sex)
