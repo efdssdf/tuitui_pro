@@ -37,6 +37,7 @@ var msgHistory = require('./routes/msgHistory')
 var qiangguan = require('./routes/qiangguan')
 var tuiguangTag = require('./routes/tuiguangTag')
 var adMaterial = require('./routes/adMaterial')
+var channer = require('./routes/channer');
 
 var app = express();
 
@@ -101,6 +102,7 @@ app.use('/history',msgHistory)
 app.use('/qiangguan',qiangguan)
 app.use('/tuiguangTag',tuiguangTag)
 app.use('/adMaterial',adMaterial)
+app.use('/channer',channer)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
