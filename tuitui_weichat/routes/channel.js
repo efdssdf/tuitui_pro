@@ -16,7 +16,7 @@ router.post('/', async (req, res, next) => {
   if(message.length > 0) {
     res.send({err: '该渠道已经存在'})
   } else {
-    let result = ChannelModel.create({ name: req.body.name});
+    let result = await ChannelModel.create({ name: req.body.name});
     if(result) {
       res.send({ success: "创建成功", data: result })
     }
