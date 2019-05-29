@@ -80,7 +80,7 @@ router.post('/novel/add', (req, res, next) => {
             }
         }
     })
-    
+
 })
 
 router.post('/novel/delete_one', (req, res, next) => {
@@ -105,9 +105,10 @@ router.post('/novel/delete_one', (req, res, next) => {
 
 router.get('/novel/show', async(req, res, next) => {
     let page = req.query.page
+    let count = await TuiGuangModel.count({})
     var messages = await TuiGuangModel.find({},{capter1:0,capter2:0}).skip((page-1) * 20).limit(20).sort({_id:-1});
     var domain_names = await DomainModel.find();
-    res.send({data: messages, domain_names: domain_names})
+    res.send({data: messages, domain_names: domain_names,count:count})
 })
 
 router.get('/novel/get_content', async(req, res, next) => {
