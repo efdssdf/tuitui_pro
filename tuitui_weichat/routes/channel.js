@@ -25,7 +25,7 @@ router.post('/', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
     let id = req.body._id;
-    let result = ChannelModel.findByIdAndUpdate(id, { name: req.body.name }, { new: true });
+    let result = await ChannelModel.findByIdAndUpdate(id, { name: req.body.name }, { new: true });
     if(result) {
       res.send({ success: "修改成功", data: result })
     }
