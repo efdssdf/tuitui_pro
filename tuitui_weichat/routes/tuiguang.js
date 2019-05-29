@@ -104,7 +104,8 @@ router.post('/novel/delete_one', (req, res, next) => {
 })
 
 router.get('/novel/show', async(req, res, next) => {
-    var messages = await TuiGuangModel.find({},{capter1:0,capter2:0}).sort({_id:-1});
+    let page = req.query.page
+    var messages = await TuiGuangModel.find({},{capter1:0,capter2:0}).skip((page-1) * 20).limit(20).sort({_id:-1});
     var domain_names = await DomainModel.find();
     res.send({data: messages, domain_names: domain_names})
 })
