@@ -226,6 +226,11 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
                 user.subscribe_flag = true;
                 console.log(user, '--------------user')
                 user.save(function () {
+                    if(user.sex && user.sex == 1){
+                        w_res.reply('亲爱的幸运小主，今天是幸运大抽奖，恭喜你获得抽奖资格！<a href="https://u.jd.com/mGCw8c">戳我抽奖</a> 坚持关注30天，领取99元大额红包！')
+                    }else{
+                        w_res.reply('亲爱的幸运小主，今天是幸运大抽奖，恭喜你获得抽奖资格！ <a href="https://u.jd.com/mfcwWf">戳我抽奖</a>坚持关注30天，领取99元大额红包！')
+                    }
                 })
             } else if (message.Event === 'unsubscribe') {
                 user.unsubscribe_time = Date.now();
