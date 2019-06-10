@@ -46,7 +46,7 @@ router.use('/:code', async function (request, response, next_fun) {
                         if (text == 'openid') {
                             return res.reply(openid);
                         }
-                        reply(request.params.code, res, 0, text, openid)
+                        reply(request.params.code, res, 0, text, openid, sex)
                     } else if (message.MsgType === 'event') {
                         //console.log(message.Event, '--------Event---------')
                         if (message.Event === 'subscribe') {
@@ -246,7 +246,7 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
 }
 
 async function reply(code, res, type, param, openid, sex) {
-    if(sex == 0){
+    if (sex == 0) {
         let info = await ReplyModel.findOne({code: code})
         sex = info.attribute || ""
     }
