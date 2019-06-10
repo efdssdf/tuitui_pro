@@ -281,7 +281,7 @@ async function reply(code, res, type, param, openid, sex) {
         await mem.set("reply_" + code + "_" + param, reply, 30)
     }
 
-    reply = JSON.parse(reply)
+    // reply = JSON.parse(reply)
     console.log(reply, '--------lllreply---------')
     if (reply.type == 1) {
         return res.reply(reply.msg)
