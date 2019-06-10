@@ -14,7 +14,7 @@ var ReplySchema = new Schema({
     media: Object,
     msgId: Number,
     sex: {type: Number, default: 0}, //0未知 1男 2女 3全部
-    attribute: {type: Number, default: 0}  //0未知 1男 2女 3全部
+    attribute: {type: Number, default: 0}  //1男 2女
 });
 
 var ReplyModel = db.model('Reply', ReplySchema);
