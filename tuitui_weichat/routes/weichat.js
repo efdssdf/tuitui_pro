@@ -264,24 +264,24 @@ async function reply(code, res, type, param, openid, sex) {
                 ]
             }).sort({type: 1})
         } else if (type == 1) {
-            reply = await ReplyModel.findOne({code: code, type: type, key: param})
+            reply = await ReplyModel.find({code: code, type: type, key: param})
         } else if (type == 2) {
-            reply = await ReplyModel.findOne({sex: sex, code: code, type: type})
+            reply = await ReplyModel.find({sex: sex, code: code, type: type})
         } else if (type == 3) {
-            reply = await ReplyModel.findOne({code: code, type: type})
+            reply = await ReplyModel.find({code: code, type: type})
         }
         console.log(reply, '--------reply---------2')
-        if (reply && reply.replyType == 0) {
-            reply = JSON.stringify({type: 0, msg: reply.msgId})
-        } else if (reply && reply.replyType == 1) {
-            reply = JSON.stringify({type: 1, msg: reply.media})
+        if (reply[0] && reply[0].replyType == 0) {
+            reply = JSON.stringify({type: 0, msg: reply[0].msgId})
+        } else if (reply[0] && reply[0].replyType == 1) {
+            reply = JSON.stringify({type: 1, msg: reply[0].media})
         } else {
             return res.reply('')
         }
         await mem.set("reply_" + code + "_" + param, reply, 30)
     }
 
-    // reply = JSON.parse(reply)
+    reply = JSON.parse(reply)
     console.log(reply, '--------lllreply---------')
     if (reply.type == 1) {
         return res.reply(reply.msg)
