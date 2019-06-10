@@ -269,7 +269,8 @@ async function reply(code, res, type, param, openid, sex) {
             reply = await ReplyModel.find({
                 $or: [
                     {sex: sex},
-                    {sex: 3}
+                    {sex: 3},
+                    {sex: null}
                 ], code: code, type: type
             })
         } else if (type == 3) {
