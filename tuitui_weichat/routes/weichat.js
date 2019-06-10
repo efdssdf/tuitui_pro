@@ -248,7 +248,7 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
 async function reply(code, res, type, param, openid, sex) {
     if (sex == 0) {
         let info = await ReplyModel.findOne({code: code})
-        if(info && info.attribute){
+        if (info && info.attribute) {
             sex = info.attribute
         }
     }
@@ -265,10 +265,12 @@ async function reply(code, res, type, param, openid, sex) {
         } else if (type == 1) {
             reply = await ReplyModel.find({code: code, type: type, key: param})
         } else if (type == 2) {
-            reply = await ReplyModel.find({sex:{$or: [
-                {sex: sex},
-                {sex:3}
-            ]}, code: code, type: type})
+            reply = await ReplyModel.find({
+                $or: [
+                    {sex: sex},
+                    {sex: 3}
+                ], code: code, type: type
+            })
         } else if (type == 3) {
             reply = await ReplyModel.find({code: code, type: type})
         }
