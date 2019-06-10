@@ -252,6 +252,7 @@ async function reply(code, res, type, param, openid, sex) {
             sex = info.attribute
         }
     }
+    console.log(sex,'---------------sex')
     var reply = await mem.get("reply_" + code + "_" + param);
     console.log(reply, '--------reply---------1')
     if (!reply) {
@@ -268,8 +269,7 @@ async function reply(code, res, type, param, openid, sex) {
             reply = await ReplyModel.find({
                 $or: [
                     {sex: sex},
-                    {sex: 3},
-                    {sex:null}
+                    {sex: 3}
                 ], code: code, type: type
             })
         } else if (type == 3) {
