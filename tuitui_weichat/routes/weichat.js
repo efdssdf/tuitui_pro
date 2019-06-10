@@ -248,7 +248,9 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
 async function reply(code, res, type, param, openid, sex) {
     if (sex == 0) {
         let info = await ReplyModel.findOne({code: code})
-        sex = info.attribute || ""
+        if(info && info.attribute){
+            sex = info.attribute
+        }
     }
     var reply = await mem.get("reply_" + code + "_" + param);
     console.log(reply, '--------reply---------1')
