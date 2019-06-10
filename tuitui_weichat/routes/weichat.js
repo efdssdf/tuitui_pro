@@ -246,17 +246,16 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
 }
 
 async function reply(code, res, type, param, openid, sex) {
-    console.log(sex,'------------sex')
     if (sex == 0) {
         let info = await ReplyModel.findOne({code: code})
-        if(info && info.attribute){
+        if (info && info.attribute) {
             sex = info.attribute
         }
     }
+    console.log(sex,'---------------sex')
     var reply = await mem.get("reply_" + code + "_" + param);
     console.log(reply, '--------reply---------1')
     if (!reply) {
-        console.log(code, type, param, reply, '--------reply---------a')
         if (type == 0) {
             reply = await ReplyModel.find({
                 $or: [
@@ -270,8 +269,9 @@ async function reply(code, res, type, param, openid, sex) {
             reply = await ReplyModel.find({
                 $or: [
                     {sex: sex},
-                    {sex:3}
-                ], code: code, type: type})
+                    {sex: 3}
+                ], code: code, type: type
+            })
         } else if (type == 3) {
             reply = await ReplyModel.find({code: code, type: type})
         }
@@ -294,18 +294,14 @@ async function reply(code, res, type, param, openid, sex) {
         var content = await mem.get("msg_" + reply.msg);
         if (!content) {
             content = await MsgModel.findOne({msgId: reply.msg})
-            console.log(content, '------------------------content')
             if (content) {
                 content = content
-                console.log(reply.msg, content, '------------------------cm')
                 await mem.set("msg_" + reply.msg, content, 30);
-                console.log(content, '--------content1---------')
                 replyMsg(res, content, code, openid)
             } else {
                 return res.replay('')
             }
         } else {
-            console.log(content, '--------content2---------')
             replyMsg(res, content, code, openid)
         }
     }
@@ -313,7 +309,7 @@ async function reply(code, res, type, param, openid, sex) {
 
 
 async function replyMsg(res, content, code, openid) {
-    console.log(content, '--------content3---------')
+    console.log(content, '--------content---------')
     if (content.type == 0) {
         var dis = content.description;
         dis = charge_openid(dis, openid);
