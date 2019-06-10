@@ -47,7 +47,9 @@ router.post('/create', async(req, res, next) => {
                     showUrl:req.body.showUrl,
                     media: media,
                     text: req.body.text,
-                    key: req.body.key
+                    key: req.body.key,
+                    sex: req.body.sex,
+                    attribute: req.body.attribute
                 }
                 console.log(data,'---------------------data')
                 let doc = await ReplyModel.create(data)
@@ -74,7 +76,9 @@ router.post('/create', async(req, res, next) => {
             replyType: req.body.replyType,
             text: req.body.text,
             key: req.body.key,
-            msgId: req.body.msgId
+            msgId: req.body.msgId,
+            sex: req.body.sex,
+            attribute: req.body.attribute
         }
         let doc = await ReplyModel.create(data)
         if (doc) {
@@ -113,7 +117,9 @@ router.post('/update', async(req, res, next) => {
                     showUrl:req.body.showUrl,
                     media: media,
                     text: req.body.text,
-                    key: req.body.key
+                    key: req.body.key,
+                    sex: req.body.sex,
+                    attribute: req.body.attribute
                 }
                 let doc = await ReplyModel.findByIdAndUpdate(id, data, {new: true})
                 if (doc) {
@@ -147,7 +153,9 @@ router.post('/update', async(req, res, next) => {
             key: req.body.key,
             url: '',
             showUrl:'',
-            msgId: req.body.msgId
+            msgId: req.body.msgId,
+            sex: req.body.sex,
+            attribute: req.body.attribute
         }
         let doc = await ReplyModel.findByIdAndUpdate(id, data, {new: true})
         console.log(doc)
