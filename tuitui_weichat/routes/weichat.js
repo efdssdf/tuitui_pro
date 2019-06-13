@@ -39,9 +39,7 @@ router.use('/:code', async function (request, response, next_fun) {
             if (jieguan == 1) {
                 var message = req.weixin;
                 var openid = message.FromUserName;
-                console.log('----------------aaa')
                 getUserInfo(openid, config, message, request, req, res, function (openid, config, message, sex, request, req, res) {
-                    console.log(sex,'----------------bbb')
                     //console.log(message.MsgType, '--------MsgType---------')
                     if (message.MsgType === 'text') {
                         var text = message.Content.trim();
@@ -203,7 +201,6 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
             if (config.real_time) {
                 wechat_util.getClient(config.code).then((client) => {
                     client.getUser(openid, function (err, info) {
-                        console.log(info,'--------------info')
                         if (info.sex) {
                             user.nickname = info.nickname;
                             user.headimgurl = info.headimgurl;
@@ -249,14 +246,13 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
 }
 
 async function reply(code, res, type, param, openid, sex) {
-    console.log(sex,'---------------sex1')
     if (sex == 0) {
         let info = await ReplyModel.findOne({code: code})
         if (info && info.attribute) {
             sex = info.attribute
         }
     }
-    console.log(sex,'---------------sex2')
+    console.log(sex,'---------------sex')
     var reply = await mem.get("reply_" + code + "_" + param);
     console.log(reply, '--------reply---------1')
     if (!reply) {
