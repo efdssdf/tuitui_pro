@@ -36,11 +36,12 @@ router.use('/:code', async function (request, response, next_fun) {
                     }
                 }
             }
-            console.log(jieguan,'-----------------jieguan')
             if (jieguan == 1) {
                 var message = req.weixin;
                 var openid = message.FromUserName;
+                console.log('----------------aaa')
                 getUserInfo(openid, config, message, request, req, res, function (openid, config, message, sex, request, req, res) {
+                    console.log(sex,'----------------bbb')
                     //console.log(message.MsgType, '--------MsgType---------')
                     if (message.MsgType === 'text') {
                         var text = message.Content.trim();
