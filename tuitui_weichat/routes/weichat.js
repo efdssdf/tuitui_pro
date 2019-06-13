@@ -201,6 +201,7 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
             if (config.real_time) {
                 wechat_util.getClient(config.code).then((client) => {
                     client.getUser(openid, function (err, info) {
+                        console.log(info,'--------------info')
                         if (info.sex) {
                             user.nickname = info.nickname;
                             user.headimgurl = info.headimgurl;
@@ -246,13 +247,14 @@ async function getUserInfo(openid, config, message, request, w_req, w_res, next)
 }
 
 async function reply(code, res, type, param, openid, sex) {
+    console.log(sex,'---------------sex1')
     if (sex == 0) {
         let info = await ReplyModel.findOne({code: code})
         if (info && info.attribute) {
             sex = info.attribute
         }
     }
-    console.log(sex,'---------------sex')
+    console.log(sex,'---------------sex2')
     var reply = await mem.get("reply_" + code + "_" + param);
     console.log(reply, '--------reply---------1')
     if (!reply) {
