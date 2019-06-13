@@ -36,6 +36,7 @@ router.use('/:code', async function (request, response, next_fun) {
                     }
                 }
             }
+            console.log(jieguan,'-----------------jieguan')
             if (jieguan == 1) {
                 var message = req.weixin;
                 var openid = message.FromUserName;
