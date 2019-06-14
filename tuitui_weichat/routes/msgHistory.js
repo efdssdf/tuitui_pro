@@ -12,7 +12,7 @@ router.get("/state", async (req, res, next) => {
       res.send({data: result})
     }
   })
-})
+});
 
 router.get('/', async (req, res, next) => {
   let docs = await MsgHistoryModel.find({
@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
     type: 'news'
   }).sort({
     'update_time': -1
-  }).limit(10)
+  });
   let messages = [], arr= [], results = [], item = {};
   for (let i = 0; i < docs.length; i ++) {
     arr = docs[i].content.news_item

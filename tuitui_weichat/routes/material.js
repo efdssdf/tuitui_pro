@@ -14,7 +14,7 @@ router.get('/', async (req, res, next) => {
       data: docs
     })
   }
-})
+});
 
 router.get('/show', async (req, res, next) => {
   let docs = await MaterialModel.find({

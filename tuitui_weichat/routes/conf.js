@@ -8,7 +8,7 @@ var request = require('request');
 var UserconfModel = require('../model/Userconf');
 
 router.get('/', async (req, res, next) => {
-  let doc = await ConfigModel.find()
+  let doc = await ConfigModel.find().sort({_id: -1})
   res.send({data: doc})
 })
 
