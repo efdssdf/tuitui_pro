@@ -58,6 +58,20 @@ router.get('/del_msg', async (req, res, next) => {
   });
 })
 
+router.get('/delByDate', async (req, res, next) => {
+  let date = req.query.date;
+  let result = await MsgHistoryModel.find({update_time: {$lte: date}});
+  let code = result[0].code;
+  let api = await weichat_util.getClient(code);
+  result.map(item => {
+    api.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
+      console.log('result--------date----------------', result, 'result-----------date-------------')
+      console.log('err-----------date-------------', err, 'err-----------date-------------')
+    });
+  })
+  res.send({success: '删除成功'})
+});
+
 router.get('/clear', async (req, res, next) => {
   let docs = await MsgHistoryModel.remove({code: req.query.code})
   if(docs) {
