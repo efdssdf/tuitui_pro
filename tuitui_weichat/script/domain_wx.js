@@ -10,8 +10,8 @@ let domains = [
 
 async function check() {
 	let domain = domains[index]
-	console.log('------检查域名儿------')
-	console.log(domain)
+	//console.log('------检查域名儿------')
+	//console.log(domain)
 	let url = 'https://wx.horocn.com/api/v1/wxUrlCheck?api_token=c7f8a793af51ff70a5e9b01ead4c38c9&req_url='+domain
 	index = (index+1)%domains.length
 	let s_res = await rp(url)
