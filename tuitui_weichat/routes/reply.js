@@ -29,8 +29,8 @@ router.get('/', async(req, res, next) => {
 router.post('/create', async(req, res, next) => {
     if (req.body.replyType == 1 && req.body.url) {
         let client = await wechat_util.getClient(req.body.code);
-        console.log(req.body.code, req.body.url, client, '-------------------')
-        client.uploadImageMaterial(req.body.url, async function (error, result) {
+        console.log(req.body.code, __dirname + "/." + req.body.url, client, '-------------------')
+        client.uploadImageMaterial( __dirname + "/." + req.body.url, async function (error, result) {
             console.log(error,result,'---------------------result')
             if (result) {
                 let media = {
@@ -101,7 +101,7 @@ router.post('/update', async(req, res, next) => {
     let id = req.body.id
     if (req.body.replyType == 1 && req.body.url) {
         let client = await wechat_util.getClient(req.body.code);
-        client.uploadImageMaterial(req.body.url, async function (error, result) {
+        client.uploadImageMaterial( __dirname + "/." + req.body.url, async function (error, result) {
             if (result) {
                 let media = {
                     type: "image",
