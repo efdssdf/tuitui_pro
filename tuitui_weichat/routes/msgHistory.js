@@ -67,7 +67,7 @@ router.get('/delByDate', async (req, res, next) => {
   let messages = await MsgHistoryModel.find({code: req.query.code, update_time: {$lte: date}});
   console.log("messages", messages)
 
-  let code = result[0].code;
+  let code = messages[0].code;
   console.log("code", code)
   console.log("--------------------------------delByDate---------------------------------------")
   let api = await weichat_util.getClient(code);
