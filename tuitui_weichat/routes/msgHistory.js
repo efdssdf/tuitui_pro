@@ -62,6 +62,11 @@ router.get('/delByDate', async (req, res, next) => {
   let date = req.query.date;
   let messages = await MsgHistoryModel.find({update_time: {$lte: date}});
   let code = result[0].code;
+  console.log("--------------------------------delByDate---------------------------------------")
+  console.log("date", date)
+  console.log("messages", messages)
+  console.log("code", code)
+  console.log("--------------------------------delByDate---------------------------------------")
   let api = await weichat_util.getClient(code);
   messages.map(item => {
     api.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
