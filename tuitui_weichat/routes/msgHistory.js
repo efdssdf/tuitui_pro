@@ -64,7 +64,7 @@ router.get('/delByDate', async (req, res, next) => {
   let date = req.query.date;
   console.log("date", date)
 
-  let messages = await MsgHistoryModel.find({update_time: {$lte: date}});
+  let messages = await MsgHistoryModel.find({code: req.query.code, update_time: {$lte: date}});
   console.log("messages", messages)
 
   let code = result[0].code;
