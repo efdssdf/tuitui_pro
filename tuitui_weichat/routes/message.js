@@ -59,7 +59,9 @@ router.get('/get_code', async(req, res, next) => {
 
 
 router.post('/create', async(req, res, next) => {
-    var mediaId = await upload(parseInt(req.body.type), req.body.img_path, req.body.codes)
+  var ab_img = __dirname + '/../' + req.body.img_path;
+  console.log(ab_img, 1111111111111111111111111111111111111111111111111111111111111)
+  var mediaId = await upload(parseInt(req.body.type), ab_img, req.body.codes)
     var message = {
         codes: req.body.codes,
         sex: req.body.sex,
