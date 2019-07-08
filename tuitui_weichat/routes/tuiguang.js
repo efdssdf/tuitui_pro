@@ -55,19 +55,20 @@ router.post('/novel/add', (req, res, next) => {
                 var novelInfo = {
                     type: req.body.type,
                     id: req.body.id,
-                    pageTitle: req.body.pageTitle,
-                    articleTit: req.body.articleTit,
+                    pageTitle: req.body.pageTitle || "",
+                    articleTit: req.body.articleTit || "",
                     name: req.body.name,
                     desc: req.body.desc,
-                    picurl: req.body.picurl,
-                    capter1: req.body.capter1,
+                    picurl: req.body.picurl || "",
+                    capter1: req.body.capter1 || "",
                     capter2: req.body.capter2 || '',
                     linkUrl: req.body.linkUrl || '',
                     statisticsUrl1: req.body.statisticsUrl1 || '',
                     statisticsUrl2: req.body.statisticsUrl2 || '',
                     tokenCodes: req.body.tokenCodes || '',
-                    channel: req.body.channel,
-                    remarks: req.body.remarks
+                    channel: req.body.channel || "",
+                    remarks: req.body.remarks || "",
+                  finalImg: req.body.finalImg || ""
                 }
                 var user = new TuiGuangModel(novelInfo)
                 user.save(function(err, data) {
@@ -81,7 +82,7 @@ router.post('/novel/add', (req, res, next) => {
         }
     })
 
-})
+});
 
 router.post('/novel/delete_one', (req, res, next) => {
     var selector = {
@@ -126,17 +127,18 @@ router.post('/novel/update', async(req, res, next) => {
     var message = {
         type: req.body.type,
         id: req.body.id,
-        pageTitle: req.body.pageTitle,
-        articleTit: req.body.articleTit,
+        pageTitle: req.body.pageTitle || "",
+        articleTit: req.body.articleTit || "",
         name: req.body.name,
         desc: req.body.desc,
-        picurl: req.body.picurl,
+        picurl: req.body.picurl || "",
         linkUrl: req.body.linkUrl || '',
-        statisticsUrl1: req.body.statisticsUrl1,
+        statisticsUrl1: req.body.statisticsUrl1 || "",
         statisticsUrl2: req.body.statisticsUrl2 || '',
         tokenCodes: req.body.tokenCodes || '',
-        channel: req.body.channel,
-        remarks: req.body.remarks
+        channel: req.body.channel || "",
+        remarks: req.body.remarks || "",
+      finalImg: req.body.finalImg || ""
     }
     if(req.body.capter1) {
         message.capter1= req.body.capter1
