@@ -78,6 +78,7 @@ router.get('/delByDate', async (req, res, next) => {
       console.log('err-----------date-------------', err, 'err-----------date-------------')
     });
   })
+  let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
   res.send({success: '删除成功'})
 });
 
