@@ -33,9 +33,6 @@ router.get('/update_links', async(req, res, next) => {
         var docs = await TransferModel.findByIdAndUpdate(messages[i]._id, {links: messages[i].links})
     }
     res.send({success: '域名修改成功'})
-    mem.set('transfer_'+req.params.index,{},60).then(function(){
-         console.log('---------set transfer value---------')
-    })
 })
 
 router.post('/create', async(req, res, next)=> {
