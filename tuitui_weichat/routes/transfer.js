@@ -28,10 +28,10 @@ router.get('/update_links', async(req, res, next) => {
     var domain_name = req.query.domain_name, 
     messages = await TransferModel.find(),
     domain_names = await DomainModel.findByIdAndUpdate('5b6d0b899a9fab38f48b5b10', {domain_name: domain_name})
-    for(var i=0,mLength=messages.length;i<mLength;i++){
-        messages[i].links[0] = domain_name + '/tuiguang' + messages[i].links[0].split('/tuiguang')[1]
-        var docs = await TransferModel.findByIdAndUpdate(messages[i]._id, {links: messages[i].links})
-    }
+    // for(var i=0,mLength=messages.length;i<mLength;i++){
+    //     messages[i].links[0] = domain_name + '/tuiguang' + messages[i].links[0].split('/tuiguang')[1]
+    //     var docs = await TransferModel.findByIdAndUpdate(messages[i]._id, {links: messages[i].links})
+    // }
     res.send({success: '域名修改成功'})
 })
 
