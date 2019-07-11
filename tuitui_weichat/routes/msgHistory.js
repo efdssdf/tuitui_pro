@@ -81,7 +81,7 @@ router.get('/clear', async (req, res, next) => {
 async function delMass (code, item) {
   let client = await weichat_util.getClient(code)
   client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
-    if(err.errcode == 45009) {
+    if(result.errcode == 45009) {
       test(code, item)
     }
     console.log('result--------date----------------', result, 'result-----------date-------------')
