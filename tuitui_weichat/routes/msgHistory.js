@@ -86,7 +86,7 @@ async function delMass (code, item) {
   }
 }
 
-function del_mass (client, item)) {
+function del_mass (client, item) {
   return new Promise((resovle, reject) => {
     client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
       if(err) {
