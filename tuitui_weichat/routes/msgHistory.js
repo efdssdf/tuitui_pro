@@ -95,7 +95,7 @@ async function test(code, item) {
   let conf = await ConfigModel.findOne({code: code})
   let appid = conf.appid;
   client.clearQuota(appid, function (err, data) {
-    if(data.errcode != 48006) {
+    if(data.errcode != 48006 && item) {
       console.log(err, data, '------------------------------')
       console.log('clearQuota end')
       delMass(code, item)
