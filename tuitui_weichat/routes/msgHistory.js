@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var MsgHistoryModel = require('../model/MsgHistory');
 var weichat_util = require('../util/get_weichat_client.js')
+var ConfigModel = require('../model/Config');
 
 router.get("/state", async (req, res, next) => {
   let client = await weichat_util.getClient(req.query.code)
@@ -59,25 +60,13 @@ router.get('/del_msg', async (req, res, next) => {
 })
 
 router.get('/delByDate', async (req, res, next) => {
-  console.log("--------------------------------delByDate---------------------------------------")
-
   let date = req.query.date;
-  console.log("date", date)
-
   let messages = await MsgHistoryModel.find({code: req.query.code, update_time: {$lte: date}});
-  console.log("messages", messages)
-
   let code = messages[0].code;
-  console.log("code", code)
-  console.log("--------------------------------delByDate---------------------------------------")
   let api = await weichat_util.getClient(code);
   messages.map(item => {
-    api.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
-
-      console.log('result--------date----------------', result, 'result-----------date-------------')
-      console.log('err-----------date-------------', err, 'err-----------date-------------')
-    });
-  })
+    delMass(code, item)
+  });
   let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
   res.send({success: '删除成功'})
 });
@@ -87,6 +76,29 @@ router.get('/clear', async (req, res, next) => {
   if(docs) {
     res.send({success: '已删除全部历史记录'})
   }
-})
+});
+
+async function delMass (code, item) {
+  let client = await weichat_util.getClient(code)
+  client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
+    if(err.errcode == 45009) {
+      test(code, item)
+    }
+    console.log('result--------date----------------', result, 'result-----------date-------------')
+    console.log('err-----------date-------------', err, 'err-----------date-------------')
+  });
+}
+
+
+async function test(code, item) {
+  let client = await weichat_util.getClient(code)
+  let conf = await ConfigModel.findOne({code: code})
+  let appid = conf.appid;
+  client.clearQuota(appid, function (err, data) {
+    console.log(err, data, '------------------------------')
+    console.log('clearQuota end')
+    delMass(code, item)
+  })
+}
 
 module.exports = router;
