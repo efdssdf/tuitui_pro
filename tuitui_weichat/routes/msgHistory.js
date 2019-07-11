@@ -64,8 +64,8 @@ router.get('/delByDate', async (req, res, next) => {
   let messages = await MsgHistoryModel.find({code: req.query.code, update_time: {$lte: date}});
   let code = messages[0].code;
   let api = await weichat_util.getClient(code);
-  messages.map(item => {
-    delMass(code, item)
+  await messages.map(async item => {
+    await delMass(code, item)
   });
   // let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
   res.send({success: '删除成功'})
@@ -80,13 +80,21 @@ router.get('/clear', async (req, res, next) => {
 
 async function delMass (code, item) {
   let client = await weichat_util.getClient(code)
-  client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
-    if(result.errcode == 45009) {
-      test(code, item)
-    }
-    console.log('result--------date----------------', result, 'result-----------date-------------')
-    console.log('err-----------date-------------', err, 'err-----------date-------------')
-  });
+ let result = await del_mass(client, item);
+  if(result.errcode == 45009) {
+    test(code, item)
+  }
+}
+
+function del_mass (client, item)) {
+  return new Promise((resovle, reject) => {
+    client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
+      if(err) {
+        reject(err)
+      }
+      resovle(result)
+    });
+  })
 }
 
 
@@ -94,12 +102,20 @@ async function test(code, item) {
   let client = await weichat_util.getClient(code)
   let conf = await ConfigModel.findOne({code: code})
   let appid = conf.appid;
-  client.clearQuota(appid, function (err, data) {
-    if(data.errcode != 48006 && item) {
-      console.log(err, data, '------------------------------')
-      console.log('clearQuota end')
-      delMass(code, item)
-    }
+  let data = await clear_quota(client, appid);
+  if(data.errcode != 48006 && item) {
+    await delMass(code, item)
+  }
+}
+
+function clear_quota (client, appid) {
+  return new Promise((resovle, reject) => {
+    client.clearQuota(appid, function (err, data) {
+      if(err) {
+        reject(err)
+      }
+      resovle(data)
+    })
   })
 }
 
