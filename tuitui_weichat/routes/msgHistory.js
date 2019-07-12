@@ -65,7 +65,7 @@ router.get('/delByDate', async (req, res, next) => {
   let code = messages[0].code;
   let api = await weichat_util.getClient(code);
   await messages.map(async item => {
-    await delMass(code, item)
+    // await delMass(code, item)
   });
   // let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
   res.send({success: '删除成功'})
@@ -81,29 +81,17 @@ router.get('/clear', async (req, res, next) => {
 async function delMass (code, item) {
   let client = await weichat_util.getClient(code)
  let result = await del_mass(client, item);
-  if(result.errcode == 45009) {
-    test(code, item)
+  if(result.errcode == 45009 && Object(item).length > 0) {
+    await test(code, item)
   }
 }
-
-function del_mass (client, item) {
-  return new Promise((resovle, reject) => {
-    client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
-      if(err) {
-        reject(err)
-      }
-      resovle(result)
-    });
-  })
-}
-
 
 async function test(code, item) {
   let client = await weichat_util.getClient(code)
   let conf = await ConfigModel.findOne({code: code})
   let appid = conf.appid;
   let data = await clear_quota(client, appid);
-  if(data.errcode != 48006 && item) {
+  if(data.errcode != 48006 && Object(item).length > 0) {
     await delMass(code, item)
   }
 }
@@ -116,6 +104,17 @@ function clear_quota (client, appid) {
       }
       resovle(data)
     })
+  })
+}
+
+function del_mass (client, item) {
+  return new Promise((resovle, reject) => {
+    client.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
+      if(err) {
+        reject(err)
+      }
+      resovle(result)
+    });
   })
 }
 
