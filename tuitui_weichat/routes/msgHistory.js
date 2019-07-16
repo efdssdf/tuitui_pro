@@ -125,6 +125,7 @@ function del_mass (client, item) {
       if(err) {
         reject(err)
       }
+      console.log(result)
       resovle(result)
     });
   })
