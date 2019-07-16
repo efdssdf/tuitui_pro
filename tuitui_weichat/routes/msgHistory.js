@@ -67,7 +67,7 @@ router.get('/delByDate', async (req, res, next) => {
   await messages.map(async item => {
     let result = await del_mass(api, item);
   });
-  // let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
+  let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
   res.send({success: '删除成功'})
 });
 
