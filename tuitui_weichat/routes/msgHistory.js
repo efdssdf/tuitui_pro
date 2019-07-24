@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var MsgHistoryModel = require('../model/MsgHistory');
 var weichat_util = require('../util/get_weichat_client.js')
+var ConfigModel = require('../model/Config');
 
 router.get("/state", async (req, res, next) => {
   let client = await weichat_util.getClient(req.query.code)
@@ -59,34 +60,75 @@ router.get('/del_msg', async (req, res, next) => {
 })
 
 router.get('/delByDate', async (req, res, next) => {
-  console.log("--------------------------------delByDate---------------------------------------")
-
   let date = req.query.date;
-  console.log("date", date)
-
   let messages = await MsgHistoryModel.find({code: req.query.code, update_time: {$lte: date}});
-  console.log("messages", messages)
-
   let code = messages[0].code;
-  console.log("code", code)
-  console.log("--------------------------------delByDate---------------------------------------")
   let api = await weichat_util.getClient(code);
-  messages.map(item => {
-    api.deleteMass(item.msg_id, Number(item.article_idx), (err, result) => {
-
-      console.log('result--------date----------------', result, 'result-----------date-------------')
-      console.log('err-----------date-------------', err, 'err-----------date-------------')
-    });
-  })
+  await messages.map(async item => {
+    let result = await del_mass(api, item);
+  });
   let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
   res.send({success: '删除成功'})
 });
+
+// router.get('/delByDate', async (req, res, next) => {
+//   let date = req.query.date;
+//   let messages = await MsgHistoryModel.find({code: req.query.code, update_time: {$lte: date}});
+//   let code = messages[0].code;
+//   let api = await weichat_util.getClient(code);
+//   await messages.map(async item => {
+//     // await delMass(code, item)
+//   });
+//   // let data = await MsgHistoryModel.remove({code: req.query.code, update_time: {$lte: date}});
+//   res.send({success: '删除成功'})
+// });
 
 router.get('/clear', async (req, res, next) => {
   let docs = await MsgHistoryModel.remove({code: req.query.code})
   if(docs) {
     res.send({success: '已删除全部历史记录'})
   }
-})
+});
+
+async function delMass (code, item) {
+  let client = await weichat_util.getClient(code)
+ let result = await del_mass(client, item);
+  if(result.errcode == 45009 && Object(item).length > 0) {
+    await test(code, item)
+  }
+}
+
+async function test(code, item) {
+  let client = await weichat_util.getClient(code)
+  let conf = await ConfigModel.findOne({code: code})
+  let appid = conf.appid;
+  let data = await clear_quota(client, appid);
+  if(data.errcode != 48006 && Object(item).length > 0) {
+    await delMass(code, item)
+  }
+}
+
+function clear_quota (client, appid) {
+  return new Promise((resovle, reject) => {
+    client.clearQuota(appid, function (err, data) {
+      if(err) {
+        reject(err)
+      }
+      resovle(data)
+    })
+  })
+}
+
+function del_mass (client, item) {
+  return new Promise((resovle, reject) => {
+    client.deleteMass(item.msg_id, 0, (err, result) => {
+      if(err) {
+        reject(err)
+      }
+      console.log(result)
+      resovle(result)
+    });
+  })
+}
 
 module.exports = router;
