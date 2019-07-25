@@ -1,7 +1,7 @@
 var request = require('request');
 
 function getkouling() {
-	var klurl = encodeURIComponent("https://m.tb.cn/h.e7jal8s");
+	var klurl = encodeURIComponent("http://haibao.m.taobao.com/html/NsIuXsJaj");
 	var kltext = encodeURIComponent("免费分享返利机器人");
 	var tpwdpic = encodeURIComponent("https://gw.alicdn.com/tfs/TB1c.wHdh6I8KJjy0FgXXXXzVXa-580-327.png");
 	var rq_url ="https://api.open.21ds.cn/apiv1/createtkl?apkey=7603dffc-e95d-e284-9c07-de897e0fbcc5"
