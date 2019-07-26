@@ -13,7 +13,7 @@ const asyncRedis = require("async-redis");
 const redis_client = asyncRedis.createClient();
 
 //线上
-var juedui_lujing = '/home/work/tuitui_program/project/public/images/tuiguang'
+var juedui_lujing = '/home/work/tuitui_program/project/public/images/website'
 
 //线下
 //var juedui_lujing ='../public/images/tuiguan'
