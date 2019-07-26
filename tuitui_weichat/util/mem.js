@@ -34,6 +34,8 @@ module.exports.bindContent =  function (openid) {
 module.exports.get = function(key){
     return new Promise((resolve, reject)=>{
         memcached.get(key,function(err,value){
+            console.log(value,'-------------------value')
+            console.log(err,'-------------------err')
             resolve(value);
         });
     });
