@@ -68,6 +68,7 @@ router.post('/novel/add', (req, res, next) => {
           tokenCodes: req.body.tokenCodes || '',
           channel: req.body.channel || "",
           remarks: req.body.remarks || "",
+          gonghaoLogo: req.body.gonghaoLogo || "",
           finalImg: req.body.finalImg || ""
         }
         var user = new TuiGuangModel(novelInfo)
@@ -142,6 +143,7 @@ router.post('/novel/update', async (req, res, next) => {
     tokenCodes: req.body.tokenCodes || '',
     channel: req.body.channel || "",
     remarks: req.body.remarks || "",
+    gonghaoLogo: req.body.gonghaoLogo || "",
     finalImg: req.body.finalImg || ""
   }
   if (req.body.capter1) {
