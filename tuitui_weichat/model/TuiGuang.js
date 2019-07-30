@@ -26,6 +26,10 @@ var TuiGuangSchema = new Schema({
   gonghaoLogo: {
     type: String,
     default: ""
+  },
+  domain_name: {
+    type: String,
+    default: "http://novel.jtjsmp.top"
   }
 });
 

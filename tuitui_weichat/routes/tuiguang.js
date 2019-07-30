@@ -68,6 +68,7 @@ router.post('/novel/add', (req, res, next) => {
           tokenCodes: req.body.tokenCodes || '',
           channel: req.body.channel || "",
           remarks: req.body.remarks || "",
+          domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
           gonghaoLogo: req.body.gonghaoLogo || "",
           finalImg: req.body.finalImg || ""
         }
@@ -143,6 +144,7 @@ router.post('/novel/update', async (req, res, next) => {
     tokenCodes: req.body.tokenCodes || '',
     channel: req.body.channel || "",
     remarks: req.body.remarks || "",
+    domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
     gonghaoLogo: req.body.gonghaoLogo || "",
     finalImg: req.body.finalImg || ""
   }
