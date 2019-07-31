@@ -71,7 +71,7 @@ router.post('/novel/add', (req, res, next) => {
           domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
           gonghaoLogo: req.body.gonghaoLogo || "",
           finalImg: req.body.finalImg || "",
-          company: req.body.finalImg || ""
+          company: req.body.company || ""
         }
         var user = new TuiGuangModel(novelInfo)
         user.save(function (err, data) {
@@ -148,7 +148,7 @@ router.post('/novel/update', async (req, res, next) => {
     domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
     gonghaoLogo: req.body.gonghaoLogo || "",
     finalImg: req.body.finalImg || "",
-    company: req.body.finalImg || ""
+    company: req.body.company || ""
   }
   if (req.body.capter1) {
     message.capter1 = req.body.capter1
