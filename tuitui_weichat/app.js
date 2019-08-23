@@ -39,6 +39,7 @@ var tuiguangTag = require('./routes/tuiguangTag')
 var adMaterial = require('./routes/adMaterial')
 var channel = require('./routes/channel');
 var rManage = require('./routes/rManage');
+var customer = require('./routes/customer');
 var app = express();
 
 app.all('*', function(req, res, next) {
@@ -104,6 +105,7 @@ app.use('/tuiguangTag',tuiguangTag)
 app.use('/adMaterial',adMaterial)
 app.use('/channel',channel)
 app.use('/admin',rManage)
+app.use('/customer',customer)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
