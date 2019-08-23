@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const CustomerModel = require('../model/Custome.js')
+const CustomerModel = require('../model/Customer.js')
 
 router.post('/', async (req, res, next) => {
   let { account, password, belongTo } = req.body;
