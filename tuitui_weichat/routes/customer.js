@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
   } else {
     result = await CustomerModel.find();
   }
-  if(result) {
+  if(result.length > 0) {
     res.send({code: 1, msg: '查询成功', data: result})
   } else {
     res.send({code: -1, msg: '查询失败，请重试'})
