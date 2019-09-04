@@ -71,7 +71,8 @@ router.post('/novel/add', (req, res, next) => {
           domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
           gonghaoLogo: req.body.gonghaoLogo || "",
           finalImg: req.body.finalImg || "",
-          company: req.body.company || ""
+          company: req.body.company || "",
+          suffix : req.body.suffix
         }
         var user = new TuiGuangModel(novelInfo)
         user.save(function (err, data) {

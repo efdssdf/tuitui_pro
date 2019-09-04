@@ -34,7 +34,8 @@ var TuiGuangSchema = new Schema({
   domain_name: {
     type: String,
     default: "http://novel.jtjsmp.top"
-  }
+  },
+  suffix : String
 });
 
 var TuiGuangModel = db.model('TuiGuang', TuiGuangSchema);
