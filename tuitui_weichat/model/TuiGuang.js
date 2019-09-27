@@ -6,6 +6,10 @@ var db = mongoose.createConnection(connect_url);
 var TuiGuangSchema = new Schema({
   type: Number,
   id: String,
+  gonghao_id: {
+    type: String,
+    default: ""
+  },
   pageTitle: String,
   articleTit: String,
   name: String,

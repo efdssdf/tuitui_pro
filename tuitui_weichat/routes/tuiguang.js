@@ -55,6 +55,7 @@ router.post('/novel/add', (req, res, next) => {
         var novelInfo = {
           type: req.body.type,
           id: req.body.id,
+          gonghao_id: req.body.gonghao_id,
           pageTitle: req.body.pageTitle || "",
           articleTit: req.body.articleTit || "",
           name: req.body.name,
@@ -133,6 +134,7 @@ router.post('/novel/update', async (req, res, next) => {
   var message = {
     type: req.body.type,
     id: req.body.id,
+    gonghao_id: req.body.gonghao_id,
     pageTitle: req.body.pageTitle || "",
     articleTit: req.body.articleTit || "",
     name: req.body.name,
