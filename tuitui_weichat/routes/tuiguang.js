@@ -123,11 +123,11 @@ router.get('/novel/show', async (req, res, next) => {
     messages = await TuiGuangModel.find({channel}, {
       capter1: 0,
       capter2: 0
-    }).skip((page - 1) * 20).limit(20).sort({order: -1, _id: -1});
+    }).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
     count = await TuiGuangModel.count({channel});
   } else {
     count = await TuiGuangModel.count({});
-    messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({order: -1, _id: -1});
+    messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
   }
   res.send({data: messages, domain_names: domain_names, count: count})
 })
