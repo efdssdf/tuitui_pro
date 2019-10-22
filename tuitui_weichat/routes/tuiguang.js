@@ -41,6 +41,13 @@ router.post('/goTop', async(req, res, next) => {
   }
 });
 
+router.post('/cancelGoTop', async(req, res, next) => {
+  let result = await TuiGuangModel.findByIdAndUpdate(req.body.id, {zIndex: 0}, {new: true});
+  if(result) {
+    res.send({result: result, success: "已取消置顶"})
+  }
+});
+
 router.post('/update', async (req, res, next) => {
   let id = '5b76aa2ac3ed4a4798d7045d';
   let messages = {
