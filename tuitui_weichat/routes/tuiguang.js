@@ -32,6 +32,15 @@ router.post('/novel/upload', upload.single('imageFile'), function (req, res, nex
   res.send({filename: req.file.filename + '.jpg'});
 })
 
+router.post('/goTop', async(req, res, next) => {
+  let message = await TuiGuangModel.findOne().sort({zIndex: -1});
+  let zIndex = message.zIndex + 1;
+  let result = await TransferModel.findByIdAndUpdate(req.body.id, {zIndex}, {new: true});
+  if(result) {
+    res.send({result: result, success: "置顶成功"})
+  }
+});
+
 router.post('/update', async (req, res, next) => {
   let id = '5b76aa2ac3ed4a4798d7045d';
   let messages = {

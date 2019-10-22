@@ -39,7 +39,11 @@ var TuiGuangSchema = new Schema({
     type: String,
     default: "http://novel.jtjsmp.top"
   },
-  suffix : String
+  suffix : String,
+  zIndex: {
+    type: Number,
+    default: 0
+  }
 });
 
 var TuiGuangModel = db.model('TuiGuang', TuiGuangSchema);
