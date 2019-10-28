@@ -148,7 +148,7 @@ router.get('/novel/show', async (req, res, next) => {
       count = await TuiGuangModel.count({channel});
     } else {
       count = await TuiGuangModel.count({});
-      messages = await TuiGuangModel.find({creator}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+      messages = await TuiGuangModel.find({creator: creator || ""}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
     }
   }
 
