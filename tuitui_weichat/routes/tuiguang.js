@@ -155,6 +155,7 @@ router.get('/novel/show', async (req, res, next) => {
     res.send({code: 1, data: messages, domain_names: domain_names, count: count, msg: "查询成功"})
   } else {
     messages = await TuiGuangModel.find({creator: creator || ""}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    messages.length === 0 && await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
     res.send({code: -1, data: messages, domain_names: domain_names, count: count, msg: "暂时没有相关数据"})
   }
 });
