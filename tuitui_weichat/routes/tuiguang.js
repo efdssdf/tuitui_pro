@@ -148,15 +148,10 @@ router.get('/novel/show', async (req, res, next) => {
       count = await TuiGuangModel.count({channel});
     } else {
       count = await TuiGuangModel.count({});
-      messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+      messages = await TuiGuangModel.find({creator}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
     }
   }
-  if(messages.length > 0) {
-    res.send({code: 1, data: messages, domain_names: domain_names, count: count, msg: "查询成功"})
-  } else {
-    messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
-    res.send({code: -1, data: messages, domain_names: domain_names, count: count, msg: "暂时没有相关数据"})
-  }
+
 });
 
 router.get('/novel/get_content', async (req, res, next) => {
