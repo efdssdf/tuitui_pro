@@ -23,6 +23,10 @@ var TuiGuangSchema = new Schema({
   tokenCodes: String,
   channel: String,
   remarks: String,
+  creator: {
+    type: String,
+    default: ""
+  },
   company: {
     type: String,
     default: ""

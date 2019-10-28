@@ -89,8 +89,9 @@ router.post('/novel/add', (req, res, next) => {
           gonghaoLogo: req.body.gonghaoLogo || "",
           finalImg: req.body.finalImg || "",
           company: req.body.company || "",
-          suffix : req.body.suffix
-        }
+          suffix : req.body.suffix,
+          creator: req.body.creator || ""
+        };
         var user = new TuiGuangModel(novelInfo)
         user.save(function (err, data) {
           if (err) {
@@ -125,19 +126,34 @@ router.post('/novel/delete_one', (req, res, next) => {
 })
 
 router.get('/novel/show', async (req, res, next) => {
-  let page = req.query.page, channel = req.query.channel, count, messages, domain_names = await DomainModel.find();
-  if (channel) {
-    messages = await TuiGuangModel.find({channel}, {
-      capter1: 0,
-      capter2: 0
-    }).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
-    count = await TuiGuangModel.count({channel});
+  let count, messages, domain_names = await DomainModel.find();
+  let {page, channel, creator} = req.query;
+  if(creator) {
+    if (channel) {
+      messages = await TuiGuangModel.find({channel, creator}, {
+        capter1: 0,
+        capter2: 0
+      }).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+      count = await TuiGuangModel.count({channel});
+    } else {
+      count = await TuiGuangModel.count({});
+      messages = await TuiGuangModel.find({creator}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    }
   } else {
-    count = await TuiGuangModel.count({});
-    messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    if (channel) {
+      messages = await TuiGuangModel.find({channel}, {
+        capter1: 0,
+        capter2: 0
+      }).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+      count = await TuiGuangModel.count({channel});
+    } else {
+      count = await TuiGuangModel.count({});
+      messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    }
   }
+
   res.send({data: messages, domain_names: domain_names, count: count})
-})
+});
 
 router.get('/novel/get_content', async (req, res, next) => {
   var id = req.query._id
@@ -168,7 +184,8 @@ router.post('/novel/update', async (req, res, next) => {
     gonghaoLogo: req.body.gonghaoLogo || "",
     finalImg: req.body.finalImg || "",
     company: req.body.company || "",
-    suffix : req.body.suffix
+    suffix : req.body.suffix,
+    creator: req.body.creator || ""
   }
   if (req.body.capter1) {
     message.capter1 = req.body.capter1
