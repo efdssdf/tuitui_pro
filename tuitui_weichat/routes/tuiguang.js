@@ -127,7 +127,7 @@ router.post('/novel/delete_one', (req, res, next) => {
 
 router.get('/novel/show', async (req, res, next) => {
   let count, messages, domain_names = await DomainModel.find();
-  let {page, channel, creator} = req.query;
+  let {page = 1, channel, creator} = req.query;
   if(creator) {
     if (channel) {
       messages = await TuiGuangModel.find({channel, creator}, {
