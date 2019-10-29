@@ -90,6 +90,8 @@ router.post('/novel/add', (req, res, next) => {
           finalImg: req.body.finalImg || "",
           company: req.body.company || "",
           suffix : req.body.suffix,
+          jumpUrl : req.body.jumpUrl || "",
+          isJump : req.body.isJump,
           creator: req.body.creator || ""
         };
         var user = new TuiGuangModel(novelInfo)
@@ -190,7 +192,9 @@ router.post('/novel/update', async (req, res, next) => {
     finalImg: req.body.finalImg || "",
     company: req.body.company || "",
     suffix : req.body.suffix,
-    creator: req.body.creator || ""
+    creator: req.body.creator || "",
+    jumpUrl : req.body.jumpUrl || "",
+    isJump : req.body.isJump,
   }
   if (req.body.capter1) {
     message.capter1 = req.body.capter1

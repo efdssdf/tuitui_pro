@@ -47,7 +47,12 @@ var TuiGuangSchema = new Schema({
   zIndex: {
     type: Number,
     default: 0
-  }
+  },
+  jumpUrl: {
+    type: String,
+    default: ""
+  },
+  isJump: {type: Boolean, default: false}
 });
 
 var TuiGuangModel = db.model('TuiGuang', TuiGuangSchema);
