@@ -18,7 +18,7 @@ router.post('/', async function (req, res, next) {
   } else {
     var tm = CreatorModel({ name: req.body.name });
     tm.save(function (error, tm) {
-      res.send({ success: "查询成功", exist: 0, data: tm })
+      res.send({ success: "创建成功", exist: 0, data: tm })
     });
   }
 });
