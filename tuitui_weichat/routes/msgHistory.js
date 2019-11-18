@@ -55,7 +55,11 @@ router.get('/del_msg', async (req, res, next) => {
   api.deleteMass(req.query.msg_id, Number(req.query.article_idx), (err, result) => {
     console.log('result------------------------', result, 'result------------------------')
     console.log('err------------------------', err, 'err------------------------')
-    res.send({success: '删除成功'})
+    if (result.errcode === 0) {
+      res.send({success: '删除成功'})
+    } else {
+      res.send({success: '删除失败'})
+    }
   });
 })
 

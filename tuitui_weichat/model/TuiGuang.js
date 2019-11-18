@@ -6,6 +6,10 @@ var db = mongoose.createConnection(connect_url);
 var TuiGuangSchema = new Schema({
   type: Number,
   id: String,
+  gonghao_id: {
+    type: String,
+    default: ""
+  },
   pageTitle: String,
   articleTit: String,
   name: String,
@@ -19,10 +23,36 @@ var TuiGuangSchema = new Schema({
   tokenCodes: String,
   channel: String,
   remarks: String,
+  creator: {
+    type: String,
+    default: ""
+  },
+  company: {
+    type: String,
+    default: ""
+  },
   finalImg: {
     type: String,
     default: ""
-  }
+  },
+  gonghaoLogo: {
+    type: String,
+    default: ""
+  },
+  domain_name: {
+    type: String,
+    default: "http://novel.jtjsmp.top"
+  },
+  suffix : String,
+  zIndex: {
+    type: Number,
+    default: 0
+  },
+  jumpUrl: {
+    type: String,
+    default: ""
+  },
+  isJump: {type: Boolean, default: false}
 });
 
 var TuiGuangModel = db.model('TuiGuang', TuiGuangSchema);

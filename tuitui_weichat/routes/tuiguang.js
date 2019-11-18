@@ -13,7 +13,7 @@ const asyncRedis = require("async-redis");
 const redis_client = asyncRedis.createClient();
 
 //线上
-var juedui_lujing = '/home/work/tuitui_program/project/public/images/tuiguang'
+var juedui_lujing = '/home/work/tuitui_program/project/public/images/website'
 
 //线下
 //var juedui_lujing ='../public/images/tuiguan'
@@ -31,6 +31,22 @@ router.post('/novel/upload', upload.single('imageFile'), function (req, res, nex
   })
   res.send({filename: req.file.filename + '.jpg'});
 })
+
+router.post('/goTop', async(req, res, next) => {
+  let message = await TuiGuangModel.findOne().sort({zIndex: -1});
+  let zIndex = message.zIndex + 1;
+  let result = await TuiGuangModel.findByIdAndUpdate(req.body.id, {zIndex}, {new: true});
+  if(result) {
+    res.send({result: result, success: "置顶成功"})
+  }
+});
+
+router.post('/cancelGoTop', async(req, res, next) => {
+  let result = await TuiGuangModel.findByIdAndUpdate(req.body.id, {zIndex: 0}, {new: true});
+  if(result) {
+    res.send({result: result, success: "已取消置顶"})
+  }
+});
 
 router.post('/update', async (req, res, next) => {
   let id = '5b76aa2ac3ed4a4798d7045d';
@@ -55,6 +71,7 @@ router.post('/novel/add', (req, res, next) => {
         var novelInfo = {
           type: req.body.type,
           id: req.body.id,
+          gonghao_id: req.body.gonghao_id,
           pageTitle: req.body.pageTitle || "",
           articleTit: req.body.articleTit || "",
           name: req.body.name,
@@ -68,8 +85,15 @@ router.post('/novel/add', (req, res, next) => {
           tokenCodes: req.body.tokenCodes || '',
           channel: req.body.channel || "",
           remarks: req.body.remarks || "",
-          finalImg: req.body.finalImg || ""
-        }
+          domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
+          gonghaoLogo: req.body.gonghaoLogo || "",
+          finalImg: req.body.finalImg || "",
+          company: req.body.company || "",
+          suffix : req.body.suffix,
+          jumpUrl : req.body.jumpUrl || "",
+          isJump : req.body.isJump,
+          creator: req.body.creator || ""
+        };
         var user = new TuiGuangModel(novelInfo)
         user.save(function (err, data) {
           if (err) {
@@ -104,19 +128,39 @@ router.post('/novel/delete_one', (req, res, next) => {
 })
 
 router.get('/novel/show', async (req, res, next) => {
-  let page = req.query.page, channel = req.query.channel, count, messages, domain_names = await DomainModel.find();
-  if (channel) {
-    messages = await TuiGuangModel.find({channel}, {
-      capter1: 0,
-      capter2: 0
-    }).skip((page - 1) * 20).limit(20).sort({_id: -1});
-    count = await TuiGuangModel.count({channel});
+  let count, messages, domain_names = await DomainModel.find();
+  let {page = 1, channel, creator} = req.query;
+  if(creator) {
+    if (channel) {
+      messages = await TuiGuangModel.find({channel, creator}, {
+        capter1: 0,
+        capter2: 0
+      }).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+      count = await TuiGuangModel.count({channel});
+    } else {
+      count = await TuiGuangModel.count({});
+      messages = await TuiGuangModel.find({creator}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    }
   } else {
-    count = await TuiGuangModel.count({});
-    messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({_id: -1});
+    if (channel) {
+      messages = await TuiGuangModel.find({channel}, {
+        capter1: 0,
+        capter2: 0
+      }).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+      count = await TuiGuangModel.count({channel});
+    } else {
+      count = await TuiGuangModel.count({});
+      messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    }
   }
-  res.send({data: messages, domain_names: domain_names, count: count})
-})
+  if(messages.length > 0) {
+    res.send({code: 1, data: messages, domain_names: domain_names, count: count, msg: "查询成功"})
+  } else {
+    messages = await TuiGuangModel.find({creator: creator || ""}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1});
+    messages.length === 0 && (messages = await TuiGuangModel.find({}, {capter1: 0, capter2: 0}).skip((page - 1) * 20).limit(20).sort({zIndex: -1, _id: -1}));
+    res.send({code: -1, data: messages, domain_names: domain_names, count: count, msg: "暂时没有相关数据"})
+  }
+});
 
 router.get('/novel/get_content', async (req, res, next) => {
   var id = req.query._id
@@ -129,6 +173,7 @@ router.post('/novel/update', async (req, res, next) => {
   var message = {
     type: req.body.type,
     id: req.body.id,
+    gonghao_id: req.body.gonghao_id,
     pageTitle: req.body.pageTitle || "",
     articleTit: req.body.articleTit || "",
     name: req.body.name,
@@ -142,7 +187,14 @@ router.post('/novel/update', async (req, res, next) => {
     tokenCodes: req.body.tokenCodes || '',
     channel: req.body.channel || "",
     remarks: req.body.remarks || "",
-    finalImg: req.body.finalImg || ""
+    domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
+    gonghaoLogo: req.body.gonghaoLogo || "",
+    finalImg: req.body.finalImg || "",
+    company: req.body.company || "",
+    suffix : req.body.suffix,
+    creator: req.body.creator || "",
+    jumpUrl : req.body.jumpUrl || "",
+    isJump : req.body.isJump,
   }
   if (req.body.capter1) {
     message.capter1 = req.body.capter1

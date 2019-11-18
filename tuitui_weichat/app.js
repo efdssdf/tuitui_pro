@@ -39,6 +39,8 @@ var tuiguangTag = require('./routes/tuiguangTag')
 var adMaterial = require('./routes/adMaterial')
 var channel = require('./routes/channel');
 var rManage = require('./routes/rManage');
+var customer = require('./routes/customer');
+var creator = require('./routes/creator');
 var app = express();
 
 app.all('*', function(req, res, next) {
@@ -60,8 +62,8 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ extended: false,limit: '50mb' }));
 app.use(cookieParser());
 app.use(session({
     secret: 'mingxingshuo',
@@ -104,6 +106,8 @@ app.use('/tuiguangTag',tuiguangTag)
 app.use('/adMaterial',adMaterial)
 app.use('/channel',channel)
 app.use('/admin',rManage)
+app.use('/customer',customer)
+app.use('/creator',creator)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
