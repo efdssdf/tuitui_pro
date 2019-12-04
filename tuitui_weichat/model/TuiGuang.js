@@ -52,7 +52,8 @@ var TuiGuangSchema = new Schema({
     type: String,
     default: ""
   },
-  isJump: {type: Boolean, default: false}
+  isJump: {type: Boolean, default: false},
+  bgcolor: {type: String, default: "#fff"}
 });
 
 var TuiGuangModel = db.model('TuiGuang', TuiGuangSchema);

@@ -92,7 +92,8 @@ router.post('/novel/add', (req, res, next) => {
           suffix : req.body.suffix,
           jumpUrl : req.body.jumpUrl || "",
           isJump : req.body.isJump,
-          creator: req.body.creator || ""
+          creator: req.body.creator || "",
+          bgcolor: req.body.bgcolor || "#fff"
         };
         var user = new TuiGuangModel(novelInfo)
         user.save(function (err, data) {
@@ -195,7 +196,8 @@ router.post('/novel/update', async (req, res, next) => {
     creator: req.body.creator || "",
     jumpUrl : req.body.jumpUrl || "",
     isJump : req.body.isJump,
-  }
+    bgcolor: req.body.bgcolor || "#fff"
+  };
   if (req.body.capter1) {
     message.capter1 = req.body.capter1
   }
