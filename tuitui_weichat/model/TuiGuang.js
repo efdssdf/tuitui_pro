@@ -43,7 +43,14 @@ var TuiGuangSchema = new Schema({
     type: String,
     default: "http://novel.jtjsmp.top"
   },
-  suffix : String,
+  suffix : {
+    type: Boolean,
+    default: true
+  },
+  isClick : {
+    type: Boolean,
+    default: false
+  },
   zIndex: {
     type: Number,
     default: 0
