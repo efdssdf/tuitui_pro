@@ -208,19 +208,19 @@ router.post('/novel/update', async (req, res, next) => {
   }
   var docs = await TuiGuangModel.findByIdAndUpdate(id, message)
   if (docs) {
-    mem.set('weitiao_' + req.params.index, {}, 60).then(function () {
+    mem.set('weitiao_' + id, {}, 60).then(function () {
       console.log('---------set weitiao value---------')
     })
-    mem.set('singlepage_' + req.params.index, {}, 60).then(function () {
+    mem.set('singlepage_' + id, {}, 60).then(function () {
       console.log('---------set singlepage value---------')
     })
-    mem.set('multipage_' + req.params.index, {}, 60).then(function () {
+    mem.set('multipage_' + id, {}, 60).then(function () {
       console.log('---------set multipage value---------')
     })
-    mem.set('capter_' + req.params.index, {}, 60).then(function () {
+    mem.set('capter_' + id, {}, 60).then(function () {
       console.log('---------set capter value---------')
     })
-    mem.set('toutiao_' + req.params.index, {}, 60).then(function () {
+    mem.set('toutiao_' + id, {}, 60).then(function () {
       console.log('---------set toutiao value---------')
     })
     res.send({success: '修改成功'})
