@@ -220,6 +220,9 @@ router.post('/novel/update', async (req, res, next) => {
     mem.set('capter_' + req.params.index, {}, 60).then(function () {
       console.log('---------set capter value---------')
     })
+    mem.set('toutiao_' + req.params.index, {}, 60).then(function () {
+      console.log('---------set toutiao value---------')
+    })
     res.send({success: '修改成功'})
   } else {
     res.send({err: '修改失败'})
