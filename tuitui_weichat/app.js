@@ -41,6 +41,7 @@ var channel = require('./routes/channel');
 var rManage = require('./routes/rManage');
 var customer = require('./routes/customer');
 var creator = require('./routes/creator');
+var platform = require('./routes/platform');
 var app = express();
 
 app.all('*', function(req, res, next) {
@@ -108,6 +109,7 @@ app.use('/channel',channel)
 app.use('/admin',rManage)
 app.use('/customer',customer)
 app.use('/creator',creator)
+app.use('/platform',platform)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
