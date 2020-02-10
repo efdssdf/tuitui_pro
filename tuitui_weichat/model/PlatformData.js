@@ -4,7 +4,12 @@ var connect_url = require('../conf/proj.json').mongodb;
 var db = mongoose.createConnection(connect_url);
 
 var PlatformDataSchema = new Schema({
-    td_url: String,   // ip+处理过的ua 做唯一标识
+    uni_ip_h_ua: {
+        type: String,
+        index: true,
+        unique: true
+    },// ip+处理过的ua 做唯一标识
+    td_url: String,
     td_clickid: String,
     ip: String,
     td_ua: String,    // 头条的ua 需要处理
@@ -17,7 +22,18 @@ var PlatformDataSchema = new Schema({
     wx_platfrom: String,
     ispay: String,    // 是否支付 1只支付
     amount: Number,   // 金额    
-    seruid: String   // 服务号id
+    seruid: String,  // 服务号id
+    createAt: {
+        type: Date,
+        default: Date.now
+    },
+    updateAt: {
+        type: Date,
+        default: Date.now
+    }
+},{
+    _id: false,
+    timestamps: {createdAt: 'createAt', updatedAt: 'updateAt'}
 });
 
 var PlatformDataModel = db.model('PlatformData', PlatformDataSchema);
