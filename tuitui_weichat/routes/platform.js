@@ -30,7 +30,7 @@ router.put('/', async (req, res, next) => {
   if(!_id || !platform || !gonghao_name || !seruid) {
     res.send({code: -1, msg: "修改失败"})
   } else {
-    let reuslt = await PlatformModel.findByIdAndUpdate(_id, {platform, gonghao_name, seruid}, {new: true});
+    let result = await PlatformModel.findByIdAndUpdate(_id, {platform, gonghao_name, seruid}, {new: true});
     if(result) {
       res.send({code: 1, msg: "修改成功", data: result})
     } else {
@@ -40,7 +40,7 @@ router.put('/', async (req, res, next) => {
 });
 
 router.delete('/', async (req, res, next) => {
-  let {id: _id} = req.query;
+  let {id} = req.query;
   let result = await PlatformModel.findByIdAndRemove(id)
   if(result) {
     res.send({code: 1, msg: "删除成功"})
