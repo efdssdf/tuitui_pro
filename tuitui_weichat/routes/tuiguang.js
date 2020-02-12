@@ -325,7 +325,8 @@ router.post('/data/yuewen', async (req, res, next) => {
     wx_openid : open_id,
     isfollow : true,
     regtime : new Date(regtime).getTime(),
-    seruid : appflag
+    seruid : appflag,
+    wx_platfrom : 1
   }
   console.log('-----阅文回传数据-----')
   console.log(pd)
@@ -333,6 +334,6 @@ router.post('/data/yuewen', async (req, res, next) => {
     pd,
     {upsert:true},//这个之后考虑要不要加
   )
-})
+  res.send({"code": 0})
 
 module.exports = router;
