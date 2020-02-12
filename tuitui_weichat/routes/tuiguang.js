@@ -6,6 +6,7 @@ var TransferModel = require('../model/Transfer.js');
 var DomainModel = require('../model/Domain.js');
 var TokenArrModel = require('../model/TokenArr.js');
 var BannerModel = require('../model/Banner.js');
+var PlatformDataModel = require('../model/PlatformData.js');
 var multer = require('multer');
 var fs = require('fs')
 var mem = require('../util/mem.js')
@@ -310,6 +311,28 @@ router.get('/statics/zeng', async (req, res, next) => {
   return res.render('statics/zeng', {
     data: JSON.stringify(datas)
   })
+})
+
+router.post('/data/yuewen', async (req, res, next) => {
+  let ua= req.body.ua;
+  ua = new Buffer(ua,'base64').toString();
+  let h_ua = ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1);
+  let ip = req.body.ip;
+  let pd = {
+    uni_ip_h_ua : ip+h_ua,
+    wx_ua : ua,
+    ip : ip,
+    wx_openid : open_id,
+    isfollow : true,
+    regtime : new Date(regtime).getTime(),
+    seruid : appflag
+  }
+  console.log('-----阅文回传数据-----')
+  console.log(pd)
+  await PlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
+    pd,
+    {upsert:true},//这个之后考虑要不要加
+  )
 })
 
 module.exports = router;

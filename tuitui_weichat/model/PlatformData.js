@@ -10,10 +10,14 @@ var PlatformDataSchema = new Schema({
         unique: true
     },// ip+处理过的ua 做唯一标识
     td_url: String,
-    td_clickid: String,
+    td_clickid: {
+        type : String,
+        default : ''
+    },
     ip: String,
     td_ua: String,    // 头条的ua 需要处理
     tuiguang_id: String,   // 链接的id
+    regtime: Number, //关注时间
     wx_openid: String,
     wx_userid: String,
     wx_ua: String,    // 微信的ua 需要处理
@@ -22,7 +26,7 @@ var PlatformDataSchema = new Schema({
     wx_platfrom: String,
     ispay: String,    // 是否支付 1只支付
     amount: Number,   // 金额    
-    seruid: String,  // 服务号id
+    seruid: String,  // 服务号id  阅文的 appflag
     createAt: {
         type: Date,
         default: Date.now
