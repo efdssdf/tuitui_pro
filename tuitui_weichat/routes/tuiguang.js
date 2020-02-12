@@ -325,7 +325,7 @@ router.post('/data/yuewen', async (req, res, next) => {
     wx_openid : req.body.open_id,
     isfollow : true,
     regtime : new Date(req.body.time).getTime(),
-    seruid : appflag,
+    seruid : req.body.appflag,
     wx_platfrom : 1
   }
   console.log('-----阅文回传数据-----')
