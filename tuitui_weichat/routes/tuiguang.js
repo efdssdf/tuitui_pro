@@ -322,9 +322,9 @@ router.post('/data/yuewen', async (req, res, next) => {
     uni_ip_h_ua : ip+h_ua,
     wx_ua : ua,
     ip : ip,
-    wx_openid : open_id,
+    wx_openid : req.body.open_id,
     isfollow : true,
-    regtime : new Date(regtime).getTime(),
+    regtime : new Date(req.body.time).getTime(),
     seruid : appflag,
     wx_platfrom : 1
   }
