@@ -2,7 +2,9 @@ const rp = require('request-promise');
 const crypto = require('crypto');
 const email = "mingxingshuo1@aliyun.com";
 const appsecret = "0ec0806b3009a10e2f4c69f34630bb99";
-var PlatformDataModel = require('../model/PlatformData.js');
+const PlatformDataModel = require('../model/PlatformData.js');
+const PlatformModel = require('../model/Platform.js');
+const schedule = require("node-schedule");
 
 let sign = (params) =>{
 	let args = {
@@ -78,3 +80,17 @@ let start = (appflag)=>{
 	}
 	get_order(params)
 }
+
+let get = async () =>{
+	let plats = await PlatformModel.find({platform : 1 })
+	for (let plat of plats) {
+		start(plat.seruid)
+	}
+}
+
+
+var rule = new schedule.RecurrenceRule();
+rule.second = 10;
+var j = schedule.scheduleJob(rule, function () {
+    get()
+});
