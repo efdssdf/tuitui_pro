@@ -26,15 +26,20 @@ let sign = (params) =>{
 	return sign.toUpperCase()
 }
 
-let handle = (data,params) =>{
+let handle = async (data,params) =>{
 	for(let item of data.list){
-		PlatformDataModel.findOneAndUpdate({
+		let item = await PlatformDataModel.findOneAndUpdate({
 			wx_openid : item.openid
 		},{
 			ispay : true,
 			amount : Number(item.amount),
 			order_time : new Date(item.order_time).getTime()
 		})
+		if(item.td_url){
+			let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+							+item.td_url+'&event_type=2'
+			await rp(ad_cb_url)
+		}
 	}
 	if(data.total_count>data.page){
 		params.total_count = data.total_count;
