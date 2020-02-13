@@ -87,7 +87,7 @@ let start = (appflag)=>{
 }
 
 let get = async () =>{
-	let plats = await PlatformModel.find({platform : 1 })
+	let plats = await PlatformModel.find({platform : 1})
 	for (let plat of plats) {
 		start(plat.seruid)
 	}

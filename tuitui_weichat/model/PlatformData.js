@@ -17,17 +17,17 @@ var PlatformDataSchema = new Schema({
     ip: String,
     td_ua: String,    // 头条的ua 需要处理
     tuiguang_id: String,   // 链接的id
-    regtime: Number, //关注时间
+    regtime: Number,  //关注时间
     order_time : Number, //下单时间
     wx_openid: String,
     wx_userid: String,
     wx_ua: String,    // 微信的ua 需要处理
     isfollow: Number, // 是否关注 1已关注
     wx_id: String,
-    wx_platfrom: String,
+    wx_platfrom: Number,
     ispay: String,    // 是否支付 1只支付
     amount: Number,   // 金额    
-    seruid: String,  // 服务号id  阅文的 appflag
+    seruid: String,   // 服务号id  阅文的 appflag
     createAt: {
         type: Date,
         default: Date.now
