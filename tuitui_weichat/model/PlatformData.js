@@ -18,6 +18,7 @@ var PlatformDataSchema = new Schema({
     td_ua: String,    // 头条的ua 需要处理
     tuiguang_id: String,   // 链接的id
     regtime: Number, //关注时间
+    order_time : Number, //下单时间
     wx_openid: String,
     wx_userid: String,
     wx_ua: String,    // 微信的ua 需要处理
