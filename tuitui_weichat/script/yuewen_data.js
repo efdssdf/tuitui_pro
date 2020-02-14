@@ -23,25 +23,28 @@ let sign = (params) =>{
 		splicedString +=key+args[key]
 	}
 	let sign = crypto.createHash('md5').update(splicedString).digest("hex")
-	return sign.toUpperCase()
+	args.sign = sign.toUpperCase();
+	return args
+	
 }
 
 let handle = async (data,params) =>{
 	for(let item of data.list){
-		let item = await PlatformDataModel.findOneAndUpdate({
+		console.log(item)
+		let temp = await PlatformDataModel.findOneAndUpdate({
 			wx_openid : item.openid
 		},{
 			ispay : true,
 			amount : Number(item.amount),
 			order_time : new Date(item.order_time).getTime()
 		})
-		if(item.td_url){
+		if(temp.td_url){
 			let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-							+item.td_url+'&event_type=2'
+							+temp.td_url+'&event_type=2'
 			await rp(ad_cb_url)
 		}
 	}
-	if(data.total_count>data.page){
+	if(data.list.length == 100){
 		params.total_count = data.total_count;
 		params.last_min_id = data.last_min_id;
 		params.last_max_id = data.last_max_id;
@@ -53,13 +56,15 @@ let handle = async (data,params) =>{
 
 let get_order = async (params) =>{
 	let url = "https://open.yuewen.com/cpapi/wxRecharge/querychargelog";
-	let sign_str = sign(params)
+	params = sign(params)
 	let args = []
 	for (let key in params) {
 		args.push(key+'='+params[key])
 	}
-	url += '?'+args.join('&')+'&sign='+sign_str
+	console.log(params)
+	url += '?'+args.join('&')
 	let y_res = await rp(url)
+	console.log(y_res)
 	y_res = JSON.parse(y_res)
 	if(y_res.code == 0){
 		handle(y_res.data,params)
@@ -93,9 +98,10 @@ let get = async () =>{
 	}
 }
 
+start('wxfxmswl1200')
 
-var rule = new schedule.RecurrenceRule();
+/*var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
-});
+});*/

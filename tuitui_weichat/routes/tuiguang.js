@@ -314,6 +314,8 @@ router.get('/statics/zeng', async (req, res, next) => {
 })
 
 router.post('/data/yuewen', async (req, res, next) => {
+  console.log('-----阅文请求body-----')
+  console.log(req.body)
   let ua= req.body.ua;
   ua = new Buffer(ua,'base64').toString();
   let h_ua = ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1);
@@ -322,11 +324,14 @@ router.post('/data/yuewen', async (req, res, next) => {
     uni_ip_h_ua : ip+h_ua,
     wx_ua : ua,
     ip : ip,
-    wx_openid : req.body.open_id,
-    isfollow : true,
     regtime : new Date(req.body.time).getTime(),
+    wx_openid : req.body.open_id,
+    isfollow : 1,
     seruid : req.body.appflag,
     wx_platfrom : 1
+  }
+  if(!pd.regtime){
+    delete pd.regtime
   }
   console.log('-----阅文回传数据-----')
   console.log(pd)
@@ -334,6 +339,7 @@ router.post('/data/yuewen', async (req, res, next) => {
     pd,
     {upsert:true},//这个之后考虑要不要加
   )
+  console.log('-----send yuewen------')
   res.send({"code": 0});
 });
 
