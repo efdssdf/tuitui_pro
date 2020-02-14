@@ -5,10 +5,11 @@ const ZhuiShuYunModel = require('../model/ZhuiShuYun.js');
 
 router.get('/', async (req, res, next) => {
     let result = await ZhuiShuYunModel.find();
+    let domain_name = "http://td.tyuss.com"
     if(result.length) {
-        res.send({code: 1, msg: "查询成功", data: result})
+        res.send({code: 1, msg: "查询成功", data: result, domain_name})
     } else {
-        res.send({code: -1, msg: "没有查询到数据"})
+        res.send({code: -1, msg: "没有查询到数据", domain_name})
     }
 })
 
@@ -31,7 +32,7 @@ router.put('/', async(req, res, next) => {
     if(!gonghao_name || !channel_id || !tuiguang_link) {
         res.send({code: 0, msg: "字段不能为空"})
     } else {
-        let result = await ZhuiShuYunModel.findByIdAndUpdate(id, {gonghao_name, channel_id, tuiguang_link}, {new: true});
+        let result = await ZhuiShuYunModel.findByIdAndUpdate(_id, {gonghao_name, channel_id, tuiguang_link}, {new: true});
         if(result) {
             res.send({code: 1, msg: "修改成功", data: result})
         } else {
