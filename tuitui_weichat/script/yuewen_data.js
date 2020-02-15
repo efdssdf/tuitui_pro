@@ -75,8 +75,8 @@ let get_order = async (params) =>{
 
 let start = (appflag)=>{
 	var now_time = new Date().getTime()
-	var end = new Date(now_time-60*1000).setSeconds(0,0)
-	var last_time = end-2*60*1000
+	var end = new Date(now_time).setSeconds(0,0)
+	var last_time = end-4*60*1000
 	var start = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start/1000),
