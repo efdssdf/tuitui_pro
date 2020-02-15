@@ -31,11 +31,9 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-require('../script/domain_wx.js');
+//require('../script/domain_wx.js');
 
-require('../script/statics_tuiguang.js');
-
-
+//require('../script/statics_tuiguang.js');
 // require('../script/userInfo.js');
 // require('../script/order_get.js');
 //require('../script/baokuan.js');
@@ -50,6 +48,9 @@ require('../script/statics_tuiguang.js');
 /**
  * Normalize a port into a number, string, or false.
  */
+
+ require('../script/yuewen_data.js');
+
 
 function normalizePort(val) {
   var port = parseInt(val, 10);

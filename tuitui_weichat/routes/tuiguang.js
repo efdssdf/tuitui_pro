@@ -314,8 +314,8 @@ router.get('/statics/zeng', async (req, res, next) => {
 })
 
 router.post('/data/yuewen', async (req, res, next) => {
-  console.log('-----阅文请求body-----')
-  console.log(req.body)
+  //console.log('-----阅文请求body-----')
+  //console.log(req.body)
   let ua= req.body.ua;
   ua = new Buffer(ua,'base64').toString();
   let h_ua = ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1);
@@ -339,7 +339,7 @@ router.post('/data/yuewen', async (req, res, next) => {
     pd,
     {upsert:true},//这个之后考虑要不要加
   )
-  console.log('-----send yuewen------')
+  //console.log('-----send yuewen------')
   res.send({"code": 0});
 });
 

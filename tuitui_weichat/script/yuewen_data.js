@@ -75,14 +75,15 @@ let get_order = async (params) =>{
 
 let start = (appflag)=>{
 	var now_time = new Date().getTime()
-	var end = new Date(now_time).setSeconds(0,0)
-	var last_time = now_time-60*1000
+	var end = new Date(now_time-60*1000).setSeconds(0,0)
+	var last_time = end-60*1000
 	var start = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start/1000),
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
+		appflags : appflag
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
@@ -98,10 +99,31 @@ let get = async () =>{
 	}
 }
 
-start('wxfxmswl1200')
+//start('wxfxmswl1200')
 
-/*var rule = new schedule.RecurrenceRule();
+let test =() => {
+	var now_time = new Date('2020-02-15 16:10:15').getTime()
+	var end = new Date(now_time).setSeconds(0,0)
+	var last_time = now_time-60*1000
+	var start_temp = new Date(last_time).setSeconds(0,0)
+	let params = {
+		start_time : parseInt(start_temp/1000),
+		end_time : parseInt(end/1000),
+		page : 1,
+		order_status : 2,
+		appflags : 'wxfxmswl1201'
+		//last_min_id : '',
+		//last_max_id : '',
+		//total_count : '',
+		//last_page : ''
+	}
+	get_order(params)
+}
+
+//test()
+
+var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
-});*/
+});
