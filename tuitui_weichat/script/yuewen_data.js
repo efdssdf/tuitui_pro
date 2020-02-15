@@ -83,6 +83,7 @@ let start = (appflag)=>{
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
+		appflags : appflag
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
