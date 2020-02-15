@@ -61,13 +61,16 @@ function getTengwenData(qs, page) {
                 console.log("error: " + err);
                 reject(err)
             } else {
-                console.log(res.body)
-                let {code, data: {pageCount, currentPage, dataSource}} = res.body;
+                let {code, data} = res.body;
                 if(code === 1) {
+                    let {pageCount, currentPage, dataSource} = data;
                     mapUserDataSource(dataSource, qs)
                     if(currentPage < pageCount) {
                         getTengwenData(qs, page + 1)
                     }
+                } else {
+                    console.log("============getTengwenData===============")
+                    console.log(res.body)
                 }
             }
         })
