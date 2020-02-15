@@ -46,7 +46,6 @@ function exec_req(resultItem,start,end){
         sign: md5.update(sign).digest("hex")
     };
     getTengwenData(qs, 1)
-   
     //getTengwenOrder(qs, 1)
 }      
 
@@ -154,4 +153,4 @@ function handleIpAndUa(ip, ua) {
 }
 
 
-exec_req({seruid:''},,)
+exec_req({seruid:''},)
