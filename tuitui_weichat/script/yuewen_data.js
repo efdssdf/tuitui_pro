@@ -94,8 +94,12 @@ let start = (appflag)=>{
 
 let get = async () =>{
 	let plats = await PlatformModel.find({platform : 1})
-	for (let plat of plats) {
-		start(plat.seruid)
+	for (let i =0; i<plats.length; i++ ) {
+		(function(seruid){
+			setTimeOut(function(){
+				start(seruid)
+			},i*1000)
+		})(plats[i].seruid,i)
 	}
 }
 
