@@ -120,12 +120,11 @@ let test =() => {
 	get_order(params)
 }
 
-test()
+//test()
 
-/*
+
 var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
 });
-*/
