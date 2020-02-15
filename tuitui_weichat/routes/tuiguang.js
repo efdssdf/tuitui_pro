@@ -314,8 +314,8 @@ router.get('/statics/zeng', async (req, res, next) => {
 })
 
 router.post('/data/yuewen', async (req, res, next) => {
-  console.log('-----阅文请求body-----')
-  console.log(req.body)
+  //console.log('-----阅文请求body-----')
+  //console.log(req.body)
   let ua= req.body.ua;
   ua = new Buffer(ua,'base64').toString();
   let h_ua = ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1);
@@ -333,13 +333,13 @@ router.post('/data/yuewen', async (req, res, next) => {
   if(!pd.regtime){
     delete pd.regtime
   }
-  console.log('-----阅文回传数据-----')
-  console.log(pd)
+  //console.log('-----阅文回传数据-----')
+  //console.log(pd)
   await PlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
     {upsert:true},//这个之后考虑要不要加
   )
-  console.log('-----send yuewen------')
+  //console.log('-----send yuewen------')
   res.send({"code": 0});
 });
 

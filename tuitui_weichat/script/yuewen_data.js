@@ -98,10 +98,10 @@ let get = async () =>{
 	}
 }
 
-start('wxfxmswl1200')
+//start('wxfxmswl1200')
 
-/*var rule = new schedule.RecurrenceRule();
+var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
-});*/
+});
