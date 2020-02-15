@@ -96,7 +96,7 @@ let get = async () =>{
 	let plats = await PlatformModel.find({platform : 1})
 	for (let i =0; i<plats.length; i++ ) {
 		(function(seruid){
-			setTimeOut(function(){
+			setTimeout(function(){
 				start(seruid)
 			},i*1000)
 		})(plats[i].seruid,i)
