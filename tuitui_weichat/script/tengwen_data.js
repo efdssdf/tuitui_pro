@@ -30,13 +30,13 @@ async function getPlatformData() {
         for(let i = 0; i < result.length; i ++) {
             let resultItem = result[i];
             //if(resultItem.platform === 2) {
-                exec_req(resultItem,start,end)
+                exec_req(resultItem,start,end, now_time)
             //}
         }
     }
 } 
 
-function exec_req(resultItem,start,end){
+function exec_req(resultItem,start,end, time){
     let sign = resultItem.seruid + secret + time;
     let qs = {
         reg_start_time: parseInt(start/1000),    
@@ -152,5 +152,10 @@ function handleIpAndUa(ip, ua) {
     return (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
 }
 
+let now_time = new Date().getTime();
+    let end = new Date(now_time).setSeconds(0,0);
+    let last_time = now_time - 60*1000;
+    let start = new Date(last_time).setSeconds(0,0);
 
-exec_req({seruid:''},)
+
+exec_req({seruid:'22327'}, start, end, now_time)
