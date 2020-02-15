@@ -38,10 +38,15 @@ let handle = async (data,params) =>{
 			amount : Number(item.amount),
 			order_time : new Date(item.order_time).getTime()
 		})
-		if(temp.td_url){
+		if(temp && temp.td_url){
 			let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+temp.td_url+'&event_type=2'
 			await rp(ad_cb_url)
+			await PlatformDataModel.findOneAndUpdate({
+				wx_openid : item.openid
+			},{
+				td_cb_flag :1
+			})
 		}
 	}
 	if(data.list.length == 100){
