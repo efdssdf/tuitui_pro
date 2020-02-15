@@ -76,7 +76,7 @@ let get_order = async (params) =>{
 let start = (appflag)=>{
 	var now_time = new Date().getTime()
 	var end = new Date(now_time-60*1000).setSeconds(0,0)
-	var last_time = end-60*1000
+	var last_time = end-2*60*1000
 	var start = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start/1000),
@@ -102,7 +102,7 @@ let get = async () =>{
 //start('wxfxmswl1200')
 
 let test =() => {
-	var now_time = new Date('2020-02-15 16:10:15').getTime()
+	var now_time = new Date('2020-02-15 18:17:48').getTime()
 	var end = new Date(now_time).setSeconds(0,0)
 	var last_time = now_time-60*1000
 	var start_temp = new Date(last_time).setSeconds(0,0)
@@ -111,7 +111,7 @@ let test =() => {
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
-		appflags : 'wxfxmswl1201'
+		appflags : 'wxfxmswl1200'
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
@@ -120,10 +120,12 @@ let test =() => {
 	get_order(params)
 }
 
-//test()
+test()
 
+/*
 var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
 });
+*/
