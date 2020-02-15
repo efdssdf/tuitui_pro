@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var PlatformModel = require('../model/Platform.js')
+var PlatformDataModel = require('../model/PlatformData.js')
 
 router.get('/', async(req, res, next) => {
   let result = await PlatformModel.find();
@@ -9,6 +10,11 @@ router.get('/', async(req, res, next) => {
   } else {
     res.send({code: -1, msg: "没有数据，请添加"})
   }
+});
+
+router.get('/data', async(req, res, next) => {
+  let result = await PlatformDataModel.find();
+  res.send({code: 1, msg: "查询成功", data: result})
 });
 
 router.post('/', async (req, res, next) => {
