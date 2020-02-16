@@ -143,7 +143,7 @@ function getTengwenOrder(qs) {
                 reject(err)
             } else {
                 let {code, data} = res.body;
-                console.log(typeof res.body)
+                console.log(JSON.stringify(res.body))
                 if(code == 1) {
                     console.log("============getTengwenOrder success===============")
                     console.log(res.body)
@@ -164,7 +164,7 @@ function getTengwenOrder(qs) {
 async function mapOrderDataSource(dataSource) {
     for(let i = 0; i < dataSource.length; i ++) {
         let dataItem = dataSource[i];
-        let {atime, amount, userid, ispay} = dataItem;
+        let {atime, amount, userid, ispay,wx_gzhopenid} = dataItem;
         let pd = await PlatformData.findOneAndUpdate({wx_openid : wx_gzhopenid}, {
             wx_userid: userid, 
             amount, 
