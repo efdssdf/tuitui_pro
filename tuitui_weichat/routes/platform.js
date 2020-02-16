@@ -28,7 +28,7 @@ router.post('/liantiao', async (req, res, next) => {
 
  let result = await rp(ad_cb_url);
  console.log(result, "2020-02-16,result")
- res.send({code: 1, result, mmsg: "已回调"})
+ res.send({code: 1, result, msg: "已回调"})
 })
 
 router.post('/', async (req, res, next) => {
