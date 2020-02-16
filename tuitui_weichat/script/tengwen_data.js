@@ -137,7 +137,8 @@ function getTengwenOrder(qs, page) {
                 time: qs.time,     
                 sign: qs.sign,
                 page
-            }
+            },
+            json: true
         }, (err, res) => {
             if(err) {
                 console.log(err)
