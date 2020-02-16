@@ -9,13 +9,13 @@ const md5 = crypto.createHash('md5');
 
 const secret = "n3BtjDGlSL23wk4vbd2kj8dboaOZHMi8";
 
-/*
+
 let rule = new schedule.RecurrenceRule();
-rule.second = 10;
+rule.second = 50;
 let j = schedule.scheduleJob(rule, function () {
     getPlatformData()
 });
-*/
+
 
 async function getPlatformData() {
     let now_time = new Date().getTime();
@@ -108,16 +108,18 @@ async function mapUserDataSource(dataSource, qs) {
         console.log('------数据-------')
         console.log(dataItem)
         let {ip, ua, wx_gzhopenid, regtime, isfollow, id} = dataItem;
-        let uni_ip_h_ua = handleIpAndUa(ip, ua);
-        let updateData = await PlatformData.findOneAndUpdate({uni_ip_h_ua}, {
-            regtime : regtime*1000, 
-            wx_openid: wx_gzhopenid,   
-            wx_ua: ua, 
-            wx_id: id,
-            wx_platfrom: 2,
-            ip : ip,
-            isfollow
-        }, {upsert: true});
+        if(ip){
+            let uni_ip_h_ua = handleIpAndUa(ip, ua);
+            let updateData = await PlatformData.findOneAndUpdate({uni_ip_h_ua}, {
+                regtime : regtime*1000, 
+                wx_openid: wx_gzhopenid,   
+                wx_ua: ua, 
+                wx_id: id,
+                wx_platfrom: 2,
+                ip : ip,
+                isfollow
+            }, {upsert: true});
+        }
     }
 }
 
@@ -205,4 +207,4 @@ let test = () =>{
     //exec_order_req({seruid:'22327'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
 }
 
-test()
+//test()
