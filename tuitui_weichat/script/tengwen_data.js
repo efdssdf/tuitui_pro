@@ -46,8 +46,8 @@ function exec_req(resultItem,start,end, time){
         sign: md5.update(sign).digest("hex")
     };
     console.log(qs)
-    //getTengwenData(qs, 1)
-    getTengwenOrder(qs, 1)
+    getTengwenData(qs, 1)
+    //getTengwenOrder(qs, 1)
 }      
 
 function getTengwenData(qs, page) {
@@ -198,7 +198,7 @@ function handleIpAndUa(ip, ua) {
 }
 
 let test = () =>{
-    let now_time = new Date().getTime();
+    let now_time = new Date('2020-02-16 15:00:05').getTime();
     let end = new Date(now_time).setSeconds(0,0);
     let last_time = end -4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
