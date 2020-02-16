@@ -74,6 +74,8 @@ function getTengwenData(qs, page) {
             } else {
                 let {code, data} = res.body;
                 if(code === 1) {
+                    console.log("============getTengwenData success===============")
+                    console.log(res.body)
                     let {pageCount, currentPage, dataSource} = data;
                     mapUserDataSource(dataSource, qs)
                     if(currentPage < pageCount) {
