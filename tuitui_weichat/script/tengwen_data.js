@@ -46,8 +46,8 @@ function exec_req(resultItem,start,end, time){
         sign: md5.update(sign).digest("hex")
     };
     console.log(qs)
-    getTengwenData(qs, 1)
-    //getTengwenOrder(qs, 1)
+    //getTengwenData(qs, 1)
+    getTengwenOrder(qs, 1)
 }      
 
 function getTengwenData(qs, page) {
@@ -58,7 +58,6 @@ function getTengwenData(qs, page) {
         for (let key in qs) {
             args.push(key+'='+qs[key])
         }
-
         console.log('-------腾文 getdata---------')
         console.log(c_url+'?'+args.join('&'))
         request({
@@ -108,6 +107,16 @@ async function mapUserDataSource(dataSource, qs) {
 
 function getTengwenOrder(qs, page) {
     return new Promise((resolve, reject) => {
+        let c_url = "https://data-api.tengwen.com/seruser/ny_hour_order";
+        let args =[]
+        args.push('page='+page)
+        for (let key in qs) {
+            args.push(key+'='+qs[key])
+        }
+        console.log('-------腾文 getdata---------')
+        console.log(c_url+'?'+args.join('&'))
+
+
         request({
             url: "https://data-api.tengwen.com/seruser/ny_hour_order",
             method: "get",
