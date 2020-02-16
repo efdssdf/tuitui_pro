@@ -34,7 +34,7 @@ async function getPlatformData() {
     }
 } 
 
-function exec_user_req(resultItem,start,end,page=1){
+function exec_user_req(resultItem,start,end,page){
     let time = parseInt(Date.now()/1000)
     let sign = resultItem.seruid + secret + time;
     let qs = {
@@ -49,7 +49,8 @@ function exec_user_req(resultItem,start,end,page=1){
     getTengwenData(qs)
 }      
 
-function exec_order_req(resultItem,start,end, time,page=1){
+function exec_order_req(resultItem,start,end, time,page){
+    let time = parseInt(Date.now()/1000)
     let sign = resultItem.seruid + secret + time;
     let qs = {
         pay_start_time: start,    
