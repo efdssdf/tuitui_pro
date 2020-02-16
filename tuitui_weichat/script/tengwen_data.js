@@ -49,7 +49,7 @@ function exec_user_req(resultItem,start,end,page){
     getTengwenData(qs)
 }      
 
-function exec_order_req(resultItem,start,end, time,page){
+function exec_order_req(resultItem,start,end,page){
     let time = parseInt(Date.now()/1000)
     let sign = resultItem.seruid + secret + time;
     let qs = {
