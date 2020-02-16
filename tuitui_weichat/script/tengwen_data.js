@@ -42,9 +42,10 @@ function exec_req(resultItem,start,end, time){
         reg_start_time: parseInt(start/1000),    
         reg_end_time: parseInt(end/1000),    
         seruid: resultItem.seruid,
-        time,     
+        time: parseInt(time/1000),     
         sign: md5.update(sign).digest("hex")
     };
+    console.log(qs)
     getTengwenData(qs, 1)
     //getTengwenOrder(qs, 1)
 }      
