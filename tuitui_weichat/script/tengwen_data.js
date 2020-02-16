@@ -5,8 +5,6 @@ const schedule = require("node-schedule");
 const Platform = require("../model/Platform");
 const PlatformData = require("../model/PlatformData");
 
-const md5 = crypto.createHash('md5');
-
 const secret = "n3BtjDGlSL23wk4vbd2kj8dboaOZHMi8";
 
 
@@ -45,7 +43,7 @@ function exec_user_req(resultItem,start,end,page=1){
         seruid: resultItem.seruid,
         time: time,  
         page : page, 
-        sign: md5.update(sign).digest("hex")
+        sign: crypto.createHash('md5').update(sign).digest("hex")
     };
     //console.log(qs)
     getTengwenData(qs)
@@ -58,7 +56,7 @@ function exec_order_req(resultItem,start,end, time,page=1){
         pay_end_time: end,    
         seruid: resultItem.seruid,
         time: time,     
-        sign: md5.update(sign).digest("hex"),
+        sign: crypto.createHash('md5').update(sign).digest("hex"),
         page : page
     };
     getTengwenOrder(qs)
