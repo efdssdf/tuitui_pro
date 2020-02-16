@@ -105,6 +105,8 @@ function getTengwenData(qs) {
 async function mapUserDataSource(dataSource, qs) {
     for(let i = 0; i < dataSource.length; i ++) {
         let dataItem = dataSource[i];
+        console.log('------数据-------')
+        console.log(dataItem)
         let {ip, ua, wx_gzhopenid, regtime, isfollow, id} = dataItem;
         let uni_ip_h_ua = handleIpAndUa(ip, ua);
         let updateData = await PlatformData.findOneAndUpdate({uni_ip_h_ua}, {
