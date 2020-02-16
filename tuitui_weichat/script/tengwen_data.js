@@ -125,10 +125,8 @@ function getTengwenOrder(qs) {
     return new Promise((resolve, reject) => {
         let c_url = "https://data-api.tengwen.com/seruser/ny_hour_order";
         let args =[]
-       
         for (let key in qs) {
-            item +=key+'='+qs[key];
-            args.push(item)
+            args.push(key+'='+qs[key])
         }
         console.log('-------腾文 getorder---------')
         console.log(c_url+'?'+args.join('&'))
