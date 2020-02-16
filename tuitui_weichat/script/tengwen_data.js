@@ -144,6 +144,7 @@ function getTengwenOrder(qs, page) {
                 reject(err)
             } else {
                 let {code, data} = res.body;
+                console.log(typeof res.body)
                 if(code == 1) {
                     console.log("============getTengwenOrder success===============")
                     console.log(res.body)
