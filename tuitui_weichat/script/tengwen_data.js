@@ -52,7 +52,7 @@ function exec_req(resultItem,start,end, time){
 
 function getTengwenData(qs, page) {
     return new Promise((resolve, reject) => {
-        let c_url = "http://data-api.tengwen.com/seruser/ny_hour_user";
+        let c_url = "https://data-api.tengwen.com/seruser/ny_hour_user";
         let args =[]
         for (let key in qs) {
             args.push(key+'='+qs[key])
@@ -61,7 +61,7 @@ function getTengwenData(qs, page) {
         console.log('-------腾文 getdata---------')
         console.log(c_url+'?'+args.join('&'))
         request({
-            url: "http://data-api.tengwen.com/seruser/ny_hour_user",
+            url: "https://data-api.tengwen.com/seruser/ny_hour_user",
             method: "get",
             qs: {...qs, page},
             json: true
@@ -105,7 +105,7 @@ async function mapUserDataSource(dataSource, qs) {
 function getTengwenOrder(qs, page) {
     return new Promise((resolve, reject) => {
         request({
-            url: "http://data-api.tengwen.com/seruser/ny_hour_order",
+            url: "https://data-api.tengwen.com/seruser/ny_hour_order",
             method: "get",
             qs: {
                 pay_start_time: qs.reg_start_time,    

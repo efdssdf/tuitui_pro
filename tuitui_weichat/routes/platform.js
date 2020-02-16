@@ -23,7 +23,7 @@ router.post('/liantiao', async (req, res, next) => {
  console.log(td_url, "2020-02-16,td_url")
 
   let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-       +td_url+'&event_type=2'
+       +encodeURIComponent(td_url)+'&event_type=2'
  console.log(ad_cb_url, "2020-02-16,ad_cb_url")
 
  let result = await rp(ad_cb_url);
