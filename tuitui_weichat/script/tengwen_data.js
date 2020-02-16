@@ -200,7 +200,7 @@ let test = () =>{
     let end = new Date(now_time).setSeconds(0,0);
     let last_time = end -4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
-    exec_user_req({seruid:'22327'}, start, end, parseInt(Date.now()/1000))
+    exec_user_req({seruid:'22327'}, pareInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
 }
 
 test()
