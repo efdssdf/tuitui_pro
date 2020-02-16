@@ -70,7 +70,7 @@ function getTengwenData(qs) {
         for (let key in qs) {
             args.push(key+'='+qs[key])
         }
-        console.log('-------腾文 getdata---------')
+        console.log('-------腾文 getorder---------')
         console.log(c_url+'?'+args.join('&'))
         request({
             url: "https://data-api.tengwen.com/seruser/ny_hour_user",
@@ -116,7 +116,8 @@ async function mapUserDataSource(dataSource, qs) {
                 wx_id: id,
                 wx_platfrom: 2,
                 ip : ip,
-                isfollow
+                isfollow,
+                seruid : qs.seruid
             }, {upsert: true});
         }
     }

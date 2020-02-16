@@ -30,7 +30,7 @@ let sign = (params) =>{
 
 let handle = async (data,params) =>{
 	for(let item of data.list){
-		console.log(item)
+		//console.log(item)
 		let temp = await PlatformDataModel.findOneAndUpdate({
 			wx_openid : item.openid
 		},{
@@ -66,10 +66,10 @@ let get_order = async (params) =>{
 	for (let key in params) {
 		args.push(key+'='+params[key])
 	}
-	console.log(params)
+	//console.log(params)
 	url += '?'+args.join('&')
 	let y_res = await rp(url)
-	console.log(y_res)
+	//console.log(y_res)
 	y_res = JSON.parse(y_res)
 	if(y_res.code == 0){
 		handle(y_res.data,params)
