@@ -20,7 +20,7 @@ let j = schedule.scheduleJob(rule, function () {
 async function getPlatformData() {
     let now_time = new Date().getTime();
     let end = new Date(now_time).setSeconds(0,0);
-    let last_time = now_time - 60*1000;
+    let last_time = now_time - 4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
 
     let result = await Platform.find({platform:2});
@@ -30,7 +30,7 @@ async function getPlatformData() {
         for(let i = 0; i < result.length; i ++) {
             let resultItem = result[i];
             //if(resultItem.platform === 2) {
-                exec_req(resultItem,start,end, now_time/1000)
+                exec_req(resultItem,start,end, parseInt(now_time/1000))
             //}
         }
     }
@@ -52,6 +52,14 @@ function exec_req(resultItem,start,end, time){
 
 function getTengwenData(qs, page) {
     return new Promise((resolve, reject) => {
+        let c_url = "http://data-api.tengwen.com/seruser/ny_hour_user";
+        let args =[]
+        for (let key in qs) {
+            args.push(key+'='+qs[key])
+        }
+        args.push('page='+page)
+        console.log('-------腾文 getdata---------')
+        console.log(c_url+'?'+args.join('&'))
         request({
             url: "http://data-api.tengwen.com/seruser/ny_hour_user",
             method: "get",
@@ -157,10 +165,12 @@ function handleIpAndUa(ip, ua) {
     return (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
 }
 
-let now_time = new Date().getTime();
+let test = () =>{
+    let now_time = new Date().getTime();
     let end = new Date(now_time).setSeconds(0,0);
-    let last_time = now_time - 60*1000;
+    let last_time = now_time -4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
+    exec_req({seruid:'22327'}, start, end, parseInt(now_time/1000))
+}
 
-
-exec_req({seruid:'22327'}, start, end, now_time/1000)
+test()

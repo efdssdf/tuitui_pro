@@ -129,13 +129,23 @@ let test =() => {
 	get_order(params)
 }
 
-test()
+//test()
 
 
-/*
+let td_fuck =async () =>{
+	let td_url = encodeURIComponent("http://td.tyuss.com/tuiguang/data/a0fsXJnn?adid=1651830321459575&clickid=EPfiqLzLyvcCGIi45L_AifkCKISg3-a8kfkC&creativeid=1651830321459575&creativetype=1");
+	let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+							+td_url+'&event_type=2'
+	let res = await rp(ad_cb_url)
+	console.log(res)
+}
+
+//td_fuck()
+
+
 var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
 });
-*/
+
