@@ -175,7 +175,7 @@ async function mapOrderDataSource(dataSource) {
         });
         if(pd.td_url){
             let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                            +item.td_url+'&event_type=2'
+                            +pd.td_url+'&event_type=2'
             await rp(ad_cb_url)
         }
     }
