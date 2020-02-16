@@ -34,14 +34,19 @@ let handle = async (data,params) =>{
 		let temp = await PlatformDataModel.findOneAndUpdate({
 			wx_openid : item.openid
 		},{
-			ispay : true,
+			ispay : 1,
 			amount : Number(item.amount),
 			order_time : new Date(item.order_time).getTime()
 		})
-		if(temp.td_url){
+		if(temp && temp.td_url){
 			let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+temp.td_url+'&event_type=2'
 			await rp(ad_cb_url)
+			await PlatformDataModel.findOneAndUpdate({
+				wx_openid : item.openid
+			},{
+				td_cb_flag :1
+			})
 		}
 	}
 	if(data.list.length == 100){
@@ -75,8 +80,8 @@ let get_order = async (params) =>{
 
 let start = (appflag)=>{
 	var now_time = new Date().getTime()
-	var end = new Date(now_time-60*1000).setSeconds(0,0)
-	var last_time = end-60*1000
+	var end = new Date(now_time).setSeconds(0,0)
+	var last_time = end-4*60*1000
 	var start = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start/1000),
@@ -94,15 +99,19 @@ let start = (appflag)=>{
 
 let get = async () =>{
 	let plats = await PlatformModel.find({platform : 1})
-	for (let plat of plats) {
-		start(plat.seruid)
+	for (let i =0; i<plats.length; i++ ) {
+		(function(seruid){
+			setTimeout(function(){
+				start(seruid)
+			},i*1000)
+		})(plats[i].seruid,i)
 	}
 }
 
 //start('wxfxmswl1200')
 
 let test =() => {
-	var now_time = new Date('2020-02-15 16:10:15').getTime()
+	var now_time = new Date('2020-02-15 18:17:48').getTime()
 	var end = new Date(now_time).setSeconds(0,0)
 	var last_time = now_time-60*1000
 	var start_temp = new Date(last_time).setSeconds(0,0)
@@ -111,7 +120,7 @@ let test =() => {
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
-		appflags : 'wxfxmswl1201'
+		appflags : 'wxfxmswl1200'
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
@@ -120,10 +129,13 @@ let test =() => {
 	get_order(params)
 }
 
-//test()
+test()
 
+
+/*
 var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
 });
+*/

@@ -25,9 +25,13 @@ var PlatformDataSchema = new Schema({
     isfollow: Number, // 是否关注 1已关注
     wx_id: String,
     wx_platfrom: Number,
-    ispay: String,    // 是否支付 1只支付
+    ispay: Number,    // 是否支付 1只支付
     amount: Number,   // 金额    
     seruid: String,   // 服务号id  阅文的 appflag
+    td_cb_flag : {
+        type : Number,
+        default : 0
+    },
     createAt: {
         type: Date,
         default: Date.now

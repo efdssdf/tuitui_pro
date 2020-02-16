@@ -30,7 +30,7 @@ async function getPlatformData() {
         for(let i = 0; i < result.length; i ++) {
             let resultItem = result[i];
             //if(resultItem.platform === 2) {
-                exec_req(resultItem,start,end, now_time)
+                exec_req(resultItem,start,end, now_time/1000)
             //}
         }
     }
@@ -163,4 +163,4 @@ let now_time = new Date().getTime();
     let start = new Date(last_time).setSeconds(0,0);
 
 
-exec_req({seruid:'22327'}, start, end, now_time)
+exec_req({seruid:'22327'}, start, end, now_time/1000)
