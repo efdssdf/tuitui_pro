@@ -52,6 +52,7 @@ function exec_req(resultItem,start,end, time){
 function getTengwenData(qs, page) {
     return new Promise((resolve, reject) => {
         let c_url = "http://data-api.tengwen.com/seruser/ny_hour_user";
+        let args =[]
         for (let key in qs) {
             args.push(key+'='+params[key])
         }
