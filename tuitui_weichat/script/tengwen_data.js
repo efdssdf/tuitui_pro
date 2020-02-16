@@ -72,7 +72,7 @@ function getTengwenData(qs, page) {
                 reject(err)
             } else {
                 let {code, data} = res.body;
-                if(code === 1) {
+                if(code == 1) {
                     console.log("============getTengwenData success===============")
                     console.log(res.body)
                     let {pageCount, currentPage, dataSource} = data;
@@ -144,7 +144,7 @@ function getTengwenOrder(qs, page) {
                 reject(err)
             } else {
                 let {code, data} = res.body;
-                if(code === 1) {
+                if(code == 1) {
                     console.log("============getTengwenOrder success===============")
                     console.log(res.body)
                     let {pageCount, currentPage, dataSource} = data;
