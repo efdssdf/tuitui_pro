@@ -22,7 +22,6 @@ async function getPlatformData() {
     let end = new Date(now_time).setSeconds(0,0);
     let last_time = end - 4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
-
     let result = await Platform.find({platform:2});
     if(!result.length) {
         return
@@ -30,31 +29,45 @@ async function getPlatformData() {
         for(let i = 0; i < result.length; i ++) {
             let resultItem = result[i];
             //if(resultItem.platform === 2) {
-                exec_req(resultItem,start,end, parseInt(now_time/1000))
+                exec_user_req(resultItem,parseInt(start/1000),parseInt(end/1000),1)
+                exec_order_req(resultItem,parseInt(start/1000),parseInt(end/1000),1)
             //}
         }
     }
 } 
 
-function exec_req(resultItem,start,end, time){
+function exec_user_req(resultItem,start,end,page=1){
+    let time = parseInt(Date.now()/1000)
     let sign = resultItem.seruid + secret + time;
     let qs = {
-        reg_start_time: parseInt(start/1000),    
-        reg_end_time: parseInt(end/1000),    
+        reg_start_time: start,    
+        reg_end_time: end,    
         seruid: resultItem.seruid,
-        time: time,     
+        time: time,  
+        page : page, 
         sign: md5.update(sign).digest("hex")
     };
-    console.log(qs)
-    getTengwenData(qs, 1)
-    //getTengwenOrder(qs, 1)
+    //console.log(qs)
+    getTengwenData(qs)
 }      
 
-function getTengwenData(qs, page) {
+function exec_order_req(resultItem,start,end, time,page=1){
+    let sign = resultItem.seruid + secret + time;
+    let qs = {
+        pay_start_time: start,    
+        pay_end_time: end,    
+        seruid: resultItem.seruid,
+        time: time,     
+        sign: md5.update(sign).digest("hex"),
+        page : page
+    };
+    getTengwenOrder(qs)
+} 
+
+function getTengwenData(qs) {
     return new Promise((resolve, reject) => {
         let c_url = "https://data-api.tengwen.com/seruser/ny_hour_user";
         let args =[]
-        args.push('page='+page)
         for (let key in qs) {
             args.push(key+'='+qs[key])
         }
@@ -63,7 +76,7 @@ function getTengwenData(qs, page) {
         request({
             url: "https://data-api.tengwen.com/seruser/ny_hour_user",
             method: "get",
-            qs: {...qs, page},
+            qs: {...qs},
             json: true
         }, (err, res) => {
             if(err || res.statusCode !=200) {
@@ -78,7 +91,7 @@ function getTengwenData(qs, page) {
                     let {pageCount, currentPage, dataSource} = data;
                     mapUserDataSource(dataSource, qs)
                     if(currentPage < pageCount) {
-                        getTengwenData(qs, page + 1)
+                        exec_user_req(qs.seruid,qs.reg_start_time,qs.reg_end_time,page+1)
                     }
                 } else {
                     console.log("============getTengwenData===============")
@@ -100,27 +113,19 @@ async function mapUserDataSource(dataSource, qs) {
             wx_ua: ua, 
             wx_id: id,
             wx_platfrom: 2,
+            ip : ip,
             isfollow
         }, {upsert: true});
     }
 }
 
-function getTengwenOrder(qs, page) {
+function getTengwenOrder(qs) {
     return new Promise((resolve, reject) => {
         let c_url = "https://data-api.tengwen.com/seruser/ny_hour_order";
         let args =[]
-        args.push('page='+page)
+       
         for (let key in qs) {
-            let item = '';
-            if(key=='reg_start_time'){
-                item += 'pay_start_time';
-            }else if(key=='reg_end_time'){
-                item += 'pay_end_time';
-            }else{
-                item += key;
-            }
-            
-            item += '='+qs[key];
+            item +=key+'='+qs[key];
             args.push(item)
         }
         console.log('-------腾文 getorder---------')
@@ -130,14 +135,7 @@ function getTengwenOrder(qs, page) {
         request({
             url: "https://data-api.tengwen.com/seruser/ny_hour_order",
             method: "get",
-            qs: {
-                pay_start_time: qs.reg_start_time,    
-                pay_end_time: qs.reg_end_time,    
-                seruid: qs.seruid,
-                time: qs.time,     
-                sign: qs.sign,
-                page
-            },
+            qs: {...qs},
             json: true
         }, (err, res) => {
             if(err) {
@@ -152,7 +150,7 @@ function getTengwenOrder(qs, page) {
                     let {pageCount, currentPage, dataSource} = data;
                     mapOrderDataSource(dataSource)
                     if(currentPage < pageCount) {
-                        getTengwenOrder(qs, page + 1)
+                        exec_order_req(qs.seruid,qs.start,qs.end,page+1)
                     }
                 }else{
                     console.log("============getTengwenOrder err===============")
@@ -202,7 +200,7 @@ let test = () =>{
     let end = new Date(now_time).setSeconds(0,0);
     let last_time = end -4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
-    exec_req({seruid:'22327'}, start, end, parseInt(Date.now()/1000))
+    exec__user_req({seruid:'22327'}, start, end, parseInt(Date.now()/1000))
 }
 
 test()
