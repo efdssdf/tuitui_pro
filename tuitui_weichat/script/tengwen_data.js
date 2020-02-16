@@ -42,7 +42,7 @@ function exec_req(resultItem,start,end, time){
         reg_start_time: parseInt(start/1000),    
         reg_end_time: parseInt(end/1000),    
         seruid: resultItem.seruid,
-        time: parseInt(time/1000),     
+        time: time,     
         sign: md5.update(sign).digest("hex")
     };
     console.log(qs)
@@ -170,7 +170,7 @@ let test = () =>{
     let end = new Date(now_time).setSeconds(0,0);
     let last_time = now_time -4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
-    exec_req({seruid:'22327'}, start, end, now_time)
+    exec_req({seruid:'22327'}, start, end, parseInt(now_time/1000))
 }
 
 test()
