@@ -150,7 +150,7 @@ function getTengwenOrder(qs) {
                     let {pageCount, currentPage, dataSource} = data;
                     mapOrderDataSource(dataSource)
                     if(currentPage < pageCount) {
-                        exec_order_req(qs.seruid,qs.start,qs.end,page+1)
+                        exec_order_req(qs.seruid,qs.pay_start_time,qs.pay_end_time,page+1)
                     }
                 }else{
                     console.log("============getTengwenOrder err===============")
