@@ -54,7 +54,7 @@ function getTengwenData(qs, page) {
         let c_url = "http://data-api.tengwen.com/seruser/ny_hour_user";
         let args =[]
         for (let key in qs) {
-            args.push(key+'='+params[key])
+            args.push(key+'='+qs[key])
         }
         args.push('page='+page)
         console.log('-------腾文 getdata---------')
