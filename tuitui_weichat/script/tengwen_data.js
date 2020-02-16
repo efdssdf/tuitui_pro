@@ -51,6 +51,13 @@ function exec_req(resultItem,start,end, time){
 
 function getTengwenData(qs, page) {
     return new Promise((resolve, reject) => {
+        let c_url = "http://data-api.tengwen.com/seruser/ny_hour_user";
+        for (let key in qs) {
+            args.push(key+'='+params[key])
+        }
+        args.push('page='+page)
+        console.log('-------腾文 getdata---------')
+        console.log(c_url+'?'+args.join('&'))
         request({
             url: "http://data-api.tengwen.com/seruser/ny_hour_user",
             method: "get",
