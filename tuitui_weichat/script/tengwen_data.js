@@ -196,7 +196,7 @@ function handleIpAndUa(ip, ua) {
 }
 
 let test = () =>{
-    let now_time = new Date().getTime();
+    let now_time = new Date('2020-02-16 16:05:03').getTime();
     let end = new Date(now_time).setSeconds(0,0);
     let last_time = end -4*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
