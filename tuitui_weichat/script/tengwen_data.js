@@ -111,9 +111,19 @@ function getTengwenOrder(qs, page) {
         let args =[]
         args.push('page='+page)
         for (let key in qs) {
-            args.push(key+'='+qs[key])
+            let item = '';
+            if(key=='reg_start_time'){
+                item += 'pay_start_time';
+            }else if(key=='reg_end_time'){
+                item += 'pay_end_time';
+            }else{
+                item += key;
+            }
+            
+            item += '='+qs[key];
+            args.push(item)
         }
-        console.log('-------腾文 getdata---------')
+        console.log('-------腾文 getorder---------')
         console.log(c_url+'?'+args.join('&'))
 
 
@@ -130,14 +140,21 @@ function getTengwenOrder(qs, page) {
             }
         }, (err, res) => {
             if(err) {
+                console.log(err)
                 reject(err)
             } else {
-                let {code, data: {pageCount, currentPage, dataSource}} = res.body;
+                let {code, data} = res.body;
                 if(code === 1) {
+                    console.log("============getTengwenOrder success===============")
+                    console.log(res.body)
+                    let {pageCount, currentPage, dataSource} = data;
                     mapOrderDataSource(dataSource)
                     if(currentPage < pageCount) {
                         getTengwenOrder(qs, page + 1)
                     }
+                }else{
+                    console.log("============getTengwenOrder err===============")
+                    console.log(res.body)
                 }
             }
         })
