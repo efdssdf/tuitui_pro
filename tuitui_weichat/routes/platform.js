@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var PlatformModel = require('../model/Platform.js')
 var PlatformDataModel = require('../model/PlatformData.js')
+var rp = require("request-promise")
 
 router.get('/', async(req, res, next) => {
   let result = await PlatformModel.find();
