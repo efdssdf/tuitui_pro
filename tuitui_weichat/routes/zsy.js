@@ -5,7 +5,7 @@ const ZhuiShuYunModel = require('../model/ZhuiShuYun.js');
 
 router.get('/', async (req, res, next) => {
     let result = await ZhuiShuYunModel.find();
-    let domain_name = "http://td.tyuss.com"
+    let domain_name = "https://td.tyuss.com"
     if(result.length) {
         res.send({code: 1, msg: "查询成功", data: result, domain_name})
     } else {
