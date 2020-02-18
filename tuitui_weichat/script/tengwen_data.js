@@ -178,6 +178,11 @@ async function mapOrderDataSource(dataSource) {
             let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                             +pd.td_url+'&event_type=2'
             await rp(ad_cb_url)
+            await PlatformDataModel.findOneAndUpdate({
+                wx_openid : item.openid
+            },{
+                td_cb_flag :1
+            })
         }
     }
 }
