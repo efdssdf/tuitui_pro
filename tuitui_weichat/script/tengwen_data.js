@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const request = require("request");
+const rp = require('request-promise');
 const schedule = require("node-schedule");
 
 const Platform = require("../model/Platform");
@@ -181,20 +182,15 @@ async function mapOrderDataSource(dataSource) {
     }
 }
 
-function rp(url){
-    return new Promise((resolve,reject) => {
-        request(url,function(err, res){
-            if(err) {
-                reject(err)
-            } else {
-                resolve()
-            }
-        })
-    })
-}
 
 function handleIpAndUa(ip, ua) {
-    return (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
+    let uni_ip_h_ua =  (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
+    if(uni_ip_h_ua.indexOf('iPhone')!=-1){
+        let replace_start = uni_ip_h_ua.substring(0,uni_ip_h_ua.indexOf('(')+1);
+        let replace_end =  uni_ip_h_ua.substring(uni_ip_h_ua.indexOf(')'))
+        uni_ip_h_ua = replace_start+ 'iPhone' + replace_end
+    }
+    return uni_ip_h_ua;
 }
 
 let test = () =>{

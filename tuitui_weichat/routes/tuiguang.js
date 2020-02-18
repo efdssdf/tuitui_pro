@@ -318,10 +318,10 @@ router.post('/data/yuewen', async (req, res, next) => {
   //console.log(req.body)
   let ua= req.body.ua;
   ua = new Buffer(ua,'base64').toString();
-  let h_ua = ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1);
+  //let h_ua = ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1);
   let ip = req.body.ip;
   let pd = {
-    uni_ip_h_ua : ip+h_ua,
+    uni_ip_h_ua : handleIpAndUa(ip,ua),
     wx_ua : ua,
     ip : ip,
     regtime : new Date(req.body.time).getTime(),
@@ -342,5 +342,15 @@ router.post('/data/yuewen', async (req, res, next) => {
   //console.log('-----send yuewen------')
   res.send({"code": 0});
 });
+
+function handleIpAndUa(ip, ua) {
+    let uni_ip_h_ua =  (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
+    if(uni_ip_h_ua.indexOf('iPhone')!=-1){
+        let replace_start = uni_ip_h_ua.substring(0,uni_ip_h_ua.indexOf('(')+1);
+        let replace_end =  uni_ip_h_ua.substring(uni_ip_h_ua.indexOf(')'))
+        uni_ip_h_ua = replace_start+ 'iPhone' + replace_end
+    }
+    return uni_ip_h_ua;
+}
 
 module.exports = router;
