@@ -179,7 +179,7 @@ async function mapOrderDataSource(dataSource) {
                             +pd.td_url+'&event_type=2'
             await rp(ad_cb_url)
             await PlatformData.findOneAndUpdate({
-                wx_openid : pd.openid
+                wx_openid : wx_gzhopenid
             },{
                 td_cb_flag :1
             })
