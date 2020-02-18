@@ -9,11 +9,11 @@ const PlatformData = require("../model/PlatformData");
 const secret = "n3BtjDGlSL23wk4vbd2kj8dboaOZHMi8";
 
 
-let rule = new schedule.RecurrenceRule();
+/*let rule = new schedule.RecurrenceRule();
 rule.second = 50;
 let j = schedule.scheduleJob(rule, function () {
     getPlatformData()
-});
+});*/
 
 
 async function getPlatformData() {
@@ -174,11 +174,11 @@ async function mapOrderDataSource(dataSource) {
             order_time: atime*1000,
             ispay
         });
-        if(pd.td_url){
+        if(pd && pd.td_url){
             let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                             +pd.td_url+'&event_type=2'
             await rp(ad_cb_url)
-            await PlatformDataModel.findOneAndUpdate({
+            await PlatformData.findOneAndUpdate({
                 wx_openid : pd.openid
             },{
                 td_cb_flag :1
@@ -200,12 +200,12 @@ function handleIpAndUa(ip, ua) {
 
 let test = () =>{
     //
-    let now_time = new Date('2020-02-17 23:47:03').getTime();
+    let now_time = new Date('2020-02-18 20:15:03').getTime();
     let end = new Date(now_time).setSeconds(0,0);
-    let last_time = end -20*60*1000;
+    let last_time = end -2*60*60*1000;
     let start = new Date(last_time).setSeconds(0,0);
-    exec_user_req({seruid:'22328'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
-    //exec_order_req({seruid:'22328'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
+    //exec_user_req({seruid:'22328'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
+    exec_order_req({seruid:'22328'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
 }
 
-//test()
+test()
