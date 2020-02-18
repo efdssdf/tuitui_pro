@@ -149,7 +149,7 @@ function getTengwenOrder(qs) {
                 console.log(JSON.stringify(res.body))
                 if(code == 1) {
                     console.log("============getTengwenOrder success===============")
-                    console.log(res.body)
+                    //console.log(res.body)
                     let {pageCount, currentPage, dataSource} = data;
                     mapOrderDataSource(dataSource)
                     if(currentPage < pageCount) {
@@ -177,7 +177,9 @@ async function mapOrderDataSource(dataSource) {
         if(pd && pd.td_url){
             let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                             +pd.td_url+'&event_type=2'
-            await rp(ad_cb_url)
+            console.log('----回传---------')
+            let res = await rp(ad_cb_url)
+            console.log(res)
             await PlatformData.findOneAndUpdate({
                 wx_openid : wx_gzhopenid
             },{
@@ -208,4 +210,4 @@ let test = () =>{
     exec_order_req({seruid:'22328'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
 }
 
-//test()
+test()
