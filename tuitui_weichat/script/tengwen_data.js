@@ -9,11 +9,11 @@ const PlatformData = require("../model/PlatformData");
 const secret = "n3BtjDGlSL23wk4vbd2kj8dboaOZHMi8";
 
 
-/*let rule = new schedule.RecurrenceRule();
+let rule = new schedule.RecurrenceRule();
 rule.second = 50;
 let j = schedule.scheduleJob(rule, function () {
     getPlatformData()
-});*/
+});
 
 
 async function getPlatformData() {
@@ -203,4 +203,4 @@ let test = () =>{
     //exec_order_req({seruid:'22328'}, parseInt(start/1000), parseInt(end/1000), parseInt(Date.now()/1000))
 }
 
-test()
+//test()
