@@ -39,14 +39,34 @@ let handle = async (data,params) =>{
 			order_time : new Date(item.order_time).getTime()
 		})
 		if(temp && temp.td_url){
-			let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+			let td_url = decodeURIComponent(item.td_url)
+			if(td_url.indexOf('?')!=-1){
+				let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+temp.td_url+'&event_type=2'
-			await rp(ad_cb_url)
-			await PlatformDataModel.findOneAndUpdate({
-				wx_openid : item.openid
-			},{
-				td_cb_flag :1
-			})
+				await rp(ad_cb_url)
+				await PlatformDataModel.findOneAndUpdate({
+					wx_openid : item.openid
+				},{
+					td_cb_flag :1
+				})
+			}else{
+				td_url = decodeURIComponent(td_url)
+				let urls = td_url.split('adid')
+				if(urls.length!=3){
+					return
+				}
+				td_url = urls[0]+'adid'+urls[2]
+				console.log('有问题链接------',td_url)
+				let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+						+encodeURIComponent(td_url)+'&event_type=2'
+				await rp(ad_cb_url)
+				await PlatformDataModel.findOneAndUpdate({
+					wx_openid : item.openid
+				},{
+					td_cb_flag :2
+				})
+			}
+			
 		}
 	}
 	if(data.list.length == 100){
@@ -134,21 +154,21 @@ let test =() => {
 
 let td_fuck =async () =>{
 	//let td_url = encodeURIComponent("http://td.tyuss.com/tuiguang/data/a0fsXJnn?adid=1651830321459575&clickid=EPfiqLzLyvcCGIi45L_AifkCKISg3-a8kfkC&creativeid=1651830321459575&creativetype=1");
-	let td_url = 'http%3A%2F%2Ftd.tyuss.com%2Ftuiguang%2Fdata%2Fqvo7vU8J%253Fadid%3D1654022777776581%26clickid%3DEMXT-oCzivgCGIjY0rbCifkCKIPo8J-wmfkC%26creativeid%3D1654022777776581%26creativetype%3D1%26adid%3D1658949722599479%26creativeid%3D1658950641668104%26creativetype%3D2%26clickid%3DEIigyd3omfkCGI28-ooZILGegerPATAMOAFCIjIwMjAwMjE5MTkzMTExMDEwMTQ1MDI2MDIyMUQyMTU2ODFIAQ'
+	let td_url = ''
 	let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+td_url+'&event_type=2'
 	let res = await rp(ad_cb_url)
 	console.log(res)
 }
 
-td_fuck()
+//td_fuck()
 
 
-/*
+
 var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
-});*/
+});
 
 
