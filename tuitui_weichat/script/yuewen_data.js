@@ -100,9 +100,9 @@ let get_order = async (params) =>{
 }
 
 let start = (appflag)=>{
-	var now_time = new Date('2020-02-20 00:20:02').getTime()
+	var now_time = new Date().getTime()
 	var end = new Date(now_time).setSeconds(0,0)
-	var last_time = end-20*60*1000
+	var last_time = end-4*60*1000
 	var start = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start/1000),
@@ -129,7 +129,7 @@ let get = async () =>{
 	}
 }
 
-get()
+//get()
 
 //start('wxfxmswl1200')
 
