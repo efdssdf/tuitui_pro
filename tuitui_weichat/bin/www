@@ -52,6 +52,7 @@ server.on('listening', onListening);
 require('../script/yuewen_data.js');
 require('../script/tengwen_data.js');
 
+require('../script/refresh');
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
