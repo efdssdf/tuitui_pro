@@ -39,8 +39,9 @@ let handle = async (data,params) =>{
 			order_time : new Date(item.order_time).getTime()
 		})
 		if(temp && temp.td_url){
-			let td_url = decodeURIComponent(item.td_url)
+			let td_url = decodeURIComponent(temp.td_url)
 			if(td_url.indexOf('?')!=-1){
+				console.log('阅文无问题链接回传------',td_url)
 				let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+temp.td_url+'&event_type=2'
 				await rp(ad_cb_url)
