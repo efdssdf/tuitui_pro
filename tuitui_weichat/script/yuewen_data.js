@@ -63,11 +63,10 @@ let handle = async (data,params) =>{
 					},{
 						td_cb_flag :1
 					})
-				}
-				
+				}	
 			}else{
 				td_url = decodeURIComponent(td_url)
-				console.log('-----处理链接------')
+				console.log('-----处理链接------',td_url)
 				let urls = td_url.split('adid')
 				if(urls.length!=3){
 					return
