@@ -41,17 +41,33 @@ let handle = async (data,params) =>{
 		if(temp && temp.td_url){
 			let td_url = decodeURIComponent(temp.td_url)
 			if(td_url.indexOf('?')!=-1){
-				console.log('阅文无问题链接回传------',td_url)
-				let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-							+temp.td_url+'&event_type=2'
-				await rp(ad_cb_url)
-				await PlatformDataModel.findOneAndUpdate({
-					wx_openid : item.openid
-				},{
-					td_cb_flag :1
-				})
+				let urls = td_url.split('adid')
+				if(urls.length==3){
+					td_url = urls[0]+'adid'+urls[2]
+					console.log('第一层有问题链接------',td_url)
+					let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+							+encodeURIComponent(td_url)+'&event_type=2'
+					await rp(ad_cb_url)
+					await PlatformDataModel.findOneAndUpdate({
+						wx_openid : item.openid
+					},{
+						td_cb_flag :2
+					})
+				}else{
+					console.log('阅文无问题链接回传------',td_url)
+					let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+								+temp.td_url+'&event_type=2'
+					await rp(ad_cb_url)
+					await PlatformDataModel.findOneAndUpdate({
+						wx_openid : item.openid
+					},{
+						td_cb_flag :1
+					})
+				}
+				
 			}else{
 				td_url = decodeURIComponent(td_url)
+				console.log('-----处理链接------')
 				let urls = td_url.split('adid')
 				if(urls.length!=3){
 					return
@@ -134,16 +150,16 @@ let get = async () =>{
 //start('wxfxmswl1200')
 
 let test =() => {
-	var now_time = new Date('2020-02-15 18:17:48').getTime()
+	var now_time = new Date('2020-02-20 13:45:48').getTime()
 	var end = new Date(now_time).setSeconds(0,0)
-	var last_time = now_time-60*1000
+	var last_time = now_time-2*60*60*1000
 	var start_temp = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start_temp/1000),
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
-		appflags : 'wxfxmswl1241'
+		appflags : 'wxfxmswl1244'
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
