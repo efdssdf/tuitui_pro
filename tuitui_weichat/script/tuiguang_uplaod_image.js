@@ -1,6 +1,7 @@
 const TuiGuangModel = require('../model/TuiGuang.js');
 const async = require('async');
 const ali_oss_util = require('../util/ali_oss_util');
+const img_path ='/home/work/tuitui_program/project/public/images/website/'
 
 let get = async () => {
 	let tuiguangs = await TuiGuangModel.find();
@@ -10,7 +11,7 @@ let get = async () => {
 			change =true;
 			let picurl = item.picurl;
 			let file_name = picurl.substring(picurl.lastIndexOf('/')+1)
-			item.picurl_ali = await ali_oss_util.upload(file_name,__dirname+'/../public'+item.picurl)
+			item.picurl_ali = await ali_oss_util.upload(file_name,img_path+file_name)
 			console.log('---------picurl_ali---------')
 			console.log(item.picurl_ali)
 		}
@@ -18,7 +19,7 @@ let get = async () => {
 			change =true;
 			let finalImg = item.finalImg;
 			let file_name = finalImg.substring(finalImg.lastIndexOf('/')+1)
-			item.finalImg_ali = await ali_oss_util.upload(file_name,__dirname+'/../public'+item.finalImg)
+			item.finalImg_ali = await ali_oss_util.upload(file_name,img_path+file_name)
 			console.log('---------finalImg_ali---------')
 			console.log(item.finalImg_ali)
 		}
