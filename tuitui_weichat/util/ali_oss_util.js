@@ -13,7 +13,7 @@ let upload = async (name,filename) =>{
 	    let result = await client.put(name, filename);
 	    //console.log('------result-------')
 	    //console.log(result);
-	    return result.url;
+	    return 'https://tuiguang-td.oss-cn-beijing.aliyuncs.com/'+filename;
 	} catch (e) {
 	    console.log(e);
 	}
