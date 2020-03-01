@@ -9,7 +9,7 @@ let get = async () => {
 		if(!item.picurl_ali && item.picurl){
 			change =true;
 			let picurl = item.picurl;
-			let file_name = pic_url.substring(pic_url.lastIndexOf('/')+1)
+			let file_name = picurl.substring(picurl.lastIndexOf('/')+1)
 			item.picurl_ali = await ali_oss_util.upload(file_name,__dirname+'/../public'+item.picurl)
 			console.log('---------picurl_ali---------')
 			console.log(item.picurl_ali)
