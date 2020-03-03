@@ -7,7 +7,7 @@ let get = async () => {
 	let tuiguangs = await TuiGuangModel.find();
 	async.eachLimit(tuiguangs,20,async (item)=>{
 		let change =false;
-		if(!item.picurl_ali && item.picurl){
+		if(item.picurl){
 			change =true;
 			let picurl = item.picurl;
 			let file_name = picurl.substring(picurl.lastIndexOf('/')+1)
@@ -15,7 +15,7 @@ let get = async () => {
 			console.log('---------picurl_ali---------')
 			console.log(item.picurl_ali)
 		}
-		if(!item.finalImg_ali && item.finalImg){
+		if(item.finalImg){
 			change =true;
 			let finalImg = item.finalImg;
 			let file_name = finalImg.substring(finalImg.lastIndexOf('/')+1)
