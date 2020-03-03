@@ -200,7 +200,9 @@ router.post('/novel/update', async (req, res, next) => {
     creator: req.body.creator || "",
     jumpUrl : req.body.jumpUrl || "",
     isJump : req.body.isJump,
-    bgcolor: req.body.bgcolor || "#fff"
+    bgcolor: req.body.bgcolor || "#fff",
+    finalImg_ali : "",
+    picurl_ali : ""
   };
   if (req.body.capter1) {
     message.capter1 = req.body.capter1
