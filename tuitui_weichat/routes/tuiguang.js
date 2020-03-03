@@ -7,6 +7,7 @@ var DomainModel = require('../model/Domain.js');
 var TokenArrModel = require('../model/TokenArr.js');
 var BannerModel = require('../model/Banner.js');
 var PlatformDataModel = require('../model/PlatformData.js');
+var TCPlatformDataModel = require('../model/TCPlatformData.js');
 var multer = require('multer');
 var fs = require('fs')
 var mem = require('../util/mem.js')
@@ -50,7 +51,7 @@ router.post('/cancelGoTop', async(req, res, next) => {
 });
 
 router.post('/update', async (req, res, next) => {
-  let id = '5b76aa2ac3ed4a4798d7045d';
+  let id = '5e565b917cd41712fa98032d';
   let messages = {
     image: req.body.image,
     link: req.body.link,
@@ -336,6 +337,12 @@ router.post('/data/yuewen', async (req, res, next) => {
   //console.log('-----阅文回传数据-----')
   //console.log(pd)
   await PlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
+    pd,
+    {upsert:true},//这个之后考虑要不要加
+  )
+
+  //tuitui_cms 数据
+  await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
     {upsert:true},//这个之后考虑要不要加
   )
