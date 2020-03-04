@@ -45,7 +45,7 @@ let handle = async (data,params) =>{
 			amount : Number(item.amount),
 			order_time : new Date(item.order_time).getTime()
 		})
-		if(temp && temp.td_url){
+		if(temp && temp.td_url && temp.tuiguang_id){
 			let td_url = decodeURIComponent(temp.td_url)
 			if(td_url.indexOf('?')!=-1){
 				let urls = td_url.split('adid')
