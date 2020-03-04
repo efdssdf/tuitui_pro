@@ -5,6 +5,7 @@ const appsecret = "0ec0806b3009a10e2f4c69f34630bb99";
 const PlatformDataModel = require('../model/PlatformData.js');
 const PlatformModel = require('../model/Platform.js');
 const schedule = require("node-schedule");
+const mem = require("../util/mem.js");
 
 let sign = (params) =>{
 	let args = {
@@ -30,6 +31,12 @@ let sign = (params) =>{
 
 let handle = async (data,params) =>{
 	for(let item of data.list){
+		let flag = await mem.get('td_yw_cb_'+item.openid);
+		if(flag){
+			console.log('已处理回传')
+			continue
+		}
+		await mem.set('td_yw_cb_'+item.openid,'back',5*60)
 		//console.log(item)
 		let temp = await PlatformDataModel.findOneAndUpdate({
 			wx_openid : item.openid
@@ -158,16 +165,16 @@ let get = async () =>{
 //start('wxfxmswl1200')
 
 let test =() => {
-	var now_time = new Date('2020-02-20 20:58:48').getTime()
+	var now_time = new Date('2020-02-29 20:05:48').getTime()
 	var end = new Date(now_time).setSeconds(0,0)
-	var last_time = now_time-3*60*60*1000
+	var last_time = now_time-58*60*1000
 	var start_temp = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start_temp/1000),
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
-		appflags : 'wxfxmswl1240'
+		appflags : 'wxfxmswl1216'
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
@@ -181,7 +188,7 @@ let test =() => {
 
 let td_fuck =async () =>{
 	//let td_url = encodeURIComponent("http://td.tyuss.com/tuiguang/data/a0fsXJnn?adid=1651830321459575&clickid=EPfiqLzLyvcCGIi45L_AifkCKISg3-a8kfkC&creativeid=1651830321459575&creativetype=1");
-	let td_url = ''
+	let td_url = encodeURIComponent('https://td.tyuss.com/tuiguang/data/F3qDhxFn?adid=1659844629667859&creativeid=1659849696512013&creativetype=15&clickid=EI2Qqvz9s_kCGJOFhfj5ASCh3v_N5AEwDDjBuAJCIjIwMjAwMjI5MTYzOTA1MDEwMDIxMDQyMDMyMTJENzMwRjJIwbgC')
 	let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+td_url+'&event_type=2'
 	let res = await rp(ad_cb_url)

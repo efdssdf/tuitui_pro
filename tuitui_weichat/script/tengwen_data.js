@@ -5,6 +5,7 @@ const schedule = require("node-schedule");
 
 const Platform = require("../model/Platform");
 const PlatformData = require("../model/PlatformData");
+const mem = require("../util/mem.js");
 
 const secret = "n3BtjDGlSL23wk4vbd2kj8dboaOZHMi8";
 
@@ -168,18 +169,26 @@ async function mapOrderDataSource(dataSource) {
     for(let i = 0; i < dataSource.length; i ++) {
         let dataItem = dataSource[i];
         let {atime, amount, userid, ispay,wx_gzhopenid} = dataItem;
+        
+        let flag = await mem.get('td_tw_cb_'+wx_gzhopenid);
+        if(flag){
+            console.log('已处理回传')
+            continue
+        }
+        await mem.set('td_tw_cb_'+wx_gzhopenid,'back',5*60)
+
         let pd = await PlatformData.findOneAndUpdate({wx_openid : wx_gzhopenid}, {
             wx_userid: userid, 
             amount : amount/100, 
             order_time: atime*1000,
             ispay
         });
-        if(pd && pd.td_url){
+        if(pd && pd.td_url && pd.tuiguang_id){
             let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                             +pd.td_url+'&event_type=2'
-            console.log('----回传---------')
+            //console.log('----回传---------')
             let res = await rp(ad_cb_url)
-            console.log(res)
+            //console.log(res)
             await PlatformData.findOneAndUpdate({
                 wx_openid : wx_gzhopenid
             },{
