@@ -173,8 +173,8 @@ router.get('/novel/get_content', async (req, res, next) => {
 })
 
 router.post('/novel/update', async (req, res, next) => {
-  var {_id, id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name = "http://novel.jtjsmp.top", gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor = "#fff", finalImg_ali, picurl_ali} = req.body;
-  var message = {id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name, gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor, finalImg_ali, picurl_ali};
+  var {_id, id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name = "http://novel.jtjsmp.top", gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor = "#fff"} = req.body;
+  var message = {id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name, gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor, finalImg_ali: "", picurl_ali: ""};
   if (capter1) {
     message.capter1 = capter1
   }
@@ -185,19 +185,22 @@ router.post('/novel/update', async (req, res, next) => {
   if (docs) {
     mem.set('weitiao_' + id, '', 60).then(function () {
       console.log('---------set weitiao value---------')
-    })
+    });
     mem.set('singlepage_' + id, '', 60).then(function () {
       console.log('---------set singlepage value---------')
-    })
+    });
     mem.set('multipage_' + id, '', 60).then(function () {
       console.log('---------set multipage value---------')
-    })
+    });
     mem.set('capter_' + id, '', 60).then(function () {
       console.log('---------set capter value---------')
-    })
+    });
     mem.set('toutiao_' + id, '', 60).then(function () {
       console.log('---------set toutiao value---------')
-    })
+    });
+    mem.set('data_' + id, '', 60).then(function () {
+      console.log('---------set data value---------')
+    });
     res.send({success: '修改成功'})
   } else {
     res.send({err: '修改失败'})
