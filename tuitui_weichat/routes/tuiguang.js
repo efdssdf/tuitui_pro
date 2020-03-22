@@ -173,44 +173,15 @@ router.get('/novel/get_content', async (req, res, next) => {
 })
 
 router.post('/novel/update', async (req, res, next) => {
-  var id = req.body._id
-  var message = {
-    type: req.body.type,
-    id: req.body.id,
-    gonghao_id: req.body.gonghao_id,
-    pageTitle: req.body.pageTitle || "",
-    articleTit: req.body.articleTit || "",
-    name: req.body.name,
-    desc: req.body.desc,
-    picurl: req.body.picurl || "",
-    capter1: req.body.capter1 || '',
-    capter2: req.body.capter2 || '',
-    linkUrl: req.body.linkUrl || '',
-    statisticsUrl1: req.body.statisticsUrl1 || "",
-    statisticsUrl2: req.body.statisticsUrl2 || '',
-    tokenCodes: req.body.tokenCodes || '',
-    channel: req.body.channel || "",
-    remarks: req.body.remarks || "",
-    domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
-    gonghaoLogo: req.body.gonghaoLogo || "",
-    finalImg: req.body.finalImg || "",
-    company: req.body.company || "",
-    suffix : req.body.suffix,
-    isClick : req.body.isClick,
-    creator: req.body.creator || "",
-    jumpUrl : req.body.jumpUrl || "",
-    isJump : req.body.isJump,
-    bgcolor: req.body.bgcolor || "#fff",
-    finalImg_ali : "",
-    picurl_ali : ""
-  };
-  if (req.body.capter1) {
-    message.capter1 = req.body.capter1
+  var {_id, id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name = "http://novel.jtjsmp.top", gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor = "#fff", finalImg_ali, picurl_ali} = req.body;
+  var message = {id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name, gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor, finalImg_ali, picurl_ali};
+  if (capter1) {
+    message.capter1 = capter1
   }
-  if (req.body.capter2) {
-    message.capter2 = req.body.capter2
+  if (capter2) {
+    message.capter2 = capter2
   }
-  var docs = await TuiGuangModel.findByIdAndUpdate(id, message)
+  var docs = await TuiGuangModel.findByIdAndUpdate(_id, message)
   if (docs) {
     mem.set('weitiao_' + id, {}, 60).then(function () {
       console.log('---------set weitiao value---------')
