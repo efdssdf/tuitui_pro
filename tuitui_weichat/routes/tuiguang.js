@@ -318,13 +318,40 @@ router.post('/data/yuewen', async (req, res, next) => {
   )
 
   //tuitui_cms 数据
-  await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
+  let tcpd = await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
     {upsert:true},//这个之后考虑要不要加
   )
+  //上传uc
+  if(tcpd.tg_platform ==2 && tcpd.td_url ){
+    up_uc(tcpd)
+  }
+  
   //console.log('-----send yuewen------')
   res.send({"code": 0});
 });
+
+async function up_uc(temp){
+  console.log('-----上传uc 回传用户关注------')
+  let td_url = decodeURIComponent(temp.td_url)
+  console.log(td_url)
+  if(td_url.indexOf('?')!=-1){
+    let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
+                        +temp.td_url+'&event_type=5'
+    let c_res = await rp(ad_cb_url)
+    console.log(c_res)
+    //temp.td_cb_flag = 1;
+    //await temp.save()
+  }else{
+    //td_url = decodeURIComponent(td_url)
+    let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
+                    +td_url+'&event_type=5'
+    let c_res = await rp(ad_cb_url)
+    console.log(c_res)
+    //temp.td_cb_flag = 2;
+    //await temp.save()
+  }
+}
 
 function handleIpAndUa(ip, ua) {
     let uni_ip_h_ua =  (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
