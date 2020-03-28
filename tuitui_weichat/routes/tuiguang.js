@@ -320,13 +320,13 @@ router.post('/data/yuewen', async (req, res, next) => {
   //tuitui_cms 数据
   let tcpd = await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
-    {upsert:true},//这个之后考虑要不要加
+    {upsert:true,new:true},//这个之后考虑要不要加
   )
   //上传uc
   if(tcpd.tg_platform ==2 && tcpd.td_url ){
     up_uc(tcpd)
   }
-  
+
   //console.log('-----send yuewen------')
   res.send({"code": 0});
 });
