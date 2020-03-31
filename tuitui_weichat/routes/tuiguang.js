@@ -13,6 +13,7 @@ var fs = require('fs')
 var mem = require('../util/mem.js')
 const asyncRedis = require("async-redis");
 const redis_client = asyncRedis.createClient();
+const rp = require('request-promise');
 
 //线上
 var juedui_lujing = '/home/work/tuitui_program/project/public/images/website'
@@ -310,8 +311,8 @@ router.post('/data/yuewen', async (req, res, next) => {
   if(!pd.regtime){
     delete pd.regtime
   }
-  console.log('-----阅文回传数据-----')
-  console.log(pd)
+  //console.log('-----阅文回传数据-----')
+  //console.log(pd)
   await PlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
     {upsert:true},//这个之后考虑要不要加
