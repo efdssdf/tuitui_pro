@@ -147,7 +147,7 @@ function getTengwenOrder(qs) {
                 reject(err)
             } else {
                 let {code, data} = res.body;
-                console.log(JSON.stringify(res.body))
+                //console.log(JSON.stringify(res.body))
                 if(code == 1) {
                     //console.log("============getTengwenOrder success===============")
                     //console.log(res.body)
