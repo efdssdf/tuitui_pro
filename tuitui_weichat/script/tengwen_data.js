@@ -72,8 +72,8 @@ function getTengwenData(qs) {
         for (let key in qs) {
             args.push(key+'='+qs[key])
         }
-        console.log('-------腾文 getorder---------')
-        console.log(c_url+'?'+args.join('&'))
+        //console.log('-------腾文 getorder---------')
+        //console.log(c_url+'?'+args.join('&'))
         request({
             url: "https://data-api.tengwen.com/seruser/ny_hour_user",
             method: "get",
@@ -87,8 +87,8 @@ function getTengwenData(qs) {
             } else {
                 let {code, data} = res.body;
                 if(code == 1) {
-                    console.log("============getTengwenData success===============")
-                    console.log(JSON.stringify(res.body))
+                    //console.log("============getTengwenData success===============")
+                    //console.log(JSON.stringify(res.body))
                     let {pageCount, currentPage, dataSource} = data;
                     mapUserDataSource(dataSource, qs)
                     if(currentPage < pageCount) {
@@ -106,8 +106,8 @@ function getTengwenData(qs) {
 async function mapUserDataSource(dataSource, qs) {
     for(let i = 0; i < dataSource.length; i ++) {
         let dataItem = dataSource[i];
-        console.log('------数据-------')
-        console.log(dataItem)
+        //console.log('------数据-------')
+        //console.log(dataItem)
         let {ip, ua, wx_gzhopenid, regtime, isfollow, id} = dataItem;
         if(ip){
             let uni_ip_h_ua = handleIpAndUa(ip, ua);
@@ -132,8 +132,8 @@ function getTengwenOrder(qs) {
         for (let key in qs) {
             args.push(key+'='+qs[key])
         }
-        console.log('-------腾文 getorder---------')
-        console.log(c_url+'?'+args.join('&'))
+        //console.log('-------腾文 getorder---------')
+        //console.log(c_url+'?'+args.join('&'))
 
 
         request({
@@ -149,7 +149,7 @@ function getTengwenOrder(qs) {
                 let {code, data} = res.body;
                 console.log(JSON.stringify(res.body))
                 if(code == 1) {
-                    console.log("============getTengwenOrder success===============")
+                    //console.log("============getTengwenOrder success===============")
                     //console.log(res.body)
                     let {pageCount, currentPage, dataSource} = data;
                     mapOrderDataSource(dataSource)
@@ -172,7 +172,7 @@ async function mapOrderDataSource(dataSource) {
         
         let flag = await mem.get('td_tw_cb_'+wx_gzhopenid);
         if(flag){
-            console.log('已处理回传')
+            //console.log('已处理回传')
             continue
         }
         await mem.set('td_tw_cb_'+wx_gzhopenid,'back',5*60)

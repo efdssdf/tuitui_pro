@@ -311,8 +311,8 @@ router.post('/data/yuewen', async (req, res, next) => {
   if(!pd.regtime){
     delete pd.regtime
   }
-  //console.log('-----阅文回传数据-----')
-  //console.log(pd)
+  console.log('-----阅文回传数据-----')
+  console.log(pd)
   await PlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
     {upsert:true},//这个之后考虑要不要加
@@ -335,7 +335,7 @@ router.post('/data/yuewen', async (req, res, next) => {
 async function up_uc(temp){
   console.log('-----上传uc 回传用户关注------')
   let td_url = decodeURIComponent(temp.td_url)
-  console.log(td_url)
+  console.log(temp)
   if(td_url.indexOf('?')!=-1){
     let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
                         +temp.td_url+'&event_type=5'
