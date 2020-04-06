@@ -15,6 +15,11 @@ var TCPlatformDataSchema = new Schema({
         type : String,
         default : ''
     },
+    tg_platform :{
+        type :Number, //0 默认头条 1 头条 2 uc
+        default : 0
+    },
+    uctrackid : String,//uc的标识
     ip: String,
     td_ua: String,    // 头条的ua 需要处理
     tc_tuiguang_id: String,

@@ -33,7 +33,7 @@ let handle = async (data,params) =>{
 	for(let item of data.list){
 		let flag = await mem.get('td_yw_cb_'+item.openid);
 		if(flag){
-			console.log('已处理回传')
+			//console.log('已处理回传')
 			continue
 		}
 		await mem.set('td_yw_cb_'+item.openid,'back',5*60)
@@ -51,7 +51,7 @@ let handle = async (data,params) =>{
 				let urls = td_url.split('adid')
 				if(urls.length==3){
 					td_url = urls[0]+'adid'+urls[2]
-					console.log('第一层有问题链接------',td_url)
+					//console.log('第一层有问题链接------',td_url)
 					let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+encodeURIComponent(td_url)+'&event_type=2'
 					await rp(ad_cb_url)
@@ -61,7 +61,7 @@ let handle = async (data,params) =>{
 						td_cb_flag :2
 					})
 				}else{
-					console.log('阅文无问题链接回传------',td_url)
+					//console.log('阅文无问题链接回传------',td_url)
 					let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 								+temp.td_url+'&event_type=2'
 					await rp(ad_cb_url)
@@ -73,10 +73,10 @@ let handle = async (data,params) =>{
 				}	
 			}else{
 				td_url = decodeURIComponent(td_url)
-				console.log('-----处理链接------',td_url)
+				//console.log('-----处理链接------',td_url)
 				let urls = td_url.split('adid')
 				if(urls.length ==2){
-					console.log('第二层有问题链接------',td_url)
+					//console.log('第二层有问题链接------',td_url)
 					let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+encodeURIComponent(td_url)+'&event_type=2'
 					await rp(ad_cb_url)
@@ -87,7 +87,7 @@ let handle = async (data,params) =>{
 					})
 				}else if(urls.length ==3){
 					td_url = urls[0]+'adid'+urls[2]
-					console.log('第三层有问题链接------',td_url)
+					//console.log('第三层有问题链接------',td_url)
 					let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+encodeURIComponent(td_url)+'&event_type=2'
 					await rp(ad_cb_url)
@@ -188,7 +188,7 @@ let test =() => {
 
 let td_fuck =async () =>{
 	//let td_url = encodeURIComponent("http://td.tyuss.com/tuiguang/data/a0fsXJnn?adid=1651830321459575&clickid=EPfiqLzLyvcCGIi45L_AifkCKISg3-a8kfkC&creativeid=1651830321459575&creativetype=1");
-	let td_url = encodeURIComponent('https://td.tyuss.com/tuiguang/data/F3qDhxFn?adid=1659844629667859&creativeid=1659849696512013&creativetype=15&clickid=EI2Qqvz9s_kCGJOFhfj5ASCh3v_N5AEwDDjBuAJCIjIwMjAwMjI5MTYzOTA1MDEwMDIxMDQyMDMyMTJENzMwRjJIwbgC')
+	let td_url = 'https%3A%2F%2Ftd.tyuss.com%2Ftuiguang%2Fdata%2FkVi4tsKj%3Fadid%3D1661835459050653%26creativeid%3D1661835584630840%26creativetype%3D15%26clickid%3DELjgyf3j7fkCGIbwxo3uAiC39_PihgIwDDjBuAJCIjIwMjAwMzIyMTQwMDM5MDEwMTI5MDM5MTQ3MjE1QjRDOTNIwbgC'
 	let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+td_url+'&event_type=2'
 	let res = await rp(ad_cb_url)

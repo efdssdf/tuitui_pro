@@ -13,6 +13,7 @@ var fs = require('fs')
 var mem = require('../util/mem.js')
 const asyncRedis = require("async-redis");
 const redis_client = asyncRedis.createClient();
+const rp = require('request-promise');
 
 //线上
 var juedui_lujing = '/home/work/tuitui_program/project/public/images/website'
@@ -173,60 +174,34 @@ router.get('/novel/get_content', async (req, res, next) => {
 })
 
 router.post('/novel/update', async (req, res, next) => {
-  var id = req.body._id
-  var message = {
-    type: req.body.type,
-    id: req.body.id,
-    gonghao_id: req.body.gonghao_id,
-    pageTitle: req.body.pageTitle || "",
-    articleTit: req.body.articleTit || "",
-    name: req.body.name,
-    desc: req.body.desc,
-    picurl: req.body.picurl || "",
-    capter1: req.body.capter1 || '',
-    capter2: req.body.capter2 || '',
-    linkUrl: req.body.linkUrl || '',
-    statisticsUrl1: req.body.statisticsUrl1 || "",
-    statisticsUrl2: req.body.statisticsUrl2 || '',
-    tokenCodes: req.body.tokenCodes || '',
-    channel: req.body.channel || "",
-    remarks: req.body.remarks || "",
-    domain_name: req.body.domain_name || "http://novel.jtjsmp.top",
-    gonghaoLogo: req.body.gonghaoLogo || "",
-    finalImg: req.body.finalImg || "",
-    company: req.body.company || "",
-    suffix : req.body.suffix,
-    isClick : req.body.isClick,
-    creator: req.body.creator || "",
-    jumpUrl : req.body.jumpUrl || "",
-    isJump : req.body.isJump,
-    bgcolor: req.body.bgcolor || "#fff",
-    finalImg_ali : "",
-    picurl_ali : ""
-  };
-  if (req.body.capter1) {
-    message.capter1 = req.body.capter1
+  var {_id, id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name = "http://novel.jtjsmp.top", gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor = "#fff"} = req.body;
+  var message = {id, type, gonghao_id, pageTitle, articleTit, name, picurl, capter1, capter2, linkUrl, statisticsUrl1, statisticsUrl2, tokenCodes, channel, remarks, domain_name, gonghaoLogo, finalImg, company, suffix, isClick, creator, jumpUrl, isJump, bgcolor, finalImg_ali: "", picurl_ali: ""};
+  if (capter1) {
+    message.capter1 = capter1
   }
-  if (req.body.capter2) {
-    message.capter2 = req.body.capter2
+  if (capter2) {
+    message.capter2 = capter2
   }
-  var docs = await TuiGuangModel.findByIdAndUpdate(id, message)
+  var docs = await TuiGuangModel.findByIdAndUpdate(_id, message)
   if (docs) {
-    mem.set('weitiao_' + id, {}, 60).then(function () {
+    mem.set('weitiao_' + id, '', 60).then(function () {
       console.log('---------set weitiao value---------')
-    })
-    mem.set('singlepage_' + id, {}, 60).then(function () {
+    });
+    mem.set('singlepage_' + id, '', 60).then(function () {
       console.log('---------set singlepage value---------')
-    })
-    mem.set('multipage_' + id, {}, 60).then(function () {
+    });
+    mem.set('multipage_' + id, '', 60).then(function () {
       console.log('---------set multipage value---------')
-    })
-    mem.set('capter_' + id, {}, 60).then(function () {
+    });
+    mem.set('capter_' + id, '', 60).then(function () {
       console.log('---------set capter value---------')
-    })
-    mem.set('toutiao_' + id, {}, 60).then(function () {
+    });
+    mem.set('toutiao_' + id, '', 60).then(function () {
       console.log('---------set toutiao value---------')
-    })
+    });
+    mem.set('data_' + id, '', 60).then(function () {
+      console.log('---------set data value---------')
+    });
     res.send({success: '修改成功'})
   } else {
     res.send({err: '修改失败'})
@@ -344,16 +319,45 @@ router.post('/data/yuewen', async (req, res, next) => {
   )
 
   //tuitui_cms 数据
-  await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
+  let tcpd = await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
     pd,
-    {upsert:true},//这个之后考虑要不要加
+    {upsert:true,new:true},//这个之后考虑要不要加
   )
+  //上传uc
+  if(tcpd.tg_platform ==2 && tcpd.td_url ){
+    up_uc(tcpd)
+  }
+
   //console.log('-----send yuewen------')
   res.send({"code": 0});
 });
 
+async function up_uc(temp){
+  console.log('-----上传uc 回传用户关注------')
+  let td_url = decodeURIComponent(temp.td_url)
+  console.log(temp)
+  if(td_url.indexOf('?')!=-1){
+    let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
+                        +temp.td_url+'&event_type=5'
+    let c_res = await rp(ad_cb_url)
+    console.log(c_res)
+    //temp.td_cb_flag = 1;
+    //await temp.save()
+  }else{
+    //td_url = decodeURIComponent(td_url)
+    let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
+                    +td_url+'&event_type=5'
+    let c_res = await rp(ad_cb_url)
+    console.log(c_res)
+    //temp.td_cb_flag = 2;
+    //await temp.save()
+  }
+}
+
 function handleIpAndUa(ip, ua) {
     let uni_ip_h_ua =  (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
+    uni_ip_h_ua = uni_ip_h_ua.replace(' U;','');
+    uni_ip_h_ua = uni_ip_h_ua.replace('; wv','');
     /*if(uni_ip_h_ua.indexOf('iPhone')!=-1){
         let replace_start = uni_ip_h_ua.substring(0,uni_ip_h_ua.indexOf('(')+1);
         let replace_end =  uni_ip_h_ua.substring(uni_ip_h_ua.indexOf(')'))
