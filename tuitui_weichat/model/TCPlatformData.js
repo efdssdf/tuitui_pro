@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var connect_url = "mongodb://mingxing:liujiazhi88@dds-2ze36af17eb05c042440-pub.mongodb.rds.aliyuncs.com:3717/tuitui_cms?replicaSet=mgset-5196081";
+var connect_url = "mongodb://jishu:VJnUsG1t@dds-2ze36af17eb05c042440-pub.mongodb.rds.aliyuncs.com:3717/tuitui_cms?replicaSet=mgset-5196081";
 var db = mongoose.createConnection(connect_url);
 
 var TCPlatformDataSchema = new Schema({
