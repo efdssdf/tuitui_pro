@@ -34,7 +34,10 @@ var TCPlatformDataSchema = new Schema({
     ispay: Number,    // 是否支付 1只支付
     amount: Number,   // 金额    
     seruid: String,   // 服务号id  阅文的 appflag
-    tg_seruid: String,   // 落地页写的 服务号id
+    tg_seruid: {
+        type : String,
+        default : ''
+    },   // 落地页写的 服务号id
     td_cb_flag : {
         type : Number,
         default : 0

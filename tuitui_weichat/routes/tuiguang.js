@@ -319,17 +319,24 @@ router.post('/data/yuewen', async (req, res, next) => {
   )
 
   //tuitui_cms 数据
-  let tcpd = await TCPlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
+  let tcpd = await TCPlatformDataModel.findOneAndUpdate(
+    {
+      uni_ip_h_ua : pd.uni_ip_h_ua,
+      tg_seruid : pd.seruid
+    },
     pd,
     {upsert:true,new:true},//这个之后考虑要不要加
   )
+
+  res.send({"code": 0});
+
   //上传uc
   if(tcpd.tg_platform ==2 && tcpd.td_url ){
     up_uc(tcpd)
   }
 
   //console.log('-----send yuewen------')
-  res.send({"code": 0});
+  
 });
 
 async function up_uc(temp){
@@ -337,6 +344,7 @@ async function up_uc(temp){
   let td_url = decodeURIComponent(temp.td_url)
   console.log(temp)
   if(td_url.indexOf('?')!=-1){
+    console.log('----uc---- 无问题链接回传',td_url)
     let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
                         +temp.td_url+'&event_type=5'
     let c_res = await rp(ad_cb_url)
@@ -345,6 +353,7 @@ async function up_uc(temp){
     //await temp.save()
   }else{
     //td_url = decodeURIComponent(td_url)
+    console.log('----uc---- 有问题链接回传',td_url)
     let ad_cb_url = 'https://huichuan.uc.cn/callback/ct/add?link='
                     +td_url+'&event_type=5'
     let c_res = await rp(ad_cb_url)
@@ -358,6 +367,8 @@ function handleIpAndUa(ip, ua) {
     let uni_ip_h_ua =  (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
     uni_ip_h_ua = uni_ip_h_ua.replace(' U;','');
     uni_ip_h_ua = uni_ip_h_ua.replace('; wv','');
+    uni_ip_h_ua = uni_ip_h_ua.replace('zh-CN; ','');
+    uni_ip_h_ua = uni_ip_h_ua.replace('zh-CN','');
     /*if(uni_ip_h_ua.indexOf('iPhone')!=-1){
         let replace_start = uni_ip_h_ua.substring(0,uni_ip_h_ua.indexOf('(')+1);
         let replace_end =  uni_ip_h_ua.substring(uni_ip_h_ua.indexOf(')'))
