@@ -1,14 +1,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var connect_url = "mongodb://jishu:VJnUsG1t@dds-2ze36af17eb05c042440-pub.mongodb.rds.aliyuncs.com:3717/tuitui_cms?replicaSet=mgset-5196081";
+var connect_url = require('../conf/proj.json').mongodb_tuitui_cms;
 var db = mongoose.createConnection(connect_url);
 
 var TCPlatformDataSchema = new Schema({
     account_id : String,
     uni_ip_h_ua: {
-        type: String,
-        index: true,
-        unique: true
+        type: String
     },// ip+处理过的ua 做唯一标识
     td_url: String,
     td_clickid: {
@@ -32,9 +30,11 @@ var TCPlatformDataSchema = new Schema({
     isfollow: Number, // 是否关注 1已关注
     wx_id: String,
     wx_platfrom: Number,
+    tg_wx_platfrom: Number,
     ispay: Number,    // 是否支付 1只支付
     amount: Number,   // 金额    
     seruid: String,   // 服务号id  阅文的 appflag
+    tg_seruid: String,   // 落地页写的 服务号id
     td_cb_flag : {
         type : Number,
         default : 0
