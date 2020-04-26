@@ -321,8 +321,8 @@ router.post('/data/yuewen', async (req, res, next) => {
   //tuitui_cms 数据
   let tcpd = await TCPlatformDataModel.findOneAndUpdate(
     {
-      uni_ip_h_ua : pd.uni_ip_h_ua
-      //,tg_seruid : pd.seruid
+      uni_ip_h_ua : pd.uni_ip_h_ua,
+      tg_seruid : pd.seruid
     },
     pd,
     {upsert:true,new:true},//这个之后考虑要不要加
