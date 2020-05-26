@@ -309,7 +309,7 @@ router.post('/data/yuewen', async (req, res, next) => {
     wx_platfrom : 1
   }
   if(!pd.regtime){
-    delete pd.regtime
+    pd.regtime = Date.now();
   }
   console.log('-----阅文回传数据-----')
   console.log(pd)
