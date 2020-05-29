@@ -38,6 +38,10 @@ var TCPlatformDataSchema = new Schema({
         type : String,
         default : ''
     },   // 落地页写的 服务号id
+    td_fellow_cb_flag : {
+        type : Number,
+        default : 0
+    },
     td_cb_flag : {
         type : Number,
         default : 0

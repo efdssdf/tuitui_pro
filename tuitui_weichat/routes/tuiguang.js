@@ -330,14 +330,53 @@ router.post('/data/yuewen', async (req, res, next) => {
 
   res.send({"code": 0});
 
-  //上传uc
-  if(tcpd.tg_platform ==2 && tcpd.td_url ){
-    up_uc(tcpd)
+  //上传头条
+  if( (!tcpd.tg_platform || tcpd.tg_platform ==1 ) && tcpd.td_url ){
+    up_td(tcpd)
   }
 
   //console.log('-----send yuewen------')
   
 });
+
+async function up_td(temp){
+  let td_url = decodeURIComponent(temp.td_url);
+  console.log('----回传头条用户关注------',td_url);
+  if(td_url.indexOf('?')!=-1){
+    let urls = td_url.split('adid')
+    if(urls.length==3){
+        td_url = urls[0]+'adid'+urls[2]
+        let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+                +encodeURIComponent(td_url)+'&event_type=0'
+        await rp(ad_cb_url)
+        temp.td_fellow_cb_flag = 2;
+        await temp.save()
+    }else{
+        let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+                    +temp.td_url+'&event_type=0'
+        await rp(ad_cb_url)
+        temp.td_fellow_cb_flag = 1;
+        await temp.save()
+    }
+  }else{
+      td_url = decodeURIComponent(td_url)
+      let urls = td_url.split('adid')
+      if(urls.length ==2){
+          let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+                  +encodeURIComponent(td_url)+'&event_type=0'
+          await rp(ad_cb_url)
+          temp.td_fellow_cb_flag = 2;
+          await temp.save()
+      }else if(urls.length ==3){
+          td_url = urls[0]+'adid'+urls[2]
+          let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
+                  +encodeURIComponent(td_url)+'&event_type=0'
+          await rp(ad_cb_url)
+          temp.td_fellow_cb_flag = 2;
+          await temp.save()
+      }
+  }  
+}
 
 async function up_uc(temp){
   console.log('-----上传uc 回传用户关注------')
