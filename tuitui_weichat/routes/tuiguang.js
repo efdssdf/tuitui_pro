@@ -341,20 +341,32 @@ router.post('/data/yuewen', async (req, res, next) => {
 
 async function up_td(temp){
   let td_url = decodeURIComponent(temp.td_url);
-  console.log('----回传头条用户关注------',td_url);
+  //console.log('----回传头条用户关注------',td_url);
   if(td_url.indexOf('?')!=-1){
     let urls = td_url.split('adid')
     if(urls.length==3){
         td_url = urls[0]+'adid'+urls[2]
         let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                 +encodeURIComponent(td_url)+'&event_type=0'
-        await rp(ad_cb_url)
+
+        console.log('-----头条关注回传-----')
+        console.log(ad_cb_url)
+        let res = await rp(ad_cb_url)
+        console.log('-------头条返回数据--------')
+        console.log(res)
+
         temp.td_fellow_cb_flag = 2;
         await temp.save()
     }else{
         let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                     +temp.td_url+'&event_type=0'
-        await rp(ad_cb_url)
+
+        console.log('-----头条关注回传-----')
+        console.log(ad_cb_url)
+        let res = await rp(ad_cb_url)
+        console.log('-------头条返回数据--------')
+        console.log(res)
+
         temp.td_fellow_cb_flag = 1;
         await temp.save()
     }
@@ -364,14 +376,26 @@ async function up_td(temp){
       if(urls.length ==2){
           let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                   +encodeURIComponent(td_url)+'&event_type=0'
-          await rp(ad_cb_url)
+          
+          console.log('-----头条关注回传-----')
+          console.log(ad_cb_url)
+          let res = await rp(ad_cb_url)
+          console.log('-------头条返回数据--------')
+          console.log(res)
+
           temp.td_fellow_cb_flag = 2;
           await temp.save()
       }else if(urls.length ==3){
           td_url = urls[0]+'adid'+urls[2]
           let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
                   +encodeURIComponent(td_url)+'&event_type=0'
-          await rp(ad_cb_url)
+          
+          console.log('-----头条关注回传-----')
+          console.log(ad_cb_url)
+          let res = await rp(ad_cb_url)
+          console.log('-------头条返回数据--------')
+          console.log(res)
+
           temp.td_fellow_cb_flag = 2;
           await temp.save()
       }
