@@ -313,11 +313,7 @@ router.post('/data/yuewen', async (req, res, next) => {
   }
   console.log('-----阅文回传数据-----')
   console.log(pd)
-  await PlatformDataModel.findOneAndUpdate({uni_ip_h_ua: pd.uni_ip_h_ua},
-    pd,
-    {upsert:true},//这个之后考虑要不要加
-  )
-
+  
   //tuitui_cms 数据
   let tcpd = await TCPlatformDataModel.findOneAndUpdate(
     {
