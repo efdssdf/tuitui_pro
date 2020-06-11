@@ -303,7 +303,7 @@ router.post('/data/yuewen', async (req, res, next) => {
     uni_ip_h_ua : handleIpAndUa(ip,ua),
     wx_ua : ua,
     ip : ip,
-    regtime : new Date(req.body.time).getTime(),
+    regtime : req.body.time*1000,
     wx_openid : req.body.open_id,
     isfollow : 1,
     seruid : req.body.appflag,
@@ -327,7 +327,7 @@ router.post('/data/yuewen', async (req, res, next) => {
   )
 
   res.send({"code": 0});
-  
+
 
   await TCPlatformUserModel.findOneAndUpdate({
     wx_openid:pd.wx_openid
