@@ -312,21 +312,9 @@ router.post('/data/yuewen', async (req, res, next) => {
   if(!pd.regtime){
     pd.regtime = Date.now();
   }
+
   console.log('-----阅文回传数据-----')
   console.log(pd)
-
-  await TCPlatformUserModel.findOneAndUpdate({
-    wx_openid:pd.wx_openid
-  },
-  {
-    id_regtime:new Date(pd.regtime).setHours(0,0,0,0),
-    regtime: pd.regtime,
-    wx_openid: pd.wx_openid,
-    seruid: pd.seruid,
-    wx_platfrom: 1,
-  },
-  {upsert:true},
-  );
   
   //tuitui_cms 数据
   let tcpd = await TCPlatformDataModel.findOneAndUpdate(
@@ -339,6 +327,20 @@ router.post('/data/yuewen', async (req, res, next) => {
   )
 
   res.send({"code": 0});
+  
+
+  await TCPlatformUserModel.findOneAndUpdate({
+    wx_openid:pd.wx_openid
+  },
+  {
+    id_regtime:new Date(pd.regtime).setHours(0,0,0,0),
+    regtime: pd.regtime,
+    wx_openid: pd.wx_openid,
+    seruid: pd.seruid,
+    wx_platfrom: 1,
+  },
+  {upsert:true}
+  );
 
   //上传头条
   if( (!tcpd.tg_platform || tcpd.tg_platform ==1 ) && tcpd.td_url ){
