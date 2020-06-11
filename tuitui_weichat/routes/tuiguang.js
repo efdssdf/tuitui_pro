@@ -8,6 +8,7 @@ var TokenArrModel = require('../model/TokenArr.js');
 var BannerModel = require('../model/Banner.js');
 var PlatformDataModel = require('../model/PlatformData.js');
 var TCPlatformDataModel = require('../model/TCPlatformData.js');
+var TCPlatformUserModel = require('../model/TCPlatformUser.js');
 var multer = require('multer');
 var fs = require('fs')
 var mem = require('../util/mem.js')
@@ -313,6 +314,18 @@ router.post('/data/yuewen', async (req, res, next) => {
   }
   console.log('-----阅文回传数据-----')
   console.log(pd)
+
+  await TCPlatformUserModel.findOneAndUpdate({
+    wx_openid:pd.wx_openid
+  },
+  {
+    id_regtime:new Date(req.body.time).setHours(0,0,0,0),
+    regtime: pd.regtime,
+    wx_openid: pd.wx_openid,
+    seruid: pd.seruid,
+    wx_platfrom: 1,
+  }
+  );
   
   //tuitui_cms 数据
   let tcpd = await TCPlatformDataModel.findOneAndUpdate(
