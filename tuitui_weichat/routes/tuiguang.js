@@ -319,7 +319,7 @@ router.post('/data/yuewen', async (req, res, next) => {
     wx_openid:pd.wx_openid
   },
   {
-    id_regtime:new Date(req.body.time).setHours(0,0,0,0),
+    id_regtime:new Date(pd.regtime).setHours(0,0,0,0),
     regtime: pd.regtime,
     wx_openid: pd.wx_openid,
     seruid: pd.seruid,
