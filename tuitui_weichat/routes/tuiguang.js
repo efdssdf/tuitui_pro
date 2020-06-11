@@ -324,7 +324,8 @@ router.post('/data/yuewen', async (req, res, next) => {
     wx_openid: pd.wx_openid,
     seruid: pd.seruid,
     wx_platfrom: 1,
-  }
+  },
+  {upsert:true},
   );
   
   //tuitui_cms 数据

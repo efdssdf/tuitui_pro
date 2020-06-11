@@ -18,7 +18,6 @@ var TCPlatformUserSchema = new Schema({
         default: Date.now
     }
 },{
-    _id: false,
     timestamps: {createdAt: 'createAt', updatedAt: 'updateAt'}
 });
 
