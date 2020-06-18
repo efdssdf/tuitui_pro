@@ -359,7 +359,7 @@ async function up_td(temp){
     if(urls.length==3){
         td_url = urls[0]+'adid'+urls[2]
         let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                +encodeURIComponent(td_url)+'&event_type=0'
+                +encodeURIComponent(td_url)+'&event_type=19'
 
         console.log('-----头条关注回传-----')
         console.log(ad_cb_url)
@@ -371,7 +371,7 @@ async function up_td(temp){
         await temp.save()
     }else{
         let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                    +temp.td_url+'&event_type=0'
+                    +temp.td_url+'&event_type=19'
 
         console.log('-----头条关注回传-----')
         console.log(ad_cb_url)
@@ -387,7 +387,7 @@ async function up_td(temp){
       let urls = td_url.split('adid')
       if(urls.length ==2){
           let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                  +encodeURIComponent(td_url)+'&event_type=0'
+                  +encodeURIComponent(td_url)+'&event_type=19'
           
           console.log('-----头条关注回传-----')
           console.log(ad_cb_url)
@@ -400,7 +400,7 @@ async function up_td(temp){
       }else if(urls.length ==3){
           td_url = urls[0]+'adid'+urls[2]
           let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                  +encodeURIComponent(td_url)+'&event_type=0'
+                  +encodeURIComponent(td_url)+'&event_type=19'
           
           console.log('-----头条关注回传-----')
           console.log(ad_cb_url)
