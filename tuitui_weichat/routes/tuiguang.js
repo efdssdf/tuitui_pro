@@ -354,12 +354,16 @@ router.post('/data/yuewen', async (req, res, next) => {
 async function up_td(temp){
   let td_url = decodeURIComponent(temp.td_url);
   //console.log('----回传头条用户关注------',td_url);
+  let event_type =19;
+  if( temp.seruid=='wxfxmswl1379' ){
+    event_type = 3
+  }
   if(td_url.indexOf('?')!=-1){
     let urls = td_url.split('adid')
     if(urls.length==3){
         td_url = urls[0]+'adid'+urls[2]
         let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                +encodeURIComponent(td_url)+'&event_type=19'
+                +encodeURIComponent(td_url)+'&event_type='+event_type
 
         console.log('-----头条关注回传-----')
         console.log(ad_cb_url)
@@ -371,7 +375,7 @@ async function up_td(temp){
         await temp.save()
     }else{
         let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                    +temp.td_url+'&event_type=19'
+                    +temp.td_url+'&event_type='+event_type
 
         console.log('-----头条关注回传-----')
         console.log(ad_cb_url)
@@ -387,7 +391,7 @@ async function up_td(temp){
       let urls = td_url.split('adid')
       if(urls.length ==2){
           let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                  +encodeURIComponent(td_url)+'&event_type=19'
+                  +encodeURIComponent(td_url)+'&event_type='+event_type
           
           console.log('-----头条关注回传-----')
           console.log(ad_cb_url)
@@ -400,7 +404,7 @@ async function up_td(temp){
       }else if(urls.length ==3){
           td_url = urls[0]+'adid'+urls[2]
           let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
-                  +encodeURIComponent(td_url)+'&event_type=19'
+                  +encodeURIComponent(td_url)+'&event_type='+event_type
           
           console.log('-----头条关注回传-----')
           console.log(ad_cb_url)
