@@ -355,7 +355,8 @@ async function up_td(temp){
   let td_url = decodeURIComponent(temp.td_url);
   //console.log('----回传头条用户关注------',td_url);
   let event_type =19;
-  if( temp.seruid=='wxfxmswl1379' ){
+  let chshjs= ['wxfxmswl1379','wxfxmswl1240','wxfxmswl1245']
+  if( chshjs.indexOf(temp.seruid) != -1 ){
     event_type = 3
   }
   if(td_url.indexOf('?')!=-1){
