@@ -357,7 +357,7 @@ async function up_td(temp){
   let event_type =19;
   
   // 穿山甲测试
-  let chshjs= ['wxfxmswl1237','wxfxmswl1379']
+  let chshjs= ['wxfxmswl1379']
   if( chshjs.indexOf(temp.seruid) != -1 ){
     event_type = 3
   }
