@@ -354,12 +354,12 @@ router.post('/data/yuewen', async (req, res, next) => {
 async function up_td(temp){
   let td_url = decodeURIComponent(temp.td_url);
   //console.log('----回传头条用户关注------',td_url);
-  let event_type =19;
+  let event_type =0;
   
-  // 穿山甲测试
+  // 融合双出价测试
   /*let chshjs= ['wxfxmswl1379']
   if( chshjs.indexOf(temp.seruid) != -1 ){
-    event_type = 3
+    event_type = 0
   }
   */
   if(td_url.indexOf('?')!=-1){
