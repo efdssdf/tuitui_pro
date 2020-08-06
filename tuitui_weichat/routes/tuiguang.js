@@ -343,13 +343,49 @@ router.post('/data/yuewen', async (req, res, next) => {
   );
 
   //上传头条
-  if( (!tcpd.tg_platform || tcpd.tg_platform ==1 ) && tcpd.tg_seruid !='wxfxmsdyh1' && tcpd.td_url ){
+  if( (!tcpd.tg_platform || tcpd.tg_platform ==1 ) && tcpd.td_url ){
     up_td(tcpd)
+  }else if(tcpd.seruid !='wxfxmsdyh1'){
+    up_dy(tcpd)
   }
 
   //console.log('-----send yuewen------')
   
 });
+
+let up_dy = async (temp) =>{
+        console.log('-----上传抖音浅层 回传------')
+        let ad_cb_url = 'https://analytics.oceanengine.com/api/v1/attribution'
+        let options= {
+            method: 'POST',
+            uri: ad_cb_url,
+            body: {
+                "event_type": "in_page_click", //
+                "attribute_label":"convert", //
+                "biz_type": 2, //
+                "context":{
+                    "match_type": 0,
+                    "app":{
+                        "id": "1128", 
+                        "from_uid": temp.wx_openid, 
+                        "to_uid": "101757959485"
+                    }
+                    
+                },
+                "source": "mxs",
+                "timestamp": parseInt(temp.regtime/1000)
+            },
+            json: true // Automatically stringifies the body to JSON
+        };
+        console.log(options.body);
+
+        let res = await rp(options);
+        console.log(res);
+
+        temp.td_fellow_cb_flag = 1;
+        await temp.save();
+
+}
 
 async function up_td(temp){
   let td_url = decodeURIComponent(temp.td_url);
