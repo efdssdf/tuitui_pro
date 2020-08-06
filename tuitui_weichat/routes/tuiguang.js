@@ -345,7 +345,7 @@ router.post('/data/yuewen', async (req, res, next) => {
   //上传头条
   if( (!tcpd.tg_platform || tcpd.tg_platform ==1 ) && tcpd.td_url ){
     up_td(tcpd)
-  }else if(tcpd.seruid !='wxfxmsdyh1'){
+  }else if(tcpd.seruid =='wxfxmsdyh1'){
     up_dy(tcpd)
   }
 
