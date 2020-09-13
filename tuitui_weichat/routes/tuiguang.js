@@ -483,16 +483,17 @@ async function up_uc(temp){
 }
 
 function handleIpAndUa(ip, ua) {
-    let uni_ip_h_ua =  (ip + ua.substring(0,ua.indexOf(')',ua.indexOf(')')+1)+1));
-    uni_ip_h_ua = uni_ip_h_ua.replace(' U;','');
-    uni_ip_h_ua = uni_ip_h_ua.replace('; wv','');
-    uni_ip_h_ua = uni_ip_h_ua.replace('zh-CN; ','');
-    uni_ip_h_ua = uni_ip_h_ua.replace('zh-CN','');
-    /*if(uni_ip_h_ua.indexOf('iPhone')!=-1){
-        let replace_start = uni_ip_h_ua.substring(0,uni_ip_h_ua.indexOf('(')+1);
-        let replace_end =  uni_ip_h_ua.substring(uni_ip_h_ua.indexOf(')'))
-        uni_ip_h_ua = replace_start+ 'iPhone' + replace_end
-    }*/
+    let uni_ip_h_ua = (ip + ua.substring(0, ua.indexOf(')', ua.indexOf(')') + 1) + 1));
+    uni_ip_h_ua = uni_ip_h_ua.replace(' U;', '');
+    uni_ip_h_ua = uni_ip_h_ua.replace('; wv', '');
+    uni_ip_h_ua = uni_ip_h_ua.replace('zh-CN; ', '');
+    uni_ip_h_ua = uni_ip_h_ua.replace('; zh-CN', '');
+    if(uni_ip_h_ua.indexOf('iPhone')!=-1){
+        // 微信头条iphone ua版本不匹配 
+        //uni_ip_h_ua.replace('13_5_1','13_6');
+        //uni_ip_h_ua.replace('13_4_1','13_5_1');
+        uni_ip_h_ua.replace('13_6 ','13_6_1 ')
+    }
     return uni_ip_h_ua;
 }
 
