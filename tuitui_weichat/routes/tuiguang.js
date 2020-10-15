@@ -343,12 +343,12 @@ router.post('/data/yuewen', async (req, res, next) => {
   {upsert:true}
   );
 
-  let tcp = await mem.get('tcp_seruid_' + pd.seruid);
+  let tcp = await mem.get('tcp_td_seruid_' + pd.seruid);
   if(tcp){
     tcp = JSON.parse(tcp)
   }else{
-    tcp =  TCPlatformModel.findOne({seruid:pd.seruid})
-    await mem.set('tcp_seruid_' + pd.seruid,JSON.stringify(tcp))
+    tcp = await TCPlatformModel.findOne({seruid:pd.seruid})
+    await mem.set('tcp_td_seruid_' + pd.seruid,JSON.stringify(tcp),5*60)
   }
   if(tcp && tcp.type==1){
     up_ipua(pd,tcp);
