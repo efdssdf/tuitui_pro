@@ -7,6 +7,7 @@ var DomainModel = require('../model/Domain.js');
 var TokenArrModel = require('../model/TokenArr.js');
 var BannerModel = require('../model/Banner.js');
 var PlatformDataModel = require('../model/PlatformData.js');
+var TCPlatformModel = require('../model/TCPlatform.js');
 var TCPlatformDataModel = require('../model/TCPlatformData.js');
 var TCPlatformUserModel = require('../model/TCPlatformUser.js');
 var multer = require('multer');
@@ -342,6 +343,18 @@ router.post('/data/yuewen', async (req, res, next) => {
   {upsert:true}
   );
 
+  let tcp = await mem.get('tcp_seruid_' + pd.seruid);
+  if(tcp){
+    tcp = JSON.parse(tcp)
+  }else{
+    tcp =  TCPlatformModel.findOne({seruid:pd.seruid})
+    await mem.set('tcp_seruid_' + pd.seruid,JSON.stringify(tcp))
+  }
+  if(tcp && tcp.type==1){
+    up_ipua(pd,tcp);
+  }
+  
+
   //上传头条
   if( (!tcpd.tg_platform || tcpd.tg_platform ==1 ) && tcpd.td_url ){
     up_td(tcpd)
@@ -352,6 +365,44 @@ router.post('/data/yuewen', async (req, res, next) => {
   //console.log('-----send yuewen------')
   
 });
+
+let up_ipua = async (pd,platform) =>{
+   console.log('-----上传巨量引擎加粉ipua------')
+   let formData = {
+              "_legacy_event_type": "in_wechat_login", //事件类型，必传
+              "properties": {
+                      "we_chat_official_account_id": platform.gonghaoid, //微信号，必传
+                      "we_chat_app_id": platform.appid,//微信appid，必传
+                      //"amount": parseInt(temp.amount*100), //付费金额 单位分
+                      //"book_id": "书id", //书id，选传
+                      "source": "阅文",//来源，必传
+              },
+              "context": {
+                      "ip": pd.ip, //注册/付费时用户的ip，必传
+                      "userAgent": pd.wx_ua, //注册/付费时用户的ua，必传
+                      "ad": {
+                              "attributed": "false" //直接传fasle，必传
+                      },
+                      "device": {
+                              "open_id": pd.wx_openid //注册/付费时用户的open id，必传
+                      }
+              },
+              "timestamp": parseInt(pd.regtime/1000) //注册/付费发生的时间，必传,
+          };
+      console.log('------头条归因------')
+      console.log(formData);
+      let res = await rp({
+        method : "POST",
+        headers: {
+              "content-type": "application/json",
+          },
+            uri : "https://analytics.oceanengine.com/api/v1/track",
+            body : formData,
+            json :true
+      });
+      console.log('------头条归因上传返回结果------')
+      console.log(res)
+}
 
 let up_dy = async (temp) =>{
         console.log('-----上传抖音浅层 回传------')
