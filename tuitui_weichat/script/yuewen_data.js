@@ -121,7 +121,8 @@ let get_order = async (params) =>{
 	//console.log(params)
 	url += '?'+args.join('&')
 	let y_res = await rp(url)
-	//console.log(y_res)
+	console.log(y_res)
+	return;
 	y_res = JSON.parse(y_res)
 	if(y_res.code == 0){
 		handle(y_res.data,params)
@@ -140,7 +141,8 @@ let start = (appflag)=>{
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
-		appflags : appflag
+		appflags : appflag,
+		//coop_type : 1,
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
@@ -160,21 +162,56 @@ let get = async () =>{
 	}
 }
 
+
+let start_test = (appflag)=>{
+	var now_time = new Date().getTime()-4*3*60*60*1000
+	var end = new Date(now_time).setSeconds(0,0)
+	var last_time = end-3*60*60*1000
+	var start = new Date(last_time).setSeconds(0,0)
+	let params = {
+		start_time : parseInt(start/1000),
+		end_time : parseInt(end/1000),
+		page : 1,
+		order_status : 2,
+		appflags : appflag
+		//last_min_id : '',
+		//last_max_id : '',
+		//total_count : '',
+		//last_page : ''
+	}
+	get_order(params)
+}
+
+
+
+let get_test = async () =>{
+	let plats = await PlatformModel.find({platform : 1})
+	for (let i =0; i<plats.length; i++ ) {
+		(function(seruid){
+			setTimeout(function(){
+				start_test(seruid)
+			},i*1000)
+		})(plats[i].seruid,i)
+	}
+}
+
+//get_test()
+
 //get()
 
 //start('wxfxmswl1200')
 
 let test =() => {
-	var now_time = new Date('2020-02-29 20:05:48').getTime()
+	var now_time = new Date('2020-07-10 16:15:48').getTime()
 	var end = new Date(now_time).setSeconds(0,0)
-	var last_time = now_time-58*60*1000
+	var last_time = now_time-2*60*60*1000
 	var start_temp = new Date(last_time).setSeconds(0,0)
 	let params = {
 		start_time : parseInt(start_temp/1000),
 		end_time : parseInt(end/1000),
 		page : 1,
 		order_status : 2,
-		appflags : 'wxfxmswl1216'
+		appflags : 'wxfxmswl1241'
 		//last_min_id : '',
 		//last_max_id : '',
 		//total_count : '',
@@ -188,21 +225,21 @@ let test =() => {
 
 let td_fuck =async () =>{
 	//let td_url = encodeURIComponent("http://td.tyuss.com/tuiguang/data/a0fsXJnn?adid=1651830321459575&clickid=EPfiqLzLyvcCGIi45L_AifkCKISg3-a8kfkC&creativeid=1651830321459575&creativetype=1");
-	let td_url = 'https%3A%2F%2Ftd.tyuss.com%2Ftuiguang%2Fdata%2FkVi4tsKj%3Fadid%3D1661835459050653%26creativeid%3D1661835584630840%26creativetype%3D15%26clickid%3DELjgyf3j7fkCGIbwxo3uAiC39_PihgIwDDjBuAJCIjIwMjAwMzIyMTQwMDM5MDEwMTI5MDM5MTQ3MjE1QjRDOTNIwbgC'
+	let td_url = 'https%3A%2F%2Ft.1yuedu.cn%2Ftuiguang%2Fdata%2FHV34jERL%3Fadid%3D1685110492913691%26creativeid%3D1685115375160328%26creativetype%3D15%26clickid%3DEIiY3vqnk_8CGO222bCcAyDM1Mbg6AEwDDjBuAJCIjIwMjAxMjEwMDE1MTQxMDEwMTMxMDU3MDc0NDgyMjEzMkZIwbgCkAEA'
+	
 	let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+td_url+'&event_type=2'
 	let res = await rp(ad_cb_url)
 	console.log(res)
 }
-
-//td_fuck()
-
+td_fuck()
 
 
-var rule = new schedule.RecurrenceRule();
+
+/*var rule = new schedule.RecurrenceRule();
 rule.second = 10;
 var j = schedule.scheduleJob(rule, function () {
     get()
-});
+});*/
 
 
