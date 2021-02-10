@@ -225,7 +225,7 @@ let test =() => {
 
 let td_fuck =async () =>{
 	//let td_url = encodeURIComponent("http://td.tyuss.com/tuiguang/data/a0fsXJnn?adid=1651830321459575&clickid=EPfiqLzLyvcCGIi45L_AifkCKISg3-a8kfkC&creativeid=1651830321459575&creativetype=1");
-	let td_url = 'https%3A%2F%2Ft.1yuedu.cn%2Ftuiguang%2Fdata%2F9gIxxXly%3Fadid%3D1686038780513339%26creativeid%3D1686042783848471%26creativetype%3D5%26clickid%3DEJ7MhdLIwwEYvcuz47sBIMOK4sL1FzCjBTigfUIpeDUzOW8wNTEtdHRiai1zempoLW5wcDgtdnJpYTY0Ym1od2syN3Q1N3ZIAw'
+	let td_url = ''
 	
 	let ad_cb_url = 'https://ad.toutiao.com/track/activate/?link='
 							+td_url+'&event_type=2'
